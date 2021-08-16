@@ -131,7 +131,7 @@ class DynamicWidgetUtils {
     return RoundedRectangleBorder(
         side: borderSideAdapter(border['side']) ?? BorderSide.none,
         borderRadius:
-            borderRadiusAdapter(border['borderRadius']) ?? BorderRadius.zero);
+        borderRadiusAdapter(border['borderRadius']) ?? BorderRadius.zero);
   }
 
   static Duration? durationAdapter(Map<String, int?>? duration) {
@@ -527,8 +527,8 @@ class DynamicWidgetUtils {
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-            textLeadingDistributionAdapter(behavior['leadingDistribution']) ??
-                TextLeadingDistribution.proportional);
+        textLeadingDistributionAdapter(behavior['leadingDistribution']) ??
+            TextLeadingDistribution.proportional);
   }
 
   static VerticalDirection? verticalDirectionAdapter(String? str) {
@@ -612,7 +612,7 @@ class DynamicWidgetUtils {
         textBaseline: textBaselineAdapter(style['textBaseline']),
         height: style['height'],
         leadingDistribution:
-            textLeadingDistributionAdapter(style['leadingDistribution']),
+        textLeadingDistributionAdapter(style['leadingDistribution']),
         debugLabel: style['debugLabel'],
         fontFamily: style['fontFamily'],
         fontFamilyFallback: style['fontFamilyFallback']?.cast<String>(),
@@ -628,7 +628,7 @@ class DynamicWidgetUtils {
         fontSize: style['fontSize'],
         height: style['height'],
         leadingDistribution:
-            textLeadingDistributionAdapter(style['leadingDistribution']),
+        textLeadingDistributionAdapter(style['leadingDistribution']),
         leading: style['leading'],
         fontWeight: fontWeightAdapter(style['fontWeight']),
         fontStyle: fontStyleAdapter(style['fontStyle']),
@@ -702,5 +702,11 @@ class DynamicWidgetUtils {
 
     return Size(
         size['width'] ?? double.infinity, size['height'] ?? double.infinity);
+  }
+
+  static IconData? iconDataAdapter(Map<String, dynamic>? icon) {
+    if (icon == null) return null;
+    return IconData(icon['codePoint'], fontFamily: icon['fontFamily'],
+        matchTextDirection: icon['matchTextDirection'] ?? false);
   }
 }
