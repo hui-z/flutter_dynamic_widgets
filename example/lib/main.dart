@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/utils.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
+import 'package:example/widget_json.dart';
+import 'dart:convert';
 
 void main() {
   DynamicWidgetUtils.registerSysWidgets();
@@ -8,39 +10,20 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Dynamic Widget',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Dynamic Widget Demo'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -49,72 +32,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var map = {
-    'widget': 'Column',
-    'propsList': [
-      {
-        'widget': 'Icon',
-        'xVar': {
-          'icon': {
-            'codePoint':0xee29,
-            'fontFamily': 'MaterialIcons',
-          },
-          "color": "0xFFDC143C",
-          "size": 24.0,
-        },
-      },
-      // {
-      //   'widget': 'Text',
-      //   'xVar': {
-      //     'data': '再惠合同续约提醒',
-      //     'style': {
-      //       'color': '0xFF000000',
-      //       'fontWeight': 'bold',
-      //       'fontSize': 16.0
-      //     }
-      //   },
-      // },
-      // {
-      //   'widget': 'Row',
-      //   'propsList': [
-      //     {
-      //       'widget': 'Text',
-      //       'xVar': {
-      //         'data': '亲爱的商户',
-      //         'style': {'color': '0xFF9E9E9E', 'fontSize': 14.0}
-      //       }
-      //     },
-      //     {
-      //       'widget': 'RawMaterialButton',
-      //       'propsMap': {
-      //         'widget': 'Text',
-      //         'xVar': {
-      //           'data': '加了个按钮',
-      //           'style': {'color': '0xFF4CAF50', 'fontSize': 14.0}
-      //         }
-      //       }
-      //     },
-      //   ]
-      // },
-      // {
-      //   'widget': 'Text',
-      //   'xVar': {
-      //     'data': '您与再惠合作的服务即将到期，请尽快沟通续约事宜',
-      //     'style': {'color': '0xFF9E9E9E', 'fontSize': 14.0}
-      //   },
-      // },
-      // {
-      //   'widget': 'RawMaterialButton',
-      //   'propsMap': {
-      //     'widget': 'Text',
-      //     'xVar': {
-      //       'data': '确认续约',
-      //       'style': {'color': '0xFF2196F3', 'fontSize': 16.0}
-      //     },
-      //   }
-      // },
-    ]
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -125,13 +42,278 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: CustomScrollView(slivers: [
+          SliverPadding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  RaisedButton(
+                    child: Text("Dynamic Widget Json String Export Example"),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => JSONExporter()));
+                    },
+                  )
+                ]),
+              )
+          ),
+          SliverPadding(
+            padding: EdgeInsets.all(20),
+            sliver: SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 10,
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+              ),
+              delegate: SliverChildListDelegate([
+                RaisedButton(
+                  child: Text("Test"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(json.encode(testMap))));
+                  },
+                ),
+                RaisedButton(
+                  child: Text("Icon"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(json.encode(iconMap))));
+                  },
+                ),
+              ]),
+            ),
+          ),
+        ]));
+  }
+}
+
+class CodeEditorPage extends StatefulWidget {
+  final String jsonString;
+
+  CodeEditorPage(this.jsonString);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CodeEditorPageState(jsonString);
+  }
+}
+
+class _CodeEditorPageState extends State<CodeEditorPage> {
+  String jsonString;
+  TextEditingController controller = TextEditingController();
+
+  _CodeEditorPageState(this.jsonString);
+
+  @override
+  Widget build(BuildContext context) {
+    var widget = Scaffold(
+        appBar: AppBar(
+          title: Text("Code Editor"),
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
+                constraints: BoxConstraints.expand(
+                    width: double.infinity, height: double.infinity),
+                child: TextField(
+                  controller: controller,
+                  decoration: InputDecoration(hintText: 'Enter json string'),
+                  maxLines: 1000000,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            RaisedButton(
+              child: Text("Preview"),
+              onPressed: () {
+                setState(() {
+                  jsonString = controller.text;
+                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PreviewPage(controller.text)));
+              },
+            )
+          ],
+        ));
+    controller.text = jsonString;
+    return widget;
+  }
+}
+
+// ignore: must_be_immutable
+class PreviewPage extends StatelessWidget {
+  final String jsonString;
+
+  PreviewPage(this.jsonString);
+
+  late DynamicWidgetJsonExportor _exportor;
+
+  @override
+  Widget build(BuildContext context) {
+     jsonStringToMap(String jsonString){
+      Map<String, dynamic> map = json.decode(jsonString);
+      return map;
+    }
+
+    return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("Preview"),
       ),
-      body: DynamicWidgetUtils.buildWidget(
-          DynamicWidgetConfig.fromJson(map), context: context),
+      body: DynamicWidgetUtils.buildWidget(DynamicWidgetConfig.fromJson(jsonStringToMap(jsonString)), context: context),
+      // body: Column(
+      //   children: [
+      //     Expanded(
+      //
+      //       child: FutureBuilder<Widget?>(
+      //         // future: _buildWidget(context),
+      //         builder: (BuildContext context, AsyncSnapshot<Widget?> snapshot) {
+      //           if (snapshot.hasError) {
+      //             print(snapshot.error);
+      //           }
+      //           return snapshot.hasData
+      //               ? _exportor = DynamicWidgetJsonExportor(
+      //
+      //             child: snapshot.data,
+      //
+      //           )
+      //               : Text("Loading...");
+      //         },
+      //       ),
+      //     ),
+      //     RaisedButton(onPressed: (){
+      //       var exportJsonString = _exportor.exportJsonString();
+      //       Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //               builder: (context) =>
+      //                   CodeEditorPage(exportJsonString)));
+      //     }, child: Text("export json code"),)
+      //   ],
+      // ),
     );
+  }
+
+  // Future<Widget?> _buildWidget(BuildContext context) async {
+  //   return DynamicWidgetBuilder.build(
+  //       jsonString, context, new DefaultClickListener());
+  // }
+}
+
+// class DefaultClickListener implements ClickListener {
+//   @override
+//   void onClicked(String? event) {
+//     print("Receive click event: " + (event == null ? "" : event));
+//   }
+// }
+
+class JSONExporter extends StatefulWidget {
+  @override
+  _JSONExporterState createState() => _JSONExporterState();
+}
+
+class _JSONExporterState extends State<JSONExporter> {
+  GlobalKey key = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text("export example"),
+      ),
+
+      body: Builder(
+        builder: (context) => Container(
+          width: double.infinity,
+          child: Column(
+            children: [
+              Expanded(
+                child: DynamicWidgetJsonExportor(
+                  key: key,
+                  child: Stack(
+                    alignment: Alignment.topLeft,
+                    children: [
+                      Image.asset("assets/vip.png"),
+                      Positioned(
+                        child: Image.asset("assets/vip.png"),
+                        top:50,
+                        left: 50,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                child: RaisedButton(
+                  child: Text("Export"),
+                  onPressed: () {
+                    var exportor = key.currentWidget as DynamicWidgetJsonExportor;
+                    var exportJsonString = exportor.exportJsonString();
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("json string was exported to editor page.")));
+                    Future.delayed(Duration(seconds: 1), (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CodeEditorPage(exportJsonString)));
+                    });
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DynamicWidgetJsonExportor extends StatelessWidget {
+  final Widget? child;
+
+  final GlobalKey globalKey = GlobalKey();
+
+  DynamicWidgetJsonExportor({
+    this.child,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: globalKey,
+      child: child,
+    );
+  }
+
+  String exportJsonString() {
+    String rt = "failed to export";
+    globalKey.currentContext!.visitChildElements((element) {
+      rt = '';//jsonEncode(DynamicWidgetBuilder.export(element.widget, null));
+    });
+    return rt;
   }
 }
