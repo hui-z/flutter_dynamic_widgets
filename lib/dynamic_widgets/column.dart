@@ -13,8 +13,8 @@ class ColumnHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext}) {
-    return _Builder(config, key: key);
+      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+    return _Builder(config, event, key: key);
   }
 
   @override
@@ -42,8 +42,9 @@ class ColumnHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
+  final Function(String value)? event;
 
-  _Builder(this.config, {Key? key}) : super(config, key: key);
+  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -63,7 +64,7 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = ColumnConfig.fromJson(widget.config?.xVar ?? {});
     }
-    List<Widget> _children = DynamicWidgetBuilder.buildWidgets(widget.config?.children, context: context);
+    List<Widget> _children = DynamicWidgetBuilder.buildWidgets(widget.config?.children, context: context, event: widget.event);
 
     return Column(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,

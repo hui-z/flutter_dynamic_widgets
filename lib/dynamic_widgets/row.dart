@@ -13,8 +13,8 @@ class RowHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext}) {
-    return _Builder(config, key: key);
+      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+    return _Builder(config, event, key: key);
   }
 
   @override
@@ -42,8 +42,9 @@ class RowHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
+  final Function(String value)? event;
 
-  _Builder(this.config, {Key? key}) : super(config, key: key);
+  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -66,7 +67,7 @@ class _BuilderState extends State<_Builder> {
     List<Widget> _children = [];
     if (widget.config?.children != null) {
       widget.config?.children?.forEach((e) {
-        Widget? _child = DynamicWidgetBuilder.buildWidget(e, context: context);
+        Widget? _child = DynamicWidgetBuilder.buildWidget(e, context: context, event: widget.event);
         if (_child != null) {
           _children.add(_child);
         }

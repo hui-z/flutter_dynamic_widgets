@@ -9,7 +9,7 @@ abstract class DynamicBasicWidgetHandler {
   Type get widgetType;
 
   /// parse the json map into a flutter widget.
-  Widget build(DynamicWidgetConfig? config, {Key? key, required BuildContext buildContext});
+  Widget build(DynamicWidgetConfig? config, {Key? key, required BuildContext buildContext, Function(String value)? event});
 
   Map? transformJson(Widget? widget, BuildContext? buildContext);
 }

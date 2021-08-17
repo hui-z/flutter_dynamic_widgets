@@ -15,8 +15,8 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext}) {
-    return _Builder(config, key: key);
+      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+    return _Builder(config, event, key: key);
   }
 
   @override
@@ -58,8 +58,9 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
+  final Function(String value)? event;
 
-  _Builder(this.config, {Key? key}) : super(config, key: key);
+  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -80,11 +81,14 @@ class _BuilderState extends State<_Builder> {
       props = RawMaterialButtonConfig.fromJson(widget.config?.xVar ?? {});
     }
     Widget _widget;
-    Widget child = DynamicWidgetBuilder.buildWidget(widget.config?.child, context: context) ?? Container();
+    Widget child = DynamicWidgetBuilder.buildWidget(widget.config?.child, context: context, event: widget.event) ?? Container();
 
     _widget = RawMaterialButton(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onPressed: () {
+        if (widget.event != null) {
+          widget.event!(widget.config?.clickEvent ?? '');
+        }
       },
       onLongPress: (){
       },
