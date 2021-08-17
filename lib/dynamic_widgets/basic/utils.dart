@@ -706,9 +706,34 @@ class DynamicWidgetUtils {
         size['width'] ?? double.infinity, size['height'] ?? double.infinity);
   }
 
+  static int hexToInt(String? hex) {
+    if(hex==null || hex.isEmpty) return 0;
+    if (hex.startsWith('0x')) {
+      hex = hex.replaceFirst('0x', '');
+    }
+    int val = 0;
+    int len = hex.length;
+    for (int i = 0; i < len; i++) {
+      int hexDigit = hex.codeUnitAt(i);
+      if (hexDigit >= 48 && hexDigit <= 57) {
+        val += (hexDigit - 48) * (1 << (4 * (len - 1 - i)));
+      } else if (hexDigit >= 65 && hexDigit <= 70) {
+        // A..F
+        val += (hexDigit - 55) * (1 << (4 * (len - 1 - i)));
+      } else if (hexDigit >= 97 && hexDigit <= 102) {
+        // a..f
+        val += (hexDigit - 87) * (1 << (4 * (len - 1 - i)));
+      } else {
+        throw new FormatException("Invalid hexadecimal value");
+      }
+    }
+    return val;
+  }
+
   static IconData? iconDataAdapter(Map<String, dynamic>? icon) {
     if (icon == null) return null;
-    return IconData(icon['codePoint'], fontFamily: icon['fontFamily'],
+    var cp = hexToInt(icon['codePoint']);
+    return IconData(cp, fontFamily: icon['fontFamily'],
         matchTextDirection: icon['matchTextDirection'] ?? false);
   }
 }
