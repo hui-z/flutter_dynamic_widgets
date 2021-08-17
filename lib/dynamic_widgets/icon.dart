@@ -66,7 +66,7 @@ class IconConfig {
   });
 
   IconConfig.fromJson(Map<dynamic, dynamic> json) {
-    icon = DynamicWidgetUtils.iconDataAdapter(json['icon']);
+    icon = DynamicWidgetUtils.iconDataAdapter(json['icon']); //getIconUsingPrefix(name:json['icon']);
     size = json['size'];
     color = DynamicWidgetUtils.colorAdapter(json['color']);
     semanticLabel = json['semanticLabel'];

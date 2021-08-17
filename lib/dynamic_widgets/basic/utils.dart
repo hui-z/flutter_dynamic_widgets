@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/icon.dart';
 
 import '../button.dart';
 import '../column.dart';
@@ -14,6 +15,7 @@ class DynamicWidgetUtils {
 
   static registerSysWidgets() {
     List<DynamicBasicWidgetHandler> allDynamicWidgetHandlers = [
+      IconHandler(),
       TextHandler(),
       RawMaterialButtonHandler(),
       RowHandler(),
