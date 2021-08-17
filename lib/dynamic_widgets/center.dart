@@ -15,6 +15,24 @@ class CenterHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var center = widget as Center?;
+    if (center == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(center.child, buildContext),
+      'xVar': {
+        'widthFactor': center.widthFactor,
+        'heightFactor': center.heightFactor,
+      },
+      'xKey': center.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Center;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -39,7 +57,7 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = CenterConfig.fromJson(widget.config?.xVar ?? {});
     }
-    Widget? _child = DynamicWidgetUtils.buildWidget(widget.config?.propsMap,
+    Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context);
 
     return Center(

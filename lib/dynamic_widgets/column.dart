@@ -16,6 +16,28 @@ class ColumnHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var column = widget as Column?;
+    if (column == null) return null;
+    return {
+      'widget': widgetName,
+      'children': DynamicWidgetBuilder.transformList(column.children, buildContext),
+      'xVar': {
+        'mainAxisAlignment': DynamicWidgetUtils.transformMainAxisAlignment(column.mainAxisAlignment),
+        'mainAxisSize': DynamicWidgetUtils.transformMainAxisSize(column.mainAxisSize),
+        'crossAxisAlignment': DynamicWidgetUtils.transformCrossAxisAlignment(column.crossAxisAlignment),
+        'textDirection': DynamicWidgetUtils.transformTextDirection(column.textDirection),
+        'verticalDirection': DynamicWidgetUtils.transformVerticalDirection(column.verticalDirection),
+        'textBaseline': DynamicWidgetUtils.transformTextBaseline(column.textBaseline),
+      },
+      'xKey': column.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Column;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -41,15 +63,7 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = ColumnConfig.fromJson(widget.config?.xVar ?? {});
     }
-    List<Widget> _children = [];
-    if (widget.config?.propsList != null) {
-      widget.config?.propsList?.forEach((e) {
-        Widget? _child = DynamicWidgetUtils.buildWidget(e, context: context);
-        if (_child != null) {
-          _children.add(_child);
-        }
-      });
-    }
+    List<Widget> _children = DynamicWidgetBuilder.buildWidgets(widget.config?.children, context: context);
 
     return Column(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,

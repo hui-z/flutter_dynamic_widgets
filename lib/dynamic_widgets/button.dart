@@ -18,6 +18,41 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var button = widget as RawMaterialButton?;
+    if (button == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(button.child, buildContext),
+      'xVar': {
+        'textStyle': DynamicWidgetUtils.transformTextStyle(button.textStyle),
+        'fillColor': DynamicWidgetUtils.transformColor(button.fillColor),
+        'focusColor': DynamicWidgetUtils.transformColor(button.focusColor),
+        'hoverColor': DynamicWidgetUtils.transformColor(button.hoverColor),
+        'highlightColor': DynamicWidgetUtils.transformColor(button.highlightColor),
+        'splashColor': DynamicWidgetUtils.transformColor(button.splashColor),
+        'elevation': button.elevation,
+        'focusElevation': button.focusElevation,
+        'hoverElevation': button.hoverElevation,
+        'highlightElevation': button.highlightElevation,
+        'disabledElevation': button.disabledElevation,
+        'padding': DynamicWidgetUtils.transformEdgeInset(button.padding as EdgeInsets?),
+        'constraints': DynamicWidgetUtils.transformBoxConstraints(button.constraints),
+        'shape': DynamicWidgetUtils.transformRoundedRectangleBorder(button.shape as RoundedRectangleBorder?),
+        'animationDuration': DynamicWidgetUtils.transformDuration(button.animationDuration),
+        'clipBehavior': DynamicWidgetUtils.transformClipBehavior(button.clipBehavior),
+        'autofocus': button.autofocus,
+        'enableFeedback': button.enableFeedback,
+        
+      },
+      'xKey': button.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => RawMaterialButton;
   
 }
 
@@ -45,7 +80,7 @@ class _BuilderState extends State<_Builder> {
       props = RawMaterialButtonConfig.fromJson(widget.config?.xVar ?? {});
     }
     Widget _widget;
-    Widget child = DynamicWidgetUtils.buildWidget(widget.config?.propsMap, context: context) ?? Container();
+    Widget child = DynamicWidgetBuilder.buildWidget(widget.config?.child, context: context) ?? Container();
 
     _widget = RawMaterialButton(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,

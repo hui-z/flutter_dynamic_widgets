@@ -15,6 +15,25 @@ class AlignHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var align = widget as Align?;
+    if (align == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(align.child, buildContext),
+      'xVar': {
+        'widthFactor': align.widthFactor,
+        'heightFactor': align.heightFactor,
+        'alignment': DynamicWidgetUtils.transformAlignment(align.alignment as Alignment?),
+      },
+      'xKey': align.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Align;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -39,7 +58,7 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = AlignConfig.fromJson(widget.config?.xVar ?? {});
     }
-    Widget? _child = DynamicWidgetUtils.buildWidget(widget.config?.propsMap,
+    Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context);
 
     return Align(
