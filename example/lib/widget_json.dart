@@ -70,3 +70,23 @@ var iconMap = {
     }
   ]
 };
+
+var assetImageMap = {
+  "widget": "Container",
+  "color": "#FFFFFF",
+  "alignment": "center",
+  "child": {
+    "widget": "Asset",
+    "name": "assets/vip.png"
+  }
+};
+
+var networkImageMap = {
+  "widget": "Container",
+  "color": "#FFFFFF",
+  "alignment": "center",
+  "child": {
+    "type": "network",
+    "src": "https://b.appsimg.com/upload/momin/2019/01/23/101/1548249269085.png"
+  }
+};

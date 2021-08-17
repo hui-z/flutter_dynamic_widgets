@@ -148,7 +148,6 @@ class DynamicWidgetUtils {
     );
   }
 
-
   static BorderSide? borderSideAdapter(Map<String, dynamic>? side) {
     if (side == null) return null;
 
@@ -735,5 +734,93 @@ class DynamicWidgetUtils {
     var cp = hexToInt(icon['codePoint']);
     return IconData(cp, fontFamily: icon['fontFamily'],
         matchTextDirection: icon['matchTextDirection'] ?? false);
+  }
+
+  static BlendMode? blendModeAdapter(String? blendModeString) {
+    if (blendModeString == null || blendModeString.trim().length == 0) {
+      return null;
+    }
+
+    switch (blendModeString.trim()) {
+      case 'clear':
+        return BlendMode.clear;
+      case 'src':
+        return BlendMode.src;
+      case 'dst':
+        return BlendMode.dst;
+      case 'srcOver':
+        return BlendMode.srcOver;
+      case 'dstOver':
+        return BlendMode.dstOver;
+      case 'srcIn':
+        return BlendMode.srcIn;
+      case 'dstIn':
+        return BlendMode.dstIn;
+      case 'srcOut':
+        return BlendMode.srcOut;
+      case 'dstOut':
+        return BlendMode.dstOut;
+      case 'srcATop':
+        return BlendMode.srcATop;
+      case 'dstATop':
+        return BlendMode.dstATop;
+      case 'xor':
+        return BlendMode.xor;
+      case 'plus':
+        return BlendMode.plus;
+      case 'modulate':
+        return BlendMode.modulate;
+      case 'screen':
+        return BlendMode.screen;
+      case 'overlay':
+        return BlendMode.overlay;
+      case 'darken':
+        return BlendMode.darken;
+      case 'lighten':
+        return BlendMode.lighten;
+      case 'colorDodge':
+        return BlendMode.colorDodge;
+      case 'colorBurn':
+        return BlendMode.colorBurn;
+      case 'hardLight':
+        return BlendMode.hardLight;
+      case 'softLight':
+        return BlendMode.softLight;
+      case 'difference':
+        return BlendMode.difference;
+      case 'exclusion':
+        return BlendMode.exclusion;
+      case 'multiply':
+        return BlendMode.multiply;
+      case 'hue':
+        return BlendMode.hue;
+      case 'saturation':
+        return BlendMode.saturation;
+      case 'color':
+        return BlendMode.color;
+      case 'luminosity':
+        return BlendMode.luminosity;
+
+      default:
+        return BlendMode.srcIn;
+    }
+  }
+
+  static FilterQuality? filterQualityAdapter(String? filterQualityString) {
+    if (filterQualityString == null) {
+      return null;
+    }
+    switch (filterQualityString) {
+      case 'none':
+        return FilterQuality.none;
+      case 'low':
+        return FilterQuality.low;
+      case 'medium':
+        return FilterQuality.medium;
+      case 'high':
+        return FilterQuality.high;
+      default:
+        return FilterQuality.low;
+    }
   }
 }
