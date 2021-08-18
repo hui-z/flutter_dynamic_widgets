@@ -116,7 +116,7 @@ class DynamicWidgetUtils {
     if (origin is Size) {
       return _transformSize(origin);
     }
-    return null;
+    throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
   static T? adapt<T>(dynamic origin) {
@@ -198,7 +198,7 @@ class DynamicWidgetUtils {
       case Size:
         return _sizeAdapter(origin as Map<String, double?>?) as T?;
     }
-    return null;
+    throw UnimplementedError('请实现 $T 的adapt方法');
   }
 
   static String? _transformColor(Color? color) {

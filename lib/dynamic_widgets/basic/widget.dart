@@ -6,6 +6,7 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/container.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/data_table.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/image.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/padding.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/wrap.dart';
 
 import '../button.dart';
 import '../column.dart';
@@ -36,7 +37,8 @@ class DynamicWidgetBuilder {
       ContainerHandler(),
       AlignHandler(),
       PaddingHandler(),
-      CenterHandler()
+      CenterHandler(),
+      WrapHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;

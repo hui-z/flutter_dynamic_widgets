@@ -50,6 +50,17 @@ class _MyHomePageState extends State<MyHomePage> {
         DataCell(Text('18')),
       ]),
     ]);
+    var wrap = Wrap(
+      spacing: 8.0, // 主轴(水平)方向间距
+      runSpacing: 4.0, // 纵轴（垂直）方向间距
+      alignment: WrapAlignment.center, //沿主轴方向居中
+      children: <Widget>[
+        Text('Hamilton'),
+        Text('Lafayette'),
+        Text('Mulligan'),
+        Text('Laurens'),
+      ],
+    );
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -105,8 +116,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(json.encode(DynamicWidgetBuilder.transformMap(tableData, context)))));
+                            builder: (context) => CodeEditorPage(json.encode(
+                                DynamicWidgetBuilder.transformMap(
+                                    tableData, context)))));
+                  },
+                ),
+                RaisedButton(
+                  child: Text("Wrap"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CodeEditorPage(json.encode(
+                                DynamicWidgetBuilder.transformMap(
+                                    wrap, context)))));
                   },
                 ),
               ]),
