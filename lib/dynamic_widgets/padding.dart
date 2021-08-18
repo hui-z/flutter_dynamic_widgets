@@ -15,6 +15,24 @@ class PaddingHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var padding = widget as Padding?;
+    if (padding == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(padding.child, buildContext),
+      'xVar': {
+        'padding': DynamicWidgetUtils.transformEdgeInset(padding.padding as EdgeInsets?)
+      },
+      'xKey': padding.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Padding;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -39,7 +57,7 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = PaddingConfig.fromJson(widget.config?.xVar ?? {});
     }
-    Widget? _child = DynamicWidgetUtils.buildWidget(widget.config?.propsMap,
+    Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context);
 
     return Padding(

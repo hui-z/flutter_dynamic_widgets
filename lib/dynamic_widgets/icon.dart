@@ -14,6 +14,26 @@ class IconHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var icon = widget as Icon?;
+    if (icon == null) return null;
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'icon': DynamicWidgetUtils.transformIconData(icon.icon),
+        'size': icon.size,
+        'color': DynamicWidgetUtils.transformColor(icon.color),
+        'semanticLabel': icon.semanticLabel,
+        'textDirection': DynamicWidgetUtils.transformTextDirection(icon.textDirection)
+      },
+      'xKey': icon.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Icon;
 }
 
 class _Builder extends DynamicBaseWidget {

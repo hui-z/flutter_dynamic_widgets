@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/utils.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 import 'package:example/widget_json.dart';
 import 'dart:convert';
 
 void main() {
-  DynamicWidgetUtils.registerSysWidgets();
+  DynamicWidgetBuilder.registerSysWidgets();
   runApp(MyApp());
 }
 
@@ -179,7 +179,7 @@ class PreviewPage extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text("Preview"),
       ),
-      body: DynamicWidgetUtils.buildWidget(DynamicWidgetConfig.fromJson(jsonStringToMap(jsonString)), context: context),
+      body: DynamicWidgetBuilder.buildWidget(DynamicWidgetConfig.fromJson(jsonStringToMap(jsonString)), context: context),
       // body: Column(
       //   children: [
       //     Expanded(

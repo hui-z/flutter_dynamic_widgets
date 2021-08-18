@@ -16,7 +16,28 @@ class RowHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
-  
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var row = widget as Row?;
+    if (row == null) return null;
+    return {
+      'widget': widgetName,
+      'children': DynamicWidgetBuilder.transformList(row.children, buildContext),
+      'xVar': {
+        'mainAxisAlignment': DynamicWidgetUtils.transformMainAxisAlignment(row.mainAxisAlignment),
+        'mainAxisSize': DynamicWidgetUtils.transformMainAxisSize(row.mainAxisSize),
+        'crossAxisAlignment': DynamicWidgetUtils.transformCrossAxisAlignment(row.crossAxisAlignment),
+        'textDirection': DynamicWidgetUtils.transformTextDirection(row.textDirection),
+        'verticalDirection': DynamicWidgetUtils.transformVerticalDirection(row.verticalDirection),
+        'textBaseline': DynamicWidgetUtils.transformTextBaseline(row.textBaseline),
+      },
+      'xKey': row.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Row;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -43,9 +64,9 @@ class _BuilderState extends State<_Builder> {
       props = RowConfig.fromJson(widget.config?.xVar ?? {});
     }
     List<Widget> _children = [];
-    if (widget.config?.propsList != null) {
-      widget.config?.propsList?.forEach((e) {
-        Widget? _child = DynamicWidgetUtils.buildWidget(e, context: context);
+    if (widget.config?.children != null) {
+      widget.config?.children?.forEach((e) {
+        Widget? _child = DynamicWidgetBuilder.buildWidget(e, context: context);
         if (_child != null) {
           _children.add(_child);
         }

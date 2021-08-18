@@ -5,14 +5,39 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-class IconHandler extends DynamicBasicWidgetHandler {
+class ContainerHandler extends DynamicBasicWidgetHandler {
   @override
   String get widgetName => 'Container';
+
+  @override
+  Type get widgetType => Image;
 
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
+  }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var realWidget = widget as Container?;
+    if (realWidget == null) return null;
+    var padding = realWidget.padding as EdgeInsets?;
+    var margin = realWidget.margin as EdgeInsets?;
+    var constraints = realWidget.constraints;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
+      'xVar': {
+        'alignment': DynamicWidgetUtils.transformAlignment(
+            realWidget.alignment as Alignment?),
+        'padding': DynamicWidgetUtils.transformEdgeInset(padding),
+        'color': DynamicWidgetUtils.transformColor(realWidget.color),
+        'margin': DynamicWidgetUtils.transformEdgeInset(margin),
+        'constraints': DynamicWidgetUtils.transformBoxConstraints(constraints),
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }
 
@@ -47,7 +72,8 @@ class _BuilderState extends State<_Builder> {
       width: props?.width,
       height: props?.height,
       constraints: props?.constraints,
-      child: DynamicWidgetUtils.buildWidget(widget.config?.propsMap, context: context),
+      child: DynamicWidgetBuilder.buildWidget(
+          widget.config?.child, context: context),
     );
   }
 }

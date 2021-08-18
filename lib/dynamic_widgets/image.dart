@@ -5,7 +5,7 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-class IconHandler extends DynamicBasicWidgetHandler {
+class ImageHandler extends DynamicBasicWidgetHandler {
   @override
   String get widgetName => 'Image';
 
@@ -14,6 +14,75 @@ class IconHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var realImage = widget as Image?;
+    if (realImage == null) return null;
+    late AssetImage? assetImage;
+    late ExactAssetImage? exactAssetImage;
+    late NetworkImage? networkImage;
+
+
+    if (realImage.image is AssetImage) {
+      assetImage = realImage.image as AssetImage;
+    }
+    else if (realImage.image is NetworkImage) {
+      networkImage = realImage.image as NetworkImage;
+    }
+    else if (realImage.image is ResizeImage) {
+      var t = realImage.image as ResizeImage;
+      if (t.imageProvider is AssetImage) {
+        assetImage = t.imageProvider as AssetImage;
+      }
+      else if (t.imageProvider is ExactAssetImage) {
+        exactAssetImage = t.imageProvider as ExactAssetImage;
+      }
+      else if (t.imageProvider is NetworkImage) {
+        networkImage = t.imageProvider as NetworkImage;
+      }
+    }
+    var type = 'network';
+    var src = '';
+    double? scale = 0.0;
+    if (assetImage != null) {
+      type = '';
+      src = assetImage.assetName;
+    } else if (networkImage != null) {
+      type = 'network';
+      src = networkImage.url;
+    }else if(exactAssetImage != null) {
+      type = '';
+      src = exactAssetImage.assetName;
+      scale = exactAssetImage?.scale;
+    }
+
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'type': type,
+        'src': src,
+        'semanticLabel': realImage?.semanticLabel,
+        'excludeFromSemantics': realImage.excludeFromSemantics,
+        'scale': scale,
+        'width': realImage.width,
+        'height': realImage.height,
+        'color': DynamicWidgetUtils.transformColor(realImage.color),
+        'colorBlendMode': DynamicWidgetUtils.transformBlendMode(realImage.colorBlendMode),
+        'fit': DynamicWidgetUtils.transformBoxFit(realImage.fit),
+        'alignment': DynamicWidgetUtils.transformAlignment(realImage.alignment as Alignment?),
+        'repeat': DynamicWidgetUtils.transformImageRepeat(realImage.repeat),
+        'centerSlice': DynamicWidgetUtils.transformRect(realImage.centerSlice),
+        'matchTextDirection': realImage.matchTextDirection,
+        'gaplessPlayback': realImage.gaplessPlayback,
+        'filterQuality':DynamicWidgetUtils.transformFilterQuality(realImage.filterQuality)
+      },
+      'xKey': realImage.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Image;
 }
 
 class _Builder extends DynamicBaseWidget {

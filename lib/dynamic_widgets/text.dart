@@ -14,6 +14,32 @@ class TextHandler extends DynamicBasicWidgetHandler {
       {Key? key, required BuildContext buildContext}) {
     return _Builder(config, key: key);
   }
+
+  @override
+  Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    var text = widget as Text?;
+    if (text == null) return null;
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'data': text.data,
+        'style': DynamicWidgetUtils.transformTextStyle(text.style),
+        'strutStyle': DynamicWidgetUtils.transformStrutStyle(text.strutStyle),
+        'textAlign': DynamicWidgetUtils.transformTextAlign(text.textAlign),
+        'textDirection': DynamicWidgetUtils.transformTextDirection(text.textDirection),
+        'softWrap': text.softWrap,
+        'overflow': DynamicWidgetUtils.transformTextOverflow(text.overflow),
+        'textScaleFactor': text.textScaleFactor,
+        'maxLines': text.maxLines,
+        'semanticsLabel': text.semanticsLabel,
+        'textHeightBehavior': DynamicWidgetUtils.transformTextHeightBehavior(text.textHeightBehavior),
+      },
+      'xKey': text.key.toString()
+    };
+  }
+
+  @override
+  Type get widgetType => Text;
 }
 
 class _Builder extends DynamicBaseWidget {

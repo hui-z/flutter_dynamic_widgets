@@ -1,21 +1,21 @@
 class DynamicWidgetConfig {
 	late String widget;
-	late DynamicWidgetConfig? propsMap;
-  late List<DynamicWidgetConfig>? propsList;
+	late DynamicWidgetConfig? child;
+  late List<DynamicWidgetConfig>? children;
   late Map? xVar;
   late String? xKey;
 
-	DynamicWidgetConfig({required this.widget, this.propsMap, this.xVar, this.propsList, this.xKey});
+	DynamicWidgetConfig({required this.widget, this.child, this.xVar, this.children, this.xKey});
 
 	DynamicWidgetConfig.fromJson(Map<dynamic, dynamic> json) {
 		widget = json['widget'];
-		if (json['propsMap'] != null) {
-		  propsMap = DynamicWidgetConfig.fromJson(json['propsMap']);
+		if (json['child'] != null) {
+		  child = DynamicWidgetConfig.fromJson(json['child']);
     }
-    if (json['propsList'] != null) {
-      propsList = [];
-      json['propsList'].forEach((v) {
-        propsList?.add(DynamicWidgetConfig.fromJson(v));
+    children = [];
+    if (json['children'] != null) {
+      json['children'].forEach((v) {
+        children?.add(DynamicWidgetConfig.fromJson(v));
       });
     }
     xVar = json['xVar'];
