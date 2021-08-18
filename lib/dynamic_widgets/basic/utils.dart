@@ -41,34 +41,34 @@ class DynamicWidgetUtils {
 
   static String? transformAlignment(Alignment? alignment) {
     if (alignment == Alignment.center) {
-      return "center";
+      return 'center';
     }
     if (alignment == Alignment.bottomRight) {
-      return "bottomRight";
+      return 'bottomRight';
     }
     if (alignment == Alignment.bottomCenter) {
-      return "bottomCenter";
+      return 'bottomCenter';
     }
     if (alignment == Alignment.bottomLeft) {
-      return "bottomLeft";
+      return 'bottomLeft';
     }
     if (alignment == Alignment.centerLeft) {
-      return "centerLeft";
+      return 'centerLeft';
     }
     if (alignment == Alignment.centerRight) {
-      return "centerRight";
+      return 'centerRight';
     }
     if (alignment == Alignment.topCenter) {
-      return "topCenter";
+      return 'topCenter';
     }
     if (alignment == Alignment.topLeft) {
-      return "topLeft";
+      return 'topLeft';
     }
     if (alignment == Alignment.topRight) {
-      return "topRight";
+      return 'topRight';
     }
     if (alignment == Alignment.bottomRight) {
-      return "bottomRight";
+      return 'bottomRight';
     }
 
     return null;
@@ -104,22 +104,22 @@ class DynamicWidgetUtils {
   static String? transformTextAlign(TextAlign? textAlign) {
     String? rt;
     if (textAlign == TextAlign.left) {
-      rt = "left";
+      rt = 'left';
     }
     if (textAlign == TextAlign.right) {
-      rt = "right";
+      rt = 'right';
     }
     if (textAlign == TextAlign.center) {
-      rt = "center";
+      rt = 'center';
     }
     if (textAlign == TextAlign.justify) {
-      rt = "justify";
+      rt = 'justify';
     }
     if (textAlign == TextAlign.start) {
-      rt = "start";
+      rt = 'start';
     }
     if (textAlign == TextAlign.end) {
-      rt = "end";
+      rt = 'end';
     }
     return rt;
   }
@@ -171,7 +171,7 @@ class DynamicWidgetUtils {
     return RoundedRectangleBorder(
         side: borderSideAdapter(border['side']) ?? BorderSide.none,
         borderRadius:
-            borderRadiusAdapter(border['borderRadius']) ?? BorderRadius.zero);
+        borderRadiusAdapter(border['borderRadius']) ?? BorderRadius.zero);
   }
 
   static Map<String, dynamic>? transformRoundedRectangleBorder(
@@ -180,7 +180,8 @@ class DynamicWidgetUtils {
 
     return {
       'side': transformBorderSide(border.side),
-      'borderRadius': transformBorderRadius(border.borderRadius as BorderRadius?),
+      'borderRadius': transformBorderRadius(
+          border.borderRadius as BorderRadius?),
     };
   }
 
@@ -237,7 +238,8 @@ class DynamicWidgetUtils {
         bottomRight: radiusAdapter(borderRadius['bottomRight']) ?? Radius.zero);
   }
 
-  static Map<String, double?>? transformBorderRadius(BorderRadius? borderRadius) {
+  static Map<String, double?>? transformBorderRadius(
+      BorderRadius? borderRadius) {
     if (borderRadius == null) return null;
 
     return {
@@ -331,31 +333,31 @@ class DynamicWidgetUtils {
   static String? transformFontWeight(FontWeight? fontWeight) {
     String? rt;
     if (fontWeight == FontWeight.w100) {
-      rt = "w100";
+      rt = 'w100';
     }
     if (fontWeight == FontWeight.w200) {
-      rt = "w200";
+      rt = 'w200';
     }
     if (fontWeight == FontWeight.w300) {
-      rt = "w300";
+      rt = 'w300';
     }
     if (fontWeight == FontWeight.w400) {
-      rt = "w400";
+      rt = 'w400';
     }
     if (fontWeight == FontWeight.w500) {
-      rt = "w500";
+      rt = 'w500';
     }
     if (fontWeight == FontWeight.w600) {
-      rt = "w600";
+      rt = 'w600';
     }
     if (fontWeight == FontWeight.w700) {
-      rt = "w700";
+      rt = 'w700';
     }
     if (fontWeight == FontWeight.w800) {
-      rt = "w800";
+      rt = 'w800';
     }
     if (fontWeight == FontWeight.w900) {
-      rt = "w900";
+      rt = 'w900';
     }
     return rt;
   }
@@ -426,6 +428,18 @@ class DynamicWidgetUtils {
         rect['bottom'].toDouble() ?? 0.0);
   }
 
+  static Map? transformRect(Rect? rect) {
+    if (rect == null) {
+      return null;
+    }
+    return {
+      'left': rect.left,
+      'top': rect.top,
+      'right': rect.right,
+      'bottom': rect.bottom
+    };
+  }
+
   static TextInputType? inputTypeAdapter(String? inputTypeString) {
     TextInputType? inputType;
     switch (inputTypeString) {
@@ -489,6 +503,28 @@ class DynamicWidgetUtils {
     return _boxFit;
   }
 
+  static String? transformBoxFit(BoxFit? boxFit) {
+    if (boxFit == BoxFit.fill) {
+      return 'fill';
+    }
+    if (boxFit == BoxFit.cover) {
+      return 'cover';
+    }
+    if (boxFit == BoxFit.fitWidth) {
+      return 'fitWidth';
+    }
+    if (boxFit == BoxFit.fitHeight) {
+      return 'fitHeight';
+    }
+    if (boxFit == BoxFit.none) {
+      return 'none';
+    }
+    if (boxFit == BoxFit.scaleDown) {
+      return 'scaleDown';
+    }
+    return null;
+  }
+
   static StackFit? stackFitAdapter(String? str) {
     StackFit? _boxFit;
     switch (str) {
@@ -529,6 +565,19 @@ class DynamicWidgetUtils {
     return _imageRepeat;
   }
 
+  static String? transformImageRepeat(ImageRepeat imageRepeat) {
+    if (imageRepeat == ImageRepeat.repeat) {
+      return 'repeat';
+    }
+    if (imageRepeat == ImageRepeat.repeatX) {
+      return 'repeatX';
+    }
+    if (imageRepeat == ImageRepeat.repeatY) {
+      return 'repeatY';
+    }
+    return null;
+  }
+
   static MainAxisAlignment? mainAxisAlignmentAdapter(String? str) {
     MainAxisAlignment? _mainAxisAlignment;
     switch (str) {
@@ -556,18 +605,19 @@ class DynamicWidgetUtils {
     return _mainAxisAlignment;
   }
 
-  static String? transformMainAxisAlignment(MainAxisAlignment? mainAxisAlignment) {
+  static String? transformMainAxisAlignment(
+      MainAxisAlignment? mainAxisAlignment) {
     String? rt;
     if (mainAxisAlignment == MainAxisAlignment.end) {
-      rt = "end";
+      rt = 'end';
     } else if (mainAxisAlignment == MainAxisAlignment.center) {
-      rt = "center";
+      rt = 'center';
     } else if (mainAxisAlignment == MainAxisAlignment.spaceBetween) {
-      rt = "spaceBetween";
+      rt = 'spaceBetween';
     } else if (mainAxisAlignment == MainAxisAlignment.spaceAround) {
-      rt = "spaceAround";
+      rt = 'spaceAround';
     } else if (mainAxisAlignment == MainAxisAlignment.spaceEvenly) {
-      rt = "spaceEvenly";
+      rt = 'spaceEvenly';
     }
     return rt;
   }
@@ -626,22 +676,23 @@ class DynamicWidgetUtils {
     return _crossAxisAlignment;
   }
 
-  static String? transformCrossAxisAlignment(CrossAxisAlignment? crossAxisAlignment) {
+  static String? transformCrossAxisAlignment(
+      CrossAxisAlignment? crossAxisAlignment) {
     String? rt;
     if (crossAxisAlignment == CrossAxisAlignment.start) {
-      rt = "start";
+      rt = 'start';
     }
     if (crossAxisAlignment == CrossAxisAlignment.end) {
-      rt = "end";
+      rt = 'end';
     }
     if (crossAxisAlignment == CrossAxisAlignment.center) {
-      rt = "center";
+      rt = 'center';
     }
     if (crossAxisAlignment == CrossAxisAlignment.stretch) {
-      rt = "stretch";
+      rt = 'stretch';
     }
     if (crossAxisAlignment == CrossAxisAlignment.baseline) {
-      rt = "baseline";
+      rt = 'baseline';
     }
 
     return rt;
@@ -770,8 +821,8 @@ class DynamicWidgetUtils {
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-            textLeadingDistributionAdapter(behavior['leadingDistribution']) ??
-                TextLeadingDistribution.proportional);
+        textLeadingDistributionAdapter(behavior['leadingDistribution']) ??
+            TextLeadingDistribution.proportional);
   }
 
   static Map<dynamic, dynamic>? transformTextHeightBehavior(
@@ -780,7 +831,8 @@ class DynamicWidgetUtils {
     return {
       'applyHeightToFirstAscent': behavior.applyHeightToFirstAscent,
       'applyHeightToLastDescent': behavior.applyHeightToLastDescent,
-      'leadingDistribution': transformTextLeadingDistribution(behavior.leadingDistribution),
+      'leadingDistribution': transformTextLeadingDistribution(
+          behavior.leadingDistribution),
     };
   }
 
@@ -799,7 +851,8 @@ class DynamicWidgetUtils {
     return _verticalDirection;
   }
 
-  static String? transformVerticalDirection(VerticalDirection? _verticalDirection) {
+  static String? transformVerticalDirection(
+      VerticalDirection? _verticalDirection) {
     String? _verticalDirectionStr;
     switch (_verticalDirection) {
       case VerticalDirection.down:
@@ -883,7 +936,7 @@ class DynamicWidgetUtils {
   static String? transformClipBehavior(Clip? clip) {
     String? _clipStr;
     switch (clip) {
-      case  Clip.antiAlias:
+      case Clip.antiAlias:
         _clipStr = 'antiAlias';
         break;
       case Clip.antiAliasWithSaveLayer:
@@ -916,7 +969,7 @@ class DynamicWidgetUtils {
         textBaseline: textBaselineAdapter(style['textBaseline']),
         height: style['height'],
         leadingDistribution:
-            textLeadingDistributionAdapter(style['leadingDistribution']),
+        textLeadingDistributionAdapter(style['leadingDistribution']),
         debugLabel: style['debugLabel'],
         fontFamily: style['fontFamily'],
         fontFamilyFallback: style['fontFamilyFallback']?.cast<String>(),
@@ -936,7 +989,8 @@ class DynamicWidgetUtils {
       'wordSpacing': style.wordSpacing,
       'textBaseline': transformTextBaseline(style.textBaseline),
       'height': style.height,
-      'leadingDistribution': transformTextLeadingDistribution(style.leadingDistribution),
+      'leadingDistribution': transformTextLeadingDistribution(
+          style.leadingDistribution),
       'debugLabel': style.debugLabel,
       'fontFamily': style.fontFamily,
       'fontFamilyFallback': style.fontFamilyFallback,
@@ -952,7 +1006,7 @@ class DynamicWidgetUtils {
         fontSize: style['fontSize'],
         height: style['height'],
         leadingDistribution:
-            textLeadingDistributionAdapter(style['leadingDistribution']),
+        textLeadingDistributionAdapter(style['leadingDistribution']),
         leading: style['leading'],
         fontWeight: fontWeightAdapter(style['fontWeight']),
         fontStyle: fontStyleAdapter(style['fontStyle']),
@@ -963,13 +1017,14 @@ class DynamicWidgetUtils {
 
   static Map<dynamic, dynamic>? transformStrutStyle(StrutStyle? style) {
     if (style == null) return null;
-    
+
     return {
       'fontFamily': style.fontFamily,
       'fontFamilyFallback': style.fontFamilyFallback,
       'fontSize': style.fontSize,
       'height': style.height,
-      'leadingDistribution': transformTextLeadingDistribution(style.leadingDistribution),
+      'leadingDistribution': transformTextLeadingDistribution(
+          style.leadingDistribution),
       'leading': style.leading,
       'fontWeight': transformFontWeight(style.fontWeight),
       'fontStyle': transformFontStyle(style.fontStyle),
@@ -993,8 +1048,9 @@ class DynamicWidgetUtils {
     return _textLeadingDistribution;
   }
 
-  static String?  transformTextLeadingDistribution(TextLeadingDistribution? textLeadingDistribution) {
-    String?  _textLeadingDistributionStr;
+  static String? transformTextLeadingDistribution(
+      TextLeadingDistribution? textLeadingDistribution) {
+    String? _textLeadingDistributionStr;
     switch (textLeadingDistribution) {
       case TextLeadingDistribution.proportional:
         _textLeadingDistributionStr = 'proportional';
@@ -1061,7 +1117,7 @@ class DynamicWidgetUtils {
   }
 
   static int hexToInt(String? hex) {
-    if(hex==null || hex.isEmpty) return 0;
+    if (hex == null || hex.isEmpty) return 0;
     if (hex.startsWith('0x')) {
       hex = hex.replaceFirst('0x', '');
     }
@@ -1078,7 +1134,7 @@ class DynamicWidgetUtils {
         // a..f
         val += (hexDigit - 87) * (1 << (4 * (len - 1 - i)));
       } else {
-        throw new FormatException("Invalid hexadecimal value");
+        throw new FormatException('Invalid hexadecimal value');
       }
     }
     return val;
@@ -1089,6 +1145,209 @@ class DynamicWidgetUtils {
     var cp = hexToInt(icon['codePoint']);
     return IconData(cp, fontFamily: icon['fontFamily'],
         matchTextDirection: icon['matchTextDirection'] ?? false);
+  }
+
+  static BlendMode? blendModeAdapter(String? blendModeString) {
+    if (blendModeString == null || blendModeString
+        .trim()
+        .length == 0) {
+      return null;
+    }
+
+    switch (blendModeString.trim()) {
+      case 'clear':
+        return BlendMode.clear;
+      case 'src':
+        return BlendMode.src;
+      case 'dst':
+        return BlendMode.dst;
+      case 'srcOver':
+        return BlendMode.srcOver;
+      case 'dstOver':
+        return BlendMode.dstOver;
+      case 'srcIn':
+        return BlendMode.srcIn;
+      case 'dstIn':
+        return BlendMode.dstIn;
+      case 'srcOut':
+        return BlendMode.srcOut;
+      case 'dstOut':
+        return BlendMode.dstOut;
+      case 'srcATop':
+        return BlendMode.srcATop;
+      case 'dstATop':
+        return BlendMode.dstATop;
+      case 'xor':
+        return BlendMode.xor;
+      case 'plus':
+        return BlendMode.plus;
+      case 'modulate':
+        return BlendMode.modulate;
+      case 'screen':
+        return BlendMode.screen;
+      case 'overlay':
+        return BlendMode.overlay;
+      case 'darken':
+        return BlendMode.darken;
+      case 'lighten':
+        return BlendMode.lighten;
+      case 'colorDodge':
+        return BlendMode.colorDodge;
+      case 'colorBurn':
+        return BlendMode.colorBurn;
+      case 'hardLight':
+        return BlendMode.hardLight;
+      case 'softLight':
+        return BlendMode.softLight;
+      case 'difference':
+        return BlendMode.difference;
+      case 'exclusion':
+        return BlendMode.exclusion;
+      case 'multiply':
+        return BlendMode.multiply;
+      case 'hue':
+        return BlendMode.hue;
+      case 'saturation':
+        return BlendMode.saturation;
+      case 'color':
+        return BlendMode.color;
+      case 'luminosity':
+        return BlendMode.luminosity;
+
+      default:
+        return BlendMode.srcIn;
+    }
+  }
+
+  static String? transformBlendMode(BlendMode? blendMode) {
+    if (blendMode == null) {
+      return null;
+    }
+    String rt = 'srcIn';
+    if (blendMode == BlendMode.clear) {
+      rt = 'clear';
+    }
+    if (blendMode == BlendMode.src) {
+      rt = 'src';
+    }
+    if (blendMode == BlendMode.dst) {
+      rt = 'dst';
+    }
+    if (blendMode == BlendMode.srcOver) {
+      rt = 'srcOver';
+    }
+    if (blendMode == BlendMode.dstOver) {
+      rt = 'dstOver';
+    }
+    if (blendMode == BlendMode.srcIn) {
+      rt = 'srcIn';
+    }
+    if (blendMode == BlendMode.dstIn) {
+      rt = 'dstIn';
+    }
+    if (blendMode == BlendMode.srcOut) {
+      rt = 'srcOut';
+    }
+    if (blendMode == BlendMode.dstOut) {
+      rt = 'dstOut';
+    }
+    if (blendMode == BlendMode.srcATop) {
+      rt = 'srcATop';
+    }
+    if (blendMode == BlendMode.dstATop) {
+      rt = 'dstATop';
+    }
+    if (blendMode == BlendMode.xor) {
+      rt = 'xor';
+    }
+    if (blendMode == BlendMode.plus) {
+      rt = 'plus';
+    }
+    if (blendMode == BlendMode.modulate) {
+      rt = 'modulate';
+    }
+    if (blendMode == BlendMode.screen) {
+      rt = 'screen';
+    }
+    if (blendMode == BlendMode.overlay) {
+      rt = 'overlay';
+    }
+    if (blendMode == BlendMode.darken) {
+      rt = 'darken';
+    }
+    if (blendMode == BlendMode.lighten) {
+      rt = 'lighten';
+    }
+    if (blendMode == BlendMode.colorDodge) {
+      rt = 'colorDodge';
+    }
+    if (blendMode == BlendMode.colorBurn) {
+      rt = 'colorBurn';
+    }
+    if (blendMode == BlendMode.hardLight) {
+      rt = 'hardLight';
+    }
+    if (blendMode == BlendMode.softLight) {
+      rt = 'softLight';
+    }
+    if (blendMode == BlendMode.difference) {
+      rt = 'difference';
+    }
+    if (blendMode == BlendMode.exclusion) {
+      rt = 'exclusion';
+    }
+    if (blendMode == BlendMode.multiply) {
+      rt = 'multiply';
+    }
+    if (blendMode == BlendMode.hue) {
+      rt = 'hue';
+    }
+    if (blendMode == BlendMode.saturation) {
+      rt = 'saturation';
+    }
+    if (blendMode == BlendMode.color) {
+      rt = 'color';
+    }
+    if (blendMode == BlendMode.luminosity) {
+      rt = 'luminosity';
+    }
+
+    return rt;
+  }
+
+  static FilterQuality? filterQualityAdapter(String? filterQualityString) {
+    if (filterQualityString == null) {
+      return null;
+    }
+    switch (filterQualityString) {
+      case 'none':
+        return FilterQuality.none;
+      case 'low':
+        return FilterQuality.low;
+      case 'medium':
+        return FilterQuality.medium;
+      case 'high':
+        return FilterQuality.high;
+      default:
+        return FilterQuality.low;
+    }
+  }
+
+  static String? transformFilterQuality(FilterQuality? filterQuality) {
+    if(filterQuality == null) return null;
+    if (filterQuality == FilterQuality.none) {
+      return "none";
+    }
+    if (filterQuality == FilterQuality.low) {
+      return "low";
+    }
+    if (filterQuality == FilterQuality.medium) {
+      return "medium";
+    }
+    if (filterQuality == FilterQuality.high) {
+      return "high";
+    }
+    return null;
   }
 
   static Map<String, dynamic>? transformIconData(IconData? icon) {
