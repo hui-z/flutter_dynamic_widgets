@@ -94,9 +94,9 @@ class DataTableConfig {
 
   DataTableConfig.fromJson(Map<dynamic, dynamic> json) {
       this.dataRowHeight = json['dataRowHeight'];
-      this.dataTextStyle = DynamicWidgetUtils.textStyleAdapter(json['dataTextStyle']);
+      this.dataTextStyle = DynamicWidgetUtils.adapt<TextStyle>(json['dataTextStyle']);
       this.headingRowHeight = json['dataTextStyle'];
-      this.headingTextStyle = DynamicWidgetUtils.textStyleAdapter(json['headingTextStyle']);
+      this.headingTextStyle = DynamicWidgetUtils.adapt<TextStyle>(json['headingTextStyle']);
       this.horizontalMargin = json['horizontalMargin'];
       this.dividerThickness = json['dividerThickness'];
       this.columnSpacing = json['columnSpacing'];

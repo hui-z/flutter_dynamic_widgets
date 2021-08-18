@@ -77,7 +77,7 @@ class ImageHandler extends DynamicBasicWidgetHandler {
         'centerSlice': DynamicWidgetUtils.transform(realImage.centerSlice),
         'matchTextDirection': realImage.matchTextDirection,
         'gaplessPlayback': realImage.gaplessPlayback,
-        'filterQuality':DynamicWidgetUtils.transformFilterQuality(realImage.filterQuality)
+        'filterQuality':DynamicWidgetUtils.transform(realImage.filterQuality)
       },
       'xKey': realImage.key.toString()
     };
@@ -200,14 +200,14 @@ class ImageConfig {
     scale = json['scale']?.toDouble();
     width = json['width']?.toDouble() ;
     height = json['height']?.toDouble();
-    color =  DynamicWidgetUtils.colorAdapter(json['color']);
-    colorBlendMode = DynamicWidgetUtils.blendModeAdapter(json['blendMode']) ;
-    fit = DynamicWidgetUtils.boxFitAdapter(json['fit']);
-    alignment = (DynamicWidgetUtils.alignmentAdapter(json['alignment'])??Alignment.center) ;
-    repeat = DynamicWidgetUtils.imageRepeatAdapter(json['repeat']);
-    centerSlice = DynamicWidgetUtils.rectAdapter(json['centerSlice']);
+    color =  DynamicWidgetUtils.adapt<Color>(json['color']);
+    colorBlendMode = DynamicWidgetUtils.adapt<BlendMode>(json['blendMode']) ;
+    fit = DynamicWidgetUtils.adapt<BoxFit>(json['fit']);
+    alignment = (DynamicWidgetUtils.adapt<Alignment>(json['alignment'])??Alignment.center) ;
+    repeat = DynamicWidgetUtils.adapt<ImageRepeat>(json['repeat']);
+    centerSlice = DynamicWidgetUtils.adapt<Rect>(json['centerSlice']);
     matchTextDirection = json['matchTextDirection'];
     gaplessPlayback = json['gaplessPlayback'];
-    filterQuality = DynamicWidgetUtils.filterQualityAdapter(json['filterQuality']);
+    filterQuality = DynamicWidgetUtils.adapt<FilterQuality>(json['filterQuality']);
   }
 }

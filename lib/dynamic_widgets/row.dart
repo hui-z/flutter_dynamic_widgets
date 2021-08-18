@@ -98,12 +98,12 @@ class RowConfig {
         this.textBaseline});
 
   RowConfig.fromJson(Map<dynamic, dynamic> json) {
-    mainAxisAlignment = DynamicWidgetUtils.mainAxisAlignmentAdapter(json['mainAxisAlignment']);
-    mainAxisSize = DynamicWidgetUtils.mainAxisSizeAdapter(json['mainAxisSize']);
-    crossAxisAlignment = DynamicWidgetUtils.crossAxisAlignmentAdapter(json['crossAxisAlignment']);
-    textDirection = DynamicWidgetUtils.textDirectionAdapter(json['textDirection']);
-    verticalDirection = DynamicWidgetUtils.verticalDirectionAdapter(json['verticalDirection']);
-    textBaseline = DynamicWidgetUtils.textBaselineAdapter(json['textBaseline']);
+    mainAxisAlignment = DynamicWidgetUtils.adapt<MainAxisAlignment>(json['mainAxisAlignment']);
+    mainAxisSize = DynamicWidgetUtils.adapt<MainAxisSize>(json['mainAxisSize']);
+    crossAxisAlignment = DynamicWidgetUtils.adapt<CrossAxisAlignment>(json['crossAxisAlignment']);
+    textDirection = DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    verticalDirection = DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
+    textBaseline = DynamicWidgetUtils.adapt<TextBaseline>(json['textBaseline']);
   }
 
 }

@@ -75,6 +75,6 @@ class PaddingConfig {
   PaddingConfig({this.padding});
 
   PaddingConfig.fromJson(Map<dynamic, dynamic> json) {
-    padding = DynamicWidgetUtils.edgeInsetAdapter(json['padding']);
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
   }
 }

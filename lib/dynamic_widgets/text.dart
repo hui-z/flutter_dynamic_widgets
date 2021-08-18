@@ -113,15 +113,15 @@ class TextConfig {
 
   TextConfig.fromJson(Map<dynamic, dynamic> json) {
     data = json['data'];
-    style = DynamicWidgetUtils.textStyleAdapter(json['style']);
-    strutStyle = DynamicWidgetUtils.strutStyleAdapter(json['strutStyle']);
-    textAlign = DynamicWidgetUtils.textAlignAdapter(json['textAlign']);
-    textDirection = DynamicWidgetUtils.textDirectionAdapter(json['textDirection']);
+    style = DynamicWidgetUtils.adapt<TextStyle>(json['style']);
+    strutStyle = DynamicWidgetUtils.adapt<StrutStyle>(json['strutStyle']);
+    textAlign = DynamicWidgetUtils.adapt<TextAlign>(json['textAlign']);
+    textDirection = DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
     softWrap = json['softWrap'];
-    overflow = DynamicWidgetUtils.textOverflowAdapter(json['overflow']);
+    overflow = DynamicWidgetUtils.adapt<TextOverflow>(json['overflow']);
     maxLines = json['maxLines'];
     semanticsLabel = json['semanticsLabel'];
-    textHeightBehavior = DynamicWidgetUtils.textHeightBehaviorAdapter(json['textHeightBehavior']);
+    textHeightBehavior = DynamicWidgetUtils.adapt<TextHeightBehavior>(json['textHeightBehavior']);
     textScaleFactor = json['textScaleFactor'];
   }
 }

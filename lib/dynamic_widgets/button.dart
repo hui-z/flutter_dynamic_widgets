@@ -155,22 +155,22 @@ class RawMaterialButtonConfig {
       this.padding, this.shape, this.animationDuration, this.clipBehavior, this.autofocus, this.enableFeedback});
 
   RawMaterialButtonConfig.fromJson(Map<dynamic, dynamic> json) {
-    textStyle = DynamicWidgetUtils.textStyleAdapter(json['textStyle']);
-    fillColor = DynamicWidgetUtils.colorAdapter(json['fillColor']);
-    focusColor = DynamicWidgetUtils.colorAdapter(json['focusColor']);
-    hoverColor = DynamicWidgetUtils.colorAdapter(json['hoverColor']);
-    highlightColor = DynamicWidgetUtils.colorAdapter(json['highlightColor']);
-    splashColor = DynamicWidgetUtils.colorAdapter(json['splashColor']);
+    textStyle = DynamicWidgetUtils.adapt<TextStyle>(json['textStyle']);
+    fillColor = DynamicWidgetUtils.adapt<Color>(json['fillColor']);
+    focusColor = DynamicWidgetUtils.adapt<Color>(json['focusColor']);
+    hoverColor = DynamicWidgetUtils.adapt<Color>(json['hoverColor']);
+    highlightColor = DynamicWidgetUtils.adapt<Color>(json['highlightColor']);
+    splashColor = DynamicWidgetUtils.adapt<Color>(json['splashColor']);
     elevation = json['elevation'];
     focusElevation = json['focusElevation'];
     hoverElevation = json['hoverElevation'];
     highlightElevation = json['highlightElevation'];
     disabledElevation = json['disabledElevation'];   
-    padding = DynamicWidgetUtils.edgeInsetAdapter(json['padding']);
-    constraints = DynamicWidgetUtils.boxConstraintsAdapter(json['constraints']);
-    shape = DynamicWidgetUtils.roundedRectangleBorderAdapter(json['shape']);
-    animationDuration = DynamicWidgetUtils.durationAdapter(json['animationDuration']);
-    clipBehavior = DynamicWidgetUtils.clipBehaviorAdapter(json['clipBehavior']);
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+    constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
+    shape = DynamicWidgetUtils.adapt<RoundedRectangleBorder>(json['shape']);
+    animationDuration = DynamicWidgetUtils.adapt<Duration>(json['animationDuration']);
+    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
     autofocus = json['autofocus'];
     enableFeedback = json['enableFeedback'];
   }

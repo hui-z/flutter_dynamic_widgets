@@ -83,6 +83,6 @@ class AlignConfig {
   AlignConfig.fromJson(Map<dynamic, dynamic> json) {
     widthFactor = json['widthFactor'];
     heightFactor = json['heightFactor'];
-    alignment = DynamicWidgetUtils.alignmentAdapter(json['alignment']);
+    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
   }
 }

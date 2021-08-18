@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/utils.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 import 'package:example/widget_json.dart';

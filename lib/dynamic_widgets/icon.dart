@@ -87,10 +87,10 @@ class IconConfig {
   });
 
   IconConfig.fromJson(Map<dynamic, dynamic> json) {
-    icon = DynamicWidgetUtils.iconDataAdapter(json['icon']);
+    icon = DynamicWidgetUtils.adapt<IconData>(json['icon']);
     size = json['size'];
-    color = DynamicWidgetUtils.colorAdapter(json['color']);
+    color = DynamicWidgetUtils.adapt<Color>(json['color']);
     semanticLabel = json['semanticLabel'];
-    textDirection = DynamicWidgetUtils.textDirectionAdapter(json['textDirection']);
+    textDirection = DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
   }
 }

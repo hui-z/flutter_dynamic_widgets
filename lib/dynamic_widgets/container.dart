@@ -104,12 +104,12 @@ class ContainerConfig {
   });
 
   ContainerConfig.fromJson(Map<dynamic, dynamic> json) {
-    alignment = DynamicWidgetUtils.alignmentAdapter(json['alignment']);
-    padding = DynamicWidgetUtils.edgeInsetAdapter(json['padding']);
-    color = DynamicWidgetUtils.colorAdapter(json['color']);
-    margin = DynamicWidgetUtils.edgeInsetAdapter(json['margin']);
+    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+    color = DynamicWidgetUtils.adapt<Color>(json['color']);
+    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
     width = json['width']?.toDouble();
     height = json['height']?.toDouble();
-    constraints = DynamicWidgetUtils.boxConstraintsAdapter(json['constraints']);
+    constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
   }
 }

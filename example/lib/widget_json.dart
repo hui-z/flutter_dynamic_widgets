@@ -1,12 +1,12 @@
 var testMap = {
   'widget': 'Column',
-  'propsList': [
+  'children': [
     {
       'widget': 'Text',
       'xVar': {
         'data': '再惠合同续约提醒',
         'style': {
-          'color': '0xFF000000',
+          'color': 'FF000000',
           'fontWeight': 'bold',
           'fontSize': 16.0
         }
@@ -14,21 +14,21 @@ var testMap = {
     },
     {
       'widget': 'Row',
-      'propsList': [
+      'children': [
         {
           'widget': 'Text',
           'xVar': {
             'data': '亲爱的商户',
-            'style': {'color': '0xFF9E9E9E', 'fontSize': 14.0}
+            'style': {'color': 'FF9E9E9E', 'fontSize': 14.0}
           }
         },
         {
           'widget': 'RawMaterialButton',
-          'propsMap': {
+          'child': {
             'widget': 'Text',
             'xVar': {
               'data': '加了个按钮',
-              'style': {'color': '0xFF4CAF50', 'fontSize': 14.0}
+              'style': {'color': 'FF4CAF50', 'fontSize': 14.0}
             }
           }
         },
@@ -38,16 +38,16 @@ var testMap = {
       'widget': 'Text',
       'xVar': {
         'data': '您与再惠合作的服务即将到期，请尽快沟通续约事宜',
-        'style': {'color': '0xFF9E9E9E', 'fontSize': 14.0}
+        'style': {'color': 'FF9E9E9E', 'fontSize': 14.0}
       },
     },
     {
       'widget': 'RawMaterialButton',
-      'propsMap': {
+      'child': {
         'widget': 'Text',
         'xVar': {
           'data': '确认续约',
-          'style': {'color': '0xFF2196F3', 'fontSize': 16.0}
+          'style': {'color': 'FF2196F3', 'fontSize': 16.0}
         },
       }
     },
@@ -56,7 +56,7 @@ var testMap = {
 
 var iconMap = {
   'widget': 'Row',
-  'propsList': [
+  'children': [
     {
       'widget': 'Icon',
       'xVar': {

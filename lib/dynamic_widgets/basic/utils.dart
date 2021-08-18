@@ -6,100 +6,206 @@ class DynamicWidgetUtils {
   static dynamic transform(dynamic origin) {
     if (origin == null) return null;
     if (origin is Alignment) {
-      return transformAlignment(origin);
+      return _transformAlignment(origin);
     }
     if (origin is TextAlign) {
-      return transformTextAlign(origin);
+      return _transformTextAlign(origin);
     }
     if (origin is Color) {
-      return transformColor(origin);
+      return _transformColor(origin);
     }
     if (origin is BoxConstraints) {
-      return transformBoxConstraints(origin);
+      return _transformBoxConstraints(origin);
     }
     if (origin is RoundedRectangleBorder) {
       return transformRoundedRectangleBorder(origin);
     }
     if (origin is Duration) {
-      return transformDuration(origin);
+      return _transformDuration(origin);
     }
     if (origin is BorderSide) {
-      return transformBorderSide(origin);
+      return _transformBorderSide(origin);
     }
     if (origin is BorderStyle) {
-      return transformBorderStyle(origin);
+      return _transformBorderStyle(origin);
     }
     if (origin is FontWeight) {
       return transformFontWeight(origin);
     }
     if (origin is FontStyle) {
-      return transformFontStyle(origin);
+      return _transformFontStyle(origin);
     }
     if (origin is EdgeInsets) {
-      return transformEdgeInset(origin);
+      return _transformEdgeInset(origin);
     }
     if (origin is MainAxisAlignment) {
       return transformMainAxisAlignment(origin);
     }
     if (origin is MainAxisSize) {
-      return transformMainAxisSize(origin);
+      return _transformMainAxisSize(origin);
     }
     if (origin is CrossAxisAlignment) {
-      return transformCrossAxisAlignment(origin);
+      return _transformCrossAxisAlignment(origin);
     }
     if (origin is TextDirection) {
-      return transformTextDirection(origin);
+      return _transformTextDirection(origin);
     }
     if (origin is TextOverflow) {
-      return transformTextOverflow(origin);
+      return _transformTextOverflow(origin);
     }
     if (origin is VerticalDirection) {
-      return transformVerticalDirection(origin);
+      return _transformVerticalDirection(origin);
     }
     if (origin is TextHeightBehavior) {
-      return transformTextHeightBehavior(origin);
+      return _transformTextHeightBehavior(origin);
     }
     if (origin is TextBaseline) {
-      return transformTextBaseline(origin);
+      return _transformTextBaseline(origin);
     }
     if (origin is Clip) {
-      return transformClipBehavior(origin);
+      return _transformClipBehavior(origin);
     }
     if (origin is TextStyle) {
-      return transformTextStyle(origin);
+      return _transformTextStyle(origin);
     }
     if (origin is StrutStyle) {
-      return transformStrutStyle(origin);
+      return _transformStrutStyle(origin);
     }
     if (origin is TextLeadingDistribution) {
-      return transformTextLeadingDistribution(origin);
+      return _transformTextLeadingDistribution(origin);
     }
     if (origin is IconData) {
-      return transformIconData(origin);
+      return _transformIconData(origin);
     }
     if (origin is FilterQuality) {
-      return transformFilterQuality(origin);
+      return _transformFilterQuality(origin);
     }
     if (origin is BlendMode) {
-      return transformBlendMode(origin);
+      return _transformBlendMode(origin);
     }
     if (origin is Rect) {
-      return transformRect(origin);
+      return _transformRect(origin);
     }
     if (origin is BoxFit) {
-      return transformBoxFit(origin);
+      return _transformBoxFit(origin);
     }
     if (origin is ImageRepeat) {
-      return transformImageRepeat(origin);
+      return _transformImageRepeat(origin);
+    }
+    if (origin is BorderRadius) {
+      return transformBorderRadius(origin);
+    }
+    if (origin is TextInputType) {
+      return _transformInputType(origin);
+    }
+    if (origin is StackFit) {
+      return _transformStackFit(origin);
+    }
+    if (origin is WrapAlignment) {
+      return _transformWrapAlignment(origin);
+    }
+    if (origin is WrapCrossAlignment) {
+      return _transformWrapCrossAlignment(origin);
+    }
+    if (origin is Axis) {
+      return _transformAxis(origin);
+    }
+    if (origin is Offset) {
+      return _transformOffset(origin);
+    }
+    if (origin is Size) {
+      return _transformSize(origin);
     }
     return null;
   }
 
-  static String? transformColor(Color? color) {
+  static T? adapt<T>(dynamic origin) {
+    switch (T) {
+      case Alignment:
+        return _alignmentAdapter(origin as String?) as T?;
+      case TextAlign:
+        return _textAlignAdapter(origin as String?) as T?;
+      case Color:
+        return _colorAdapter(origin as String?) as T?;
+      case BoxConstraints:
+        return _boxConstraintsAdapter(origin as Map<String, double?>?) as T?;
+      case RoundedRectangleBorder:
+        return _roundedRectangleBorderAdapter(origin as Map?) as T?;
+      case Duration:
+        return durationAdapter(origin as Map<String, int?>?) as T?;
+      case BorderSide:
+        return borderSideAdapter(origin as Map?) as T?;
+      case BorderStyle:
+        return borderStyleAdapter(origin as String?) as T?;
+      case FontWeight:
+        return fontWeightAdapter(origin as String?) as T?;
+      case FontStyle:
+        return fontStyleAdapter(origin as String?) as T?;
+      case EdgeInsets:
+        return _edgeInsetsAdapter(origin as Map?) as T?;
+      case MainAxisAlignment:
+        return _mainAxisAlignmentAdapter(origin as String?) as T?;
+      case MainAxisSize:
+        return _mainAxisSizeAdapter(origin as String?) as T?;
+      case CrossAxisAlignment:
+        return _crossAxisAlignmentAdapter(origin as String?) as T?;
+      case TextDirection:
+        return _textDirectionAdapter(origin as String?) as T?;
+      case TextOverflow:
+        return _textOverflowAdapter(origin as String?) as T?;
+      case VerticalDirection:
+        return _verticalDirectionAdapter(origin as String?) as T?;
+      case TextHeightBehavior:
+        return _textHeightBehaviorAdapter(origin as Map?) as T?;
+      case TextBaseline:
+        return _textBaselineAdapter(origin as String?) as T?;
+      case Clip:
+        return _clipBehaviorAdapter(origin as String?) as T?;
+      case TextStyle:
+        return _textStyleAdapter(origin as Map?) as T?;
+      case StrutStyle:
+        return _strutStyleAdapter(origin as Map?) as T?;
+      case TextLeadingDistribution:
+        return _textLeadingDistributionAdapter(origin as String?) as T?;
+      case IconData:
+        return _iconDataAdapter(origin as Map?) as T?;
+      case FilterQuality:
+        return _filterQualityAdapter(origin as String?) as T?;
+      case BlendMode:
+        return _blendModeAdapter(origin as String?) as T?;
+      case Rect:
+        return _rectAdapter(origin as Map?) as T?;
+      case BoxFit:
+        return _boxFitAdapter(origin as String?) as T?;
+      case ImageRepeat:
+        return _imageRepeatAdapter(origin as String?) as T?;
+      case BorderRadius:
+        return borderRadiusAdapter(origin as Map<String, double?>?) as T?;
+      case Radius:
+        return radiusAdapter(origin as double?) as T?;
+      case TextInputType:
+        return _inputTypeAdapter(origin as String?) as T?;
+      case StackFit:
+        return _stackFitAdapter(origin as String?) as T?;
+      case WrapAlignment:
+        return _wrapAlignmentAdapter(origin as String?) as T?;
+      case WrapCrossAlignment:
+        return _wrapCrossAlignmentAdapter(origin as String?) as T?;
+      case Axis:
+        return _axisAdapter(origin as String?) as T?;
+      case Offset:
+        return _offsetAdapter(origin as Map<dynamic, double?>?) as T?;
+      case Size:
+        return _sizeAdapter(origin as Map<String, double?>?) as T?;
+    }
+    return null;
+  }
+
+  static String? _transformColor(Color? color) {
     return color?.value.toRadixString(16);
   }
 
-  static Map<String, double?>? transformBoxConstraints(
+  static Map<String, double?>? _transformBoxConstraints(
       BoxConstraints? constraints) {
     if (constraints == null) return null;
     return {
@@ -110,7 +216,7 @@ class DynamicWidgetUtils {
     };
   }
 
-  static Map<String, int?>? transformDuration(Duration? duration) {
+  static Map<String, int?>? _transformDuration(Duration? duration) {
     if (duration == null) return null;
     return {
       'days': duration.inDays,
@@ -122,17 +228,17 @@ class DynamicWidgetUtils {
     };
   }
 
-  static Map<String, dynamic>? transformBorderSide(BorderSide? side) {
+  static Map? _transformBorderSide(BorderSide? side) {
     if (side == null) return null;
 
     return {
-      'color': transformColor(side.color),
+      'color': transform(side.color),
       'width': side.width,
-      'style': transformBorderStyle(side.style)
+      'style': transform(side.style)
     };
   }
 
-  static String? transformBorderStyle(BorderStyle? style) {
+  static String? _transformBorderStyle(BorderStyle? style) {
     if (style == null) return null;
 
     String? borderStyleStr;
@@ -148,7 +254,7 @@ class DynamicWidgetUtils {
     return borderStyleStr;
   }
 
-  static String? transformFontStyle(FontStyle? fontStyle) {
+  static String? _transformFontStyle(FontStyle? fontStyle) {
     String? fontStyleStr;
     switch (fontStyle) {
       case FontStyle.normal:
@@ -163,7 +269,7 @@ class DynamicWidgetUtils {
     return fontStyleStr;
   }
 
-  static Map<dynamic, dynamic>? transformEdgeInset(EdgeInsets? inset) {
+  static Map? _transformEdgeInset(EdgeInsets? inset) {
     if (inset == null) {
       return null;
     }
@@ -175,7 +281,7 @@ class DynamicWidgetUtils {
     };
   }
 
-  static String? transformMainAxisSize(MainAxisSize? mainAxisSize) {
+  static String? _transformMainAxisSize(MainAxisSize? mainAxisSize) {
     String? _mainAxisSizeStr;
     switch (mainAxisSize) {
       case MainAxisSize.max:
@@ -190,7 +296,7 @@ class DynamicWidgetUtils {
     return _mainAxisSizeStr;
   }
 
-  static String? transformTextDirection(TextDirection? _textDirection) {
+  static String? _transformTextDirection(TextDirection? _textDirection) {
     String? _textDirectionStr;
     switch (_textDirection) {
       case TextDirection.ltr:
@@ -204,7 +310,7 @@ class DynamicWidgetUtils {
     return _textDirectionStr;
   }
 
-  static String? transformTextOverflow(TextOverflow? textOverflow) {
+  static String? _transformTextOverflow(TextOverflow? textOverflow) {
     String? _textOverflowStr;
     switch (textOverflow) {
       case TextOverflow.clip:
@@ -224,7 +330,7 @@ class DynamicWidgetUtils {
     return _textOverflowStr;
   }
 
-  static String? transformTextBaseline(TextBaseline? textBaseline) {
+  static String? _transformTextBaseline(TextBaseline? textBaseline) {
     String? _textBaselineStr;
     switch (textBaseline) {
       case TextBaseline.alphabetic:
@@ -239,7 +345,7 @@ class DynamicWidgetUtils {
     return _textBaselineStr;
   }
 
-  static Alignment? alignmentAdapter(String? alignmentString) {
+  static Alignment? _alignmentAdapter(String? alignmentString) {
     Alignment? alignment;
     switch (alignmentString) {
       case 'center':
@@ -275,7 +381,7 @@ class DynamicWidgetUtils {
     return alignment;
   }
 
-  static String? transformAlignment(Alignment? alignment) {
+  static String? _transformAlignment(Alignment? alignment) {
     if (alignment == Alignment.center) {
       return 'center';
     }
@@ -310,7 +416,7 @@ class DynamicWidgetUtils {
     return null;
   }
 
-  static TextAlign? textAlignAdapter(String? alignmentString) {
+  static TextAlign? _textAlignAdapter(String? alignmentString) {
     TextAlign? alignment;
     switch (alignmentString) {
       case 'center':
@@ -337,7 +443,7 @@ class DynamicWidgetUtils {
     return alignment;
   }
 
-  static String? transformTextAlign(TextAlign? textAlign) {
+  static String? _transformTextAlign(TextAlign? textAlign) {
     String? rt;
     if (textAlign == TextAlign.left) {
       rt = 'left';
@@ -361,7 +467,7 @@ class DynamicWidgetUtils {
   }
 
   ///adapt dsl color to the flutter color ff123456
-  static Color? colorAdapter(String? colorString) {
+  static Color? _colorAdapter(String? colorString) {
     Color? color;
     if (colorString != null) {
       int? v = int.tryParse('0x' + colorString);
@@ -371,7 +477,7 @@ class DynamicWidgetUtils {
     return color;
   }
 
-  static BoxConstraints? boxConstraintsAdapter(
+  static BoxConstraints? _boxConstraintsAdapter(
       Map<String, double?>? constraints) {
     BoxConstraints? boxConstraints;
     if (constraints != null) {
@@ -385,24 +491,20 @@ class DynamicWidgetUtils {
     return boxConstraints;
   }
 
-  static RoundedRectangleBorder? roundedRectangleBorderAdapter(
-      Map<String, dynamic>? border) {
+  static RoundedRectangleBorder? _roundedRectangleBorderAdapter(Map? border) {
     if (border == null) return null;
 
     return RoundedRectangleBorder(
-        side: borderSideAdapter(border['side']) ?? BorderSide.none,
-        borderRadius:
-            borderRadiusAdapter(border['borderRadius']) ?? BorderRadius.zero);
+        side: adapt(border['side']) ?? BorderSide.none,
+        borderRadius: adapt(border['borderRadius']) ?? BorderRadius.zero);
   }
 
-  static Map<String, dynamic>? transformRoundedRectangleBorder(
-      RoundedRectangleBorder? border) {
+  static Map? transformRoundedRectangleBorder(RoundedRectangleBorder? border) {
     if (border == null) return null;
 
     return {
-      'side': transformBorderSide(border.side),
-      'borderRadius':
-          transformBorderRadius(border.borderRadius as BorderRadius?),
+      'side': transform(border.side),
+      'borderRadius': transform(border.borderRadius as BorderRadius?),
     };
   }
 
@@ -418,23 +520,23 @@ class DynamicWidgetUtils {
     );
   }
 
-  static BorderSide? borderSideAdapter(Map<String, dynamic>? side) {
+  static BorderSide? borderSideAdapter(Map? side) {
     if (side == null) return null;
 
     return BorderSide(
-        color: colorAdapter(side['color']) ?? const Color(0xFF000000),
+        color: adapt(side['color']) ?? const Color(0xFF000000),
         width: side['width'] ?? 1.0,
-        style: borderStyleAdapter(side['style']) ?? BorderStyle.solid);
+        style: adapt(side['style']) ?? BorderStyle.solid);
   }
 
   static BorderRadius? borderRadiusAdapter(Map<String, double?>? borderRadius) {
     if (borderRadius == null) return null;
 
     return BorderRadius.only(
-        topLeft: radiusAdapter(borderRadius['topLeft']) ?? Radius.zero,
-        topRight: radiusAdapter(borderRadius['topRight']) ?? Radius.zero,
-        bottomLeft: radiusAdapter(borderRadius['bottomLeft']) ?? Radius.zero,
-        bottomRight: radiusAdapter(borderRadius['bottomRight']) ?? Radius.zero);
+        topLeft: adapt(borderRadius['topLeft']) ?? Radius.zero,
+        topRight: adapt(borderRadius['topRight']) ?? Radius.zero,
+        bottomLeft: adapt(borderRadius['bottomLeft']) ?? Radius.zero,
+        bottomRight: adapt(borderRadius['bottomRight']) ?? Radius.zero);
   }
 
   static Map<String, double?>? transformBorderRadius(
@@ -561,7 +663,7 @@ class DynamicWidgetUtils {
     return fontStyle;
   }
 
-  static EdgeInsets? edgeInsetAdapter(Map<dynamic, dynamic>? inset) {
+  static EdgeInsets? _edgeInsetsAdapter(Map? inset) {
     if (inset == null) {
       return null;
     }
@@ -573,7 +675,7 @@ class DynamicWidgetUtils {
         inset['bottom'].toDouble() ?? 0.0);
   }
 
-  static Rect? rectAdapter(Map<dynamic, dynamic>? rect) {
+  static Rect? _rectAdapter(Map? rect) {
     if (rect == null) {
       return null;
     }
@@ -585,7 +687,7 @@ class DynamicWidgetUtils {
         rect['bottom'].toDouble() ?? 0.0);
   }
 
-  static Map? transformRect(Rect? rect) {
+  static Map? _transformRect(Rect? rect) {
     if (rect == null) {
       return null;
     }
@@ -597,7 +699,7 @@ class DynamicWidgetUtils {
     };
   }
 
-  static TextInputType? inputTypeAdapter(String? inputTypeString) {
+  static TextInputType? _inputTypeAdapter(String? inputTypeString) {
     TextInputType? inputType;
     switch (inputTypeString) {
       case 'datetime':
@@ -630,7 +732,29 @@ class DynamicWidgetUtils {
     return inputType;
   }
 
-  static BoxFit? boxFitAdapter(String? str) {
+  static String? _transformInputType(TextInputType? inputType) {
+    String? inputTypeStr;
+    if (inputType == TextInputType.datetime) {
+      inputTypeStr = 'datetime';
+    } else if (inputType == TextInputType.emailAddress) {
+      inputTypeStr = 'emailAddress';
+    } else if (inputType == TextInputType.number) {
+      inputTypeStr = 'number';
+    } else if (inputType == TextInputType.phone) {
+      inputTypeStr = 'phone';
+    } else if (inputType == TextInputType.multiline) {
+      inputTypeStr = 'multiline';
+    } else if (inputType == TextInputType.text) {
+      inputTypeStr = 'text';
+    } else if (inputType == TextInputType.url) {
+      inputTypeStr = 'url';
+    } else if (inputType == TextInputType.visiblePassword) {
+      inputTypeStr = 'visiblePassword';
+    }
+    return inputTypeStr;
+  }
+
+  static BoxFit? _boxFitAdapter(String? str) {
     BoxFit? _boxFit;
     switch (str) {
       case 'contain':
@@ -660,7 +784,7 @@ class DynamicWidgetUtils {
     return _boxFit;
   }
 
-  static String? transformBoxFit(BoxFit? boxFit) {
+  static String? _transformBoxFit(BoxFit? boxFit) {
     if (boxFit == BoxFit.fill) {
       return 'fill';
     }
@@ -682,7 +806,7 @@ class DynamicWidgetUtils {
     return null;
   }
 
-  static StackFit? stackFitAdapter(String? str) {
+  static StackFit? _stackFitAdapter(String? str) {
     StackFit? _boxFit;
     switch (str) {
       case 'loose':
@@ -701,7 +825,26 @@ class DynamicWidgetUtils {
     return _boxFit;
   }
 
-  static ImageRepeat? imageRepeatAdapter(String? str) {
+  static String? _transformStackFit(StackFit? boxFit) {
+    String? _boxFitStr;
+    switch (boxFit) {
+      case StackFit.loose:
+        _boxFitStr = 'loose';
+        break;
+      case StackFit.expand:
+        _boxFitStr = 'expand';
+        break;
+      case StackFit.passthrough:
+        _boxFitStr = 'passthrough';
+        break;
+
+      default:
+    }
+
+    return _boxFitStr;
+  }
+
+  static ImageRepeat? _imageRepeatAdapter(String? str) {
     ImageRepeat? _imageRepeat;
     switch (str) {
       case 'noRepeat':
@@ -722,7 +865,7 @@ class DynamicWidgetUtils {
     return _imageRepeat;
   }
 
-  static String? transformImageRepeat(ImageRepeat imageRepeat) {
+  static String? _transformImageRepeat(ImageRepeat imageRepeat) {
     if (imageRepeat == ImageRepeat.repeat) {
       return 'repeat';
     }
@@ -735,7 +878,7 @@ class DynamicWidgetUtils {
     return null;
   }
 
-  static MainAxisAlignment? mainAxisAlignmentAdapter(String? str) {
+  static MainAxisAlignment? _mainAxisAlignmentAdapter(String? str) {
     MainAxisAlignment? _mainAxisAlignment;
     switch (str) {
       case 'center':
@@ -779,7 +922,7 @@ class DynamicWidgetUtils {
     return rt;
   }
 
-  static MainAxisSize? mainAxisSizeAdapter(String? str) {
+  static MainAxisSize? _mainAxisSizeAdapter(String? str) {
     MainAxisSize? _mainAxisSize;
     switch (str) {
       case 'max':
@@ -794,7 +937,7 @@ class DynamicWidgetUtils {
     return _mainAxisSize;
   }
 
-  static CrossAxisAlignment? crossAxisAlignmentAdapter(String? str) {
+  static CrossAxisAlignment? _crossAxisAlignmentAdapter(String? str) {
     CrossAxisAlignment? _crossAxisAlignment;
     switch (str) {
       case 'baseline':
@@ -818,7 +961,7 @@ class DynamicWidgetUtils {
     return _crossAxisAlignment;
   }
 
-  static String? transformCrossAxisAlignment(
+  static String? _transformCrossAxisAlignment(
       CrossAxisAlignment? crossAxisAlignment) {
     String? rt;
     if (crossAxisAlignment == CrossAxisAlignment.start) {
@@ -840,7 +983,7 @@ class DynamicWidgetUtils {
     return rt;
   }
 
-  static WrapAlignment? wrapAlignmentAdapter(String? str) {
+  static WrapAlignment? _wrapAlignmentAdapter(String? str) {
     WrapAlignment? _wrapAlignment;
     switch (str) {
       case 'center':
@@ -867,7 +1010,34 @@ class DynamicWidgetUtils {
     return _wrapAlignment;
   }
 
-  static WrapCrossAlignment? wrapCrossAlignmentAdapter(String? str) {
+  static String? _transformWrapAlignment(WrapAlignment? wrapAlignment) {
+    String? _wrapAlignmentStr;
+    switch (wrapAlignment) {
+      case WrapAlignment.center:
+        _wrapAlignmentStr = 'center';
+        break;
+      case WrapAlignment.end:
+        _wrapAlignmentStr = 'end';
+        break;
+      case WrapAlignment.spaceAround:
+        _wrapAlignmentStr = 'spaceAround';
+        break;
+      case WrapAlignment.spaceBetween:
+        _wrapAlignmentStr = 'spaceBetween';
+        break;
+      case WrapAlignment.spaceEvenly:
+        _wrapAlignmentStr = 'spaceEvenly';
+        break;
+      case WrapAlignment.start:
+        _wrapAlignmentStr = 'start';
+        break;
+      default:
+    }
+
+    return _wrapAlignmentStr;
+  }
+
+  static WrapCrossAlignment? _wrapCrossAlignmentAdapter(String? str) {
     WrapCrossAlignment? _wrapCrossAlignment;
     switch (str) {
       case 'center':
@@ -885,7 +1055,25 @@ class DynamicWidgetUtils {
     return _wrapCrossAlignment;
   }
 
-  static TextDirection? textDirectionAdapter(String? str) {
+  static String? _transformWrapCrossAlignment(WrapCrossAlignment? wrapCrossAlignment) {
+    String? _wrapCrossAlignmentStr;
+    switch (wrapCrossAlignment) {
+      case WrapCrossAlignment.center:
+        _wrapCrossAlignmentStr = 'center';
+        break;
+      case WrapCrossAlignment.end:
+        _wrapCrossAlignmentStr = 'end';
+        break;
+      case WrapCrossAlignment.start:
+        _wrapCrossAlignmentStr = 'start';
+        break;
+      default:
+    }
+
+    return _wrapCrossAlignmentStr;
+  }
+
+  static TextDirection? _textDirectionAdapter(String? str) {
     TextDirection? _textDirection;
     switch (str) {
       case 'ltr':
@@ -900,7 +1088,7 @@ class DynamicWidgetUtils {
     return _textDirection;
   }
 
-  static TextOverflow? textOverflowAdapter(String? str) {
+  static TextOverflow? _textOverflowAdapter(String? str) {
     TextOverflow? _textOverflow;
     switch (str) {
       case 'clip':
@@ -921,30 +1109,29 @@ class DynamicWidgetUtils {
     return _textOverflow;
   }
 
-  static TextHeightBehavior? textHeightBehaviorAdapter(
-      Map<dynamic, dynamic>? behavior) {
+  static TextHeightBehavior? _textHeightBehaviorAdapter(Map? behavior) {
     if (behavior == null) return null;
 
     return TextHeightBehavior(
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-            textLeadingDistributionAdapter(behavior['leadingDistribution']) ??
+            adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
                 TextLeadingDistribution.proportional);
   }
 
-  static Map<dynamic, dynamic>? transformTextHeightBehavior(
+  static Map<dynamic, dynamic>? _transformTextHeightBehavior(
       TextHeightBehavior? behavior) {
     if (behavior == null) return null;
     return {
       'applyHeightToFirstAscent': behavior.applyHeightToFirstAscent,
       'applyHeightToLastDescent': behavior.applyHeightToLastDescent,
       'leadingDistribution':
-          transformTextLeadingDistribution(behavior.leadingDistribution),
+          transform(behavior.leadingDistribution),
     };
   }
 
-  static VerticalDirection? verticalDirectionAdapter(String? str) {
+  static VerticalDirection? _verticalDirectionAdapter(String? str) {
     VerticalDirection? _verticalDirection;
     switch (str) {
       case 'down':
@@ -959,7 +1146,7 @@ class DynamicWidgetUtils {
     return _verticalDirection;
   }
 
-  static String? transformVerticalDirection(
+  static String? _transformVerticalDirection(
       VerticalDirection? _verticalDirection) {
     String? _verticalDirectionStr;
     switch (_verticalDirection) {
@@ -975,7 +1162,7 @@ class DynamicWidgetUtils {
     return _verticalDirectionStr;
   }
 
-  static TextBaseline? textBaselineAdapter(String? str) {
+  static TextBaseline? _textBaselineAdapter(String? str) {
     TextBaseline? _textBaseline;
     switch (str) {
       case 'alphabetic':
@@ -990,7 +1177,7 @@ class DynamicWidgetUtils {
     return _textBaseline;
   }
 
-  static Axis? axisAdapter(String? str) {
+  static Axis? _axisAdapter(String? str) {
     Axis? _axis;
     switch (str) {
       case 'horizontal':
@@ -1005,7 +1192,22 @@ class DynamicWidgetUtils {
     return _axis;
   }
 
-  static Clip? clipBehaviorAdapter(String? str) {
+  static String? _transformAxis(Axis? axis) {
+    String? _axisStr;
+    switch (axis) {
+      case Axis.horizontal:
+        _axisStr = 'horizontal';
+        break;
+      case Axis.vertical:
+        _axisStr = 'vertical';
+        break;
+      default:
+    }
+
+    return _axisStr;
+  }
+
+  static Clip? _clipBehaviorAdapter(String? str) {
     Clip? _clip;
     switch (str) {
       case 'antiAlias':
@@ -1026,7 +1228,7 @@ class DynamicWidgetUtils {
     return _clip;
   }
 
-  static String? transformClipBehavior(Clip? clip) {
+  static String? _transformClipBehavior(Clip? clip) {
     String? _clipStr;
     switch (clip) {
       case Clip.antiAlias:
@@ -1047,50 +1249,48 @@ class DynamicWidgetUtils {
     return _clipStr;
   }
 
-  static TextStyle? textStyleAdapter(Map<dynamic, dynamic>? style) {
+  static TextStyle? _textStyleAdapter(Map? style) {
     if (style == null) return null;
 
     return TextStyle(
         inherit: style['inherit'] ?? true,
-        color: colorAdapter(style['color']),
-        backgroundColor: colorAdapter(style['backgroundColor']),
+        color: adapt(style['color']),
+        backgroundColor: adapt(style['backgroundColor']),
         fontSize: style['fontSize'],
-        fontWeight: fontWeightAdapter(style['fontWeight']),
-        fontStyle: fontStyleAdapter(style['fontStyle']),
+        fontWeight: adapt(style['fontWeight']),
+        fontStyle: adapt(style['fontStyle']),
         letterSpacing: style['letterSpacing'],
         wordSpacing: style['wordSpacing'],
-        textBaseline: textBaselineAdapter(style['textBaseline']),
+        textBaseline: adapt(style['textBaseline']),
         height: style['height'],
-        leadingDistribution:
-            textLeadingDistributionAdapter(style['leadingDistribution']),
+        leadingDistribution: adapt(style['leadingDistribution']),
         debugLabel: style['debugLabel'],
         fontFamily: style['fontFamily'],
         fontFamilyFallback: style['fontFamilyFallback']?.cast<String>(),
         package: style['package']);
   }
 
-  static Map? transformTextStyle(TextStyle? style) {
+  static Map? _transformTextStyle(TextStyle? style) {
     if (style == null) return null;
     return {
       'inherit': style.inherit,
-      'color': transformColor(style.color),
+      'color': transform(style.color),
       'backgroundColor': style.backgroundColor?.value.toRadixString(16),
       'fontSize': style.fontSize,
-      'fontWeight': transformFontWeight(style.fontWeight),
-      'fontStyle': transformFontStyle(style.fontStyle),
+      'fontWeight': transform(style.fontWeight),
+      'fontStyle': transform(style.fontStyle),
       'letterSpacing': style.letterSpacing,
       'wordSpacing': style.wordSpacing,
-      'textBaseline': transformTextBaseline(style.textBaseline),
+      'textBaseline': transform(style.textBaseline),
       'height': style.height,
-      'leadingDistribution':
-          transformTextLeadingDistribution(style.leadingDistribution),
+      'leadingDistribution': transform(style.leadingDistribution),
       'debugLabel': style.debugLabel,
       'fontFamily': style.fontFamily,
       'fontFamilyFallback': style.fontFamilyFallback,
     };
   }
 
-  static StrutStyle? strutStyleAdapter(Map<dynamic, dynamic>? style) {
+  static StrutStyle? _strutStyleAdapter(Map? style) {
     if (style == null) return null;
 
     return StrutStyle(
@@ -1098,17 +1298,16 @@ class DynamicWidgetUtils {
         fontFamilyFallback: style['fontFamilyFallback']?.cast<String>(),
         fontSize: style['fontSize'],
         height: style['height'],
-        leadingDistribution:
-            textLeadingDistributionAdapter(style['leadingDistribution']),
+        leadingDistribution: adapt(style['leadingDistribution']),
         leading: style['leading'],
-        fontWeight: fontWeightAdapter(style['fontWeight']),
-        fontStyle: fontStyleAdapter(style['fontStyle']),
+        fontWeight: adapt(style['fontWeight']),
+        fontStyle: adapt(style['fontStyle']),
         forceStrutHeight: style['forceStrutHeight'],
         debugLabel: style['debugLabel'],
         package: style['package']);
   }
 
-  static Map<dynamic, dynamic>? transformStrutStyle(StrutStyle? style) {
+  static Map? _transformStrutStyle(StrutStyle? style) {
     if (style == null) return null;
 
     return {
@@ -1116,17 +1315,16 @@ class DynamicWidgetUtils {
       'fontFamilyFallback': style.fontFamilyFallback,
       'fontSize': style.fontSize,
       'height': style.height,
-      'leadingDistribution':
-          transformTextLeadingDistribution(style.leadingDistribution),
+      'leadingDistribution': transform(style.leadingDistribution),
       'leading': style.leading,
-      'fontWeight': transformFontWeight(style.fontWeight),
-      'fontStyle': transformFontStyle(style.fontStyle),
+      'fontWeight': transform(style.fontWeight),
+      'fontStyle': transform(style.fontStyle),
       'forceStrutHeight': style.forceStrutHeight,
       'debugLabel': style.debugLabel,
     };
   }
 
-  static TextLeadingDistribution? textLeadingDistributionAdapter(String? str) {
+  static TextLeadingDistribution? _textLeadingDistributionAdapter(String? str) {
     TextLeadingDistribution? _textLeadingDistribution;
     switch (str) {
       case 'proportional':
@@ -1141,7 +1339,7 @@ class DynamicWidgetUtils {
     return _textLeadingDistribution;
   }
 
-  static String? transformTextLeadingDistribution(
+  static String? _transformTextLeadingDistribution(
       TextLeadingDistribution? textLeadingDistribution) {
     String? _textLeadingDistributionStr;
     switch (textLeadingDistribution) {
@@ -1157,56 +1355,35 @@ class DynamicWidgetUtils {
     return _textLeadingDistributionStr;
   }
 
-  static TextInputType? keyboardTypeAdapter(String? str) {
-    TextInputType? _textInputType;
-    switch (str) {
-      case 'datetime':
-        _textInputType = TextInputType.datetime;
-        break;
-      case 'emailAddress':
-        _textInputType = TextInputType.emailAddress;
-        break;
-      case 'multiline':
-        _textInputType = TextInputType.multiline;
-        break;
-      case 'name':
-        _textInputType = TextInputType.name;
-        break;
-      case 'number':
-        _textInputType = TextInputType.number;
-        break;
-      case 'phone':
-        _textInputType = TextInputType.phone;
-        break;
-      case 'streetAddress':
-        _textInputType = TextInputType.streetAddress;
-        break;
-      case 'text':
-        _textInputType = TextInputType.text;
-        break;
-      case 'url':
-        _textInputType = TextInputType.url;
-        break;
-      case 'visiblePassword':
-        _textInputType = TextInputType.visiblePassword;
-        break;
-      default:
-    }
-
-    return _textInputType;
-  }
-
-  static Offset? offsetAdapter(Map<dynamic, double?>? offset) {
+  static Offset? _offsetAdapter(Map<dynamic, double?>? offset) {
     if (offset == null) return null;
 
     return Offset(offset['dx'] ?? 0, offset['dy'] ?? 0);
   }
 
-  static Size? sizeAdapter(Map<String, double?>? size) {
+  static Map<dynamic, double?>? _transformOffset(Offset? offset) {
+    if (offset == null) return null;
+
+    return {
+      'dx': offset.dx,
+      'dy': offset.dy
+    };
+  }
+
+  static Size? _sizeAdapter(Map<String, double?>? size) {
     if (size == null) return null;
 
     return Size(
         size['width'] ?? double.infinity, size['height'] ?? double.infinity);
+  }
+
+  static Map<String, double?>? _transformSize(Size? size) {
+    if (size == null) return null;
+
+    return {
+      'width': size.width,
+      'height': size.height
+    };
   }
 
   static int hexToInt(String? hex) {
@@ -1233,7 +1410,7 @@ class DynamicWidgetUtils {
     return val;
   }
 
-  static IconData? iconDataAdapter(Map<dynamic, dynamic>? icon) {
+  static IconData? _iconDataAdapter(Map? icon) {
     if (icon == null) return null;
     var cp = hexToInt(icon['codePoint']);
     return IconData(cp,
@@ -1241,7 +1418,7 @@ class DynamicWidgetUtils {
         matchTextDirection: icon['matchTextDirection'] ?? false);
   }
 
-  static BlendMode? blendModeAdapter(String? blendModeString) {
+  static BlendMode? _blendModeAdapter(String? blendModeString) {
     if (blendModeString == null || blendModeString.trim().length == 0) {
       return null;
     }
@@ -1311,7 +1488,7 @@ class DynamicWidgetUtils {
     }
   }
 
-  static String? transformBlendMode(BlendMode? blendMode) {
+  static String? _transformBlendMode(BlendMode? blendMode) {
     if (blendMode == null) {
       return null;
     }
@@ -1407,7 +1584,7 @@ class DynamicWidgetUtils {
     return rt;
   }
 
-  static FilterQuality? filterQualityAdapter(String? filterQualityString) {
+  static FilterQuality? _filterQualityAdapter(String? filterQualityString) {
     if (filterQualityString == null) {
       return null;
     }
@@ -1425,7 +1602,7 @@ class DynamicWidgetUtils {
     }
   }
 
-  static String? transformFilterQuality(FilterQuality? filterQuality) {
+  static String? _transformFilterQuality(FilterQuality? filterQuality) {
     if (filterQuality == null) return null;
     if (filterQuality == FilterQuality.none) {
       return "none";
@@ -1442,7 +1619,7 @@ class DynamicWidgetUtils {
     return null;
   }
 
-  static Map<String, dynamic>? transformIconData(IconData? icon) {
+  static Map<String, dynamic>? _transformIconData(IconData? icon) {
     if (icon == null) return null;
     return {
       'codePoint': icon.codePoint.toRadixString(16),
