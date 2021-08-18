@@ -128,11 +128,11 @@ class DynamicWidgetUtils {
       case Color:
         return _colorAdapter(origin as String?) as T?;
       case BoxConstraints:
-        return _boxConstraintsAdapter(origin as Map<String, double?>?) as T?;
+        return _boxConstraintsAdapter(origin as Map?) as T?;
       case RoundedRectangleBorder:
         return _roundedRectangleBorderAdapter(origin as Map?) as T?;
       case Duration:
-        return durationAdapter(origin as Map<String, int?>?) as T?;
+        return durationAdapter(origin as Map?) as T?;
       case BorderSide:
         return borderSideAdapter(origin as Map?) as T?;
       case BorderStyle:
@@ -180,7 +180,7 @@ class DynamicWidgetUtils {
       case ImageRepeat:
         return _imageRepeatAdapter(origin as String?) as T?;
       case BorderRadius:
-        return borderRadiusAdapter(origin as Map<String, double?>?) as T?;
+        return borderRadiusAdapter(origin as Map?) as T?;
       case Radius:
         return radiusAdapter(origin as double?) as T?;
       case TextInputType:
@@ -194,9 +194,9 @@ class DynamicWidgetUtils {
       case Axis:
         return _axisAdapter(origin as String?) as T?;
       case Offset:
-        return _offsetAdapter(origin as Map<dynamic, double?>?) as T?;
+        return _offsetAdapter(origin as Map?) as T?;
       case Size:
-        return _sizeAdapter(origin as Map<String, double?>?) as T?;
+        return _sizeAdapter(origin as Map?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
@@ -205,7 +205,7 @@ class DynamicWidgetUtils {
     return color?.value.toRadixString(16);
   }
 
-  static Map<String, double?>? _transformBoxConstraints(
+  static Map? _transformBoxConstraints(
       BoxConstraints? constraints) {
     if (constraints == null) return null;
     return {
@@ -216,7 +216,7 @@ class DynamicWidgetUtils {
     };
   }
 
-  static Map<String, int?>? _transformDuration(Duration? duration) {
+  static Map? _transformDuration(Duration? duration) {
     if (duration == null) return null;
     return {
       'days': duration.inDays,
@@ -478,14 +478,14 @@ class DynamicWidgetUtils {
   }
 
   static BoxConstraints? _boxConstraintsAdapter(
-      Map<String, double?>? constraints) {
+      Map? constraints) {
     BoxConstraints? boxConstraints;
     if (constraints != null) {
       boxConstraints = BoxConstraints(
-          minWidth: constraints['minWidth'] ?? 0.0,
-          maxWidth: constraints['maxWidth'] ?? double.infinity,
-          minHeight: constraints['minHeight'] ?? 0.0,
-          maxHeight: constraints['maxHeight'] ?? double.infinity);
+          minWidth: constraints['minWidth']?.toDouble() ?? 0.0,
+          maxWidth: constraints['maxWidth']?.toDouble() ?? double.infinity,
+          minHeight: constraints['minHeight']?.toDouble() ?? 0.0,
+          maxHeight: constraints['maxHeight']?.toDouble() ?? double.infinity);
     }
 
     return boxConstraints;
@@ -508,15 +508,15 @@ class DynamicWidgetUtils {
     };
   }
 
-  static Duration? durationAdapter(Map<String, int?>? duration) {
+  static Duration? durationAdapter(Map? duration) {
     if (duration == null) return null;
     return Duration(
-      days: duration['days'] ?? 0,
-      hours: duration['hours'] ?? 0,
-      minutes: duration['minutes'] ?? 0,
-      seconds: duration['seconds'] ?? 0,
-      milliseconds: duration['milliseconds'] ?? 0,
-      microseconds: duration['microseconds'] ?? 0,
+      days: duration['days']?.toInt() ?? 0,
+      hours: duration['hours']?.toInt() ?? 0,
+      minutes: duration['minutes']?.toInt() ?? 0,
+      seconds: duration['seconds']?.toInt() ?? 0,
+      milliseconds: duration['milliseconds']?.toInt() ?? 0,
+      microseconds: duration['microseconds']?.toInt() ?? 0,
     );
   }
 
@@ -529,17 +529,17 @@ class DynamicWidgetUtils {
         style: adapt(side['style']) ?? BorderStyle.solid);
   }
 
-  static BorderRadius? borderRadiusAdapter(Map<String, double?>? borderRadius) {
+  static BorderRadius? borderRadiusAdapter(Map? borderRadius) {
     if (borderRadius == null) return null;
 
     return BorderRadius.only(
-        topLeft: adapt(borderRadius['topLeft']) ?? Radius.zero,
-        topRight: adapt(borderRadius['topRight']) ?? Radius.zero,
-        bottomLeft: adapt(borderRadius['bottomLeft']) ?? Radius.zero,
-        bottomRight: adapt(borderRadius['bottomRight']) ?? Radius.zero);
+        topLeft: adapt(borderRadius['topLeft']?.toDouble()) ?? Radius.zero,
+        topRight: adapt(borderRadius['topRight']?.toDouble()) ?? Radius.zero,
+        bottomLeft: adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
+        bottomRight: adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
   }
 
-  static Map<String, double?>? transformBorderRadius(
+  static Map? transformBorderRadius(
       BorderRadius? borderRadius) {
     if (borderRadius == null) return null;
 
@@ -1120,7 +1120,7 @@ class DynamicWidgetUtils {
                 TextLeadingDistribution.proportional);
   }
 
-  static Map<dynamic, dynamic>? _transformTextHeightBehavior(
+  static Map? _transformTextHeightBehavior(
       TextHeightBehavior? behavior) {
     if (behavior == null) return null;
     return {
@@ -1355,13 +1355,13 @@ class DynamicWidgetUtils {
     return _textLeadingDistributionStr;
   }
 
-  static Offset? _offsetAdapter(Map<dynamic, double?>? offset) {
+  static Offset? _offsetAdapter(Map? offset) {
     if (offset == null) return null;
 
-    return Offset(offset['dx'] ?? 0, offset['dy'] ?? 0);
+    return Offset(offset['dx']?.toDouble() ?? 0, offset['dy']?.toDouble() ?? 0);
   }
 
-  static Map<dynamic, double?>? _transformOffset(Offset? offset) {
+  static Map? _transformOffset(Offset? offset) {
     if (offset == null) return null;
 
     return {
@@ -1370,14 +1370,14 @@ class DynamicWidgetUtils {
     };
   }
 
-  static Size? _sizeAdapter(Map<String, double?>? size) {
+  static Size? _sizeAdapter(Map? size) {
     if (size == null) return null;
 
     return Size(
-        size['width'] ?? double.infinity, size['height'] ?? double.infinity);
+        size['width']?.toDouble() ?? double.infinity, size['height']?.toDouble() ?? double.infinity);
   }
 
-  static Map<String, double?>? _transformSize(Size? size) {
+  static Map? _transformSize(Size? size) {
     if (size == null) return null;
 
     return {
@@ -1619,7 +1619,7 @@ class DynamicWidgetUtils {
     return null;
   }
 
-  static Map<String, dynamic>? _transformIconData(IconData? icon) {
+  static Map? _transformIconData(IconData? icon) {
     if (icon == null) return null;
     return {
       'codePoint': icon.codePoint.toRadixString(16),

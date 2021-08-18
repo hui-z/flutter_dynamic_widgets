@@ -10,7 +10,7 @@ class ContainerHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Container';
 
   @override
-  Type get widgetType => Image;
+  Type get widgetType => Container;
 
   @override
   Widget build(DynamicWidgetConfig? config,

@@ -10,6 +10,7 @@ class DynamicWidgetConfig {
 
 	DynamicWidgetConfig.fromJson(Map<dynamic, dynamic> json) {
 		widget = json['widget'];
+		child = null;
 		if (json['child'] != null) {
 		  child = DynamicWidgetConfig.fromJson(json['child']);
     }
