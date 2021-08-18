@@ -25,12 +25,12 @@ class ColumnHandler extends DynamicBasicWidgetHandler {
       'widget': widgetName,
       'children': DynamicWidgetBuilder.transformList(column.children, buildContext),
       'xVar': {
-        'mainAxisAlignment': DynamicWidgetUtils.transformMainAxisAlignment(column.mainAxisAlignment),
-        'mainAxisSize': DynamicWidgetUtils.transformMainAxisSize(column.mainAxisSize),
-        'crossAxisAlignment': DynamicWidgetUtils.transformCrossAxisAlignment(column.crossAxisAlignment),
-        'textDirection': DynamicWidgetUtils.transformTextDirection(column.textDirection),
-        'verticalDirection': DynamicWidgetUtils.transformVerticalDirection(column.verticalDirection),
-        'textBaseline': DynamicWidgetUtils.transformTextBaseline(column.textBaseline),
+        'mainAxisAlignment': DynamicWidgetUtils.transform(column.mainAxisAlignment),
+        'mainAxisSize': DynamicWidgetUtils.transform(column.mainAxisSize),
+        'crossAxisAlignment': DynamicWidgetUtils.transform(column.crossAxisAlignment),
+        'textDirection': DynamicWidgetUtils.transform(column.textDirection),
+        'verticalDirection': DynamicWidgetUtils.transform(column.verticalDirection),
+        'textBaseline': DynamicWidgetUtils.transform(column.textBaseline),
       },
       'xKey': column.key.toString()
     };

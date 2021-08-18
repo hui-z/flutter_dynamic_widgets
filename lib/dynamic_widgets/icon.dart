@@ -22,11 +22,11 @@ class IconHandler extends DynamicBasicWidgetHandler {
     return {
       'widget': widgetName,
       'xVar': {
-        'icon': DynamicWidgetUtils.transformIconData(icon.icon),
+        'icon': DynamicWidgetUtils.transform(icon.icon),
         'size': icon.size,
-        'color': DynamicWidgetUtils.transformColor(icon.color),
+        'color': DynamicWidgetUtils.transform(icon.color),
         'semanticLabel': icon.semanticLabel,
-        'textDirection': DynamicWidgetUtils.transformTextDirection(icon.textDirection)
+        'textDirection': DynamicWidgetUtils.transform(icon.textDirection)
       },
       'xKey': icon.key.toString()
     };

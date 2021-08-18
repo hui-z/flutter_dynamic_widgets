@@ -23,16 +23,16 @@ class TextHandler extends DynamicBasicWidgetHandler {
       'widget': widgetName,
       'xVar': {
         'data': text.data,
-        'style': DynamicWidgetUtils.transformTextStyle(text.style),
-        'strutStyle': DynamicWidgetUtils.transformStrutStyle(text.strutStyle),
-        'textAlign': DynamicWidgetUtils.transformTextAlign(text.textAlign),
-        'textDirection': DynamicWidgetUtils.transformTextDirection(text.textDirection),
+        'style': DynamicWidgetUtils.transform(text.style),
+        'strutStyle': DynamicWidgetUtils.transform(text.strutStyle),
+        'textAlign': DynamicWidgetUtils.transform(text.textAlign),
+        'textDirection': DynamicWidgetUtils.transform(text.textDirection),
         'softWrap': text.softWrap,
-        'overflow': DynamicWidgetUtils.transformTextOverflow(text.overflow),
+        'overflow': DynamicWidgetUtils.transform(text.overflow),
         'textScaleFactor': text.textScaleFactor,
         'maxLines': text.maxLines,
         'semanticsLabel': text.semanticsLabel,
-        'textHeightBehavior': DynamicWidgetUtils.transformTextHeightBehavior(text.textHeightBehavior),
+        'textHeightBehavior': DynamicWidgetUtils.transform(text.textHeightBehavior),
       },
       'xKey': text.key.toString()
     };

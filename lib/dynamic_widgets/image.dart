@@ -11,8 +11,10 @@ class ImageHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext}) {
-    return _Builder(config, key: key);
+      {Key? key,
+        required BuildContext buildContext,
+        Function(String value)? event}) {
+    return _Builder(config, event, key: key);
   }
 
   @override
@@ -67,12 +69,12 @@ class ImageHandler extends DynamicBasicWidgetHandler {
         'scale': scale,
         'width': realImage.width,
         'height': realImage.height,
-        'color': DynamicWidgetUtils.transformColor(realImage.color),
-        'colorBlendMode': DynamicWidgetUtils.transformBlendMode(realImage.colorBlendMode),
-        'fit': DynamicWidgetUtils.transformBoxFit(realImage.fit),
-        'alignment': DynamicWidgetUtils.transformAlignment(realImage.alignment as Alignment?),
-        'repeat': DynamicWidgetUtils.transformImageRepeat(realImage.repeat),
-        'centerSlice': DynamicWidgetUtils.transformRect(realImage.centerSlice),
+        'color': DynamicWidgetUtils.transform(realImage.color),
+        'colorBlendMode': DynamicWidgetUtils.transform(realImage.colorBlendMode),
+        'fit': DynamicWidgetUtils.transform(realImage.fit),
+        'alignment': DynamicWidgetUtils.transform(realImage.alignment as Alignment?),
+        'repeat': DynamicWidgetUtils.transform(realImage.repeat),
+        'centerSlice': DynamicWidgetUtils.transform(realImage.centerSlice),
         'matchTextDirection': realImage.matchTextDirection,
         'gaplessPlayback': realImage.gaplessPlayback,
         'filterQuality':DynamicWidgetUtils.transformFilterQuality(realImage.filterQuality)
@@ -87,8 +89,10 @@ class ImageHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
+  final Function(String value)? event;
 
-  _Builder(this.config, {Key? key}) : super(config, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();

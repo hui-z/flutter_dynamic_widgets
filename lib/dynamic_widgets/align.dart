@@ -26,7 +26,7 @@ class AlignHandler extends DynamicBasicWidgetHandler {
       'xVar': {
         'widthFactor': align.widthFactor,
         'heightFactor': align.heightFactor,
-        'alignment': DynamicWidgetUtils.transformAlignment(align.alignment as Alignment?),
+        'alignment': DynamicWidgetUtils.transform(align.alignment as Alignment?),
       },
       'xKey': align.key.toString()
     };

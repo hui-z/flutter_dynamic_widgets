@@ -24,7 +24,7 @@ class PaddingHandler extends DynamicBasicWidgetHandler {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(padding.child, buildContext),
       'xVar': {
-        'padding': DynamicWidgetUtils.transformEdgeInset(padding.padding as EdgeInsets?)
+        'padding': DynamicWidgetUtils.transform(padding.padding as EdgeInsets?)
       },
       'xKey': padding.key.toString()
     };

@@ -14,8 +14,10 @@ class ContainerHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext}) {
-    return _Builder(config, key: key);
+      {Key? key,
+      required BuildContext buildContext,
+      Function(String value)? event}) {
+    return _Builder(config, event, key: key);
   }
 
   @override
@@ -27,14 +29,15 @@ class ContainerHandler extends DynamicBasicWidgetHandler {
     var constraints = realWidget.constraints;
     return {
       'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
+      'child':
+          DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
       'xVar': {
-        'alignment': DynamicWidgetUtils.transformAlignment(
+        'alignment': DynamicWidgetUtils.transform(
             realWidget.alignment as Alignment?),
-        'padding': DynamicWidgetUtils.transformEdgeInset(padding),
-        'color': DynamicWidgetUtils.transformColor(realWidget.color),
-        'margin': DynamicWidgetUtils.transformEdgeInset(margin),
-        'constraints': DynamicWidgetUtils.transformBoxConstraints(constraints),
+        'padding': DynamicWidgetUtils.transform(padding),
+        'color': DynamicWidgetUtils.transform(realWidget.color),
+        'margin': DynamicWidgetUtils.transform(margin),
+        'constraints': DynamicWidgetUtils.transform(constraints),
       },
       'xKey': realWidget.key.toString()
     };
@@ -43,8 +46,10 @@ class ContainerHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
+  final Function(String value)? event;
 
-  _Builder(this.config, {Key? key}) : super(config, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -72,8 +77,8 @@ class _BuilderState extends State<_Builder> {
       width: props?.width,
       height: props?.height,
       constraints: props?.constraints,
-      child: DynamicWidgetBuilder.buildWidget(
-          widget.config?.child, context: context),
+      child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
+          context: context),
     );
   }
 }
