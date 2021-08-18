@@ -5,7 +5,6 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-/// Row handler
 class RowHandler extends DynamicBasicWidgetHandler {
 
   @override
@@ -80,7 +79,6 @@ class _BuilderState extends State<_Builder> {
 
 }
 
-/// The props of Row config
 class RowConfig {
   late MainAxisAlignment? mainAxisAlignment;
   late MainAxisSize? mainAxisSize;

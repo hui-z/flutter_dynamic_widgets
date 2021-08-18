@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/align.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/center.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/container.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/data_table.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/image.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/padding.dart';
 
 import '../button.dart';
 import '../column.dart';
@@ -24,7 +30,13 @@ class DynamicWidgetBuilder {
       TextHandler(),
       RawMaterialButtonHandler(),
       RowHandler(),
-      ColumnHandler()
+      ColumnHandler(),
+      DataTableHandler(),
+      ImageHandler(),
+      ContainerHandler(),
+      AlignHandler(),
+      PaddingHandler(),
+      CenterHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;

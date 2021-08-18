@@ -5,7 +5,6 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-/// Column handler
 class AlignHandler extends DynamicBasicWidgetHandler {
   @override
   String get widgetName => 'Align';
@@ -72,7 +71,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Column config
 class AlignConfig {
   late double? widthFactor;
   late double? heightFactor;

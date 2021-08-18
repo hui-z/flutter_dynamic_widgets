@@ -83,7 +83,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Text config
 class TextConfig {
   late String? data;
   late TextStyle? style;

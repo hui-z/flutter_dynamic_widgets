@@ -70,7 +70,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Text config
 class IconConfig {
   late IconData? icon;
   late double? size;

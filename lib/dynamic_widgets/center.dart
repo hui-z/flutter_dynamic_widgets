@@ -4,7 +4,6 @@ import 'basic/handler.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-/// Column handler
 class CenterHandler extends DynamicBasicWidgetHandler {
   @override
   String get widgetName => 'Center';
@@ -69,7 +68,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Column config
 class CenterConfig {
   late double? widthFactor;
   late double? heightFactor;

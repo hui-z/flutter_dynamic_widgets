@@ -7,7 +7,6 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-/// RawMaterialButton handler
 class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
 
   @override
@@ -117,7 +116,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of RawMaterialButton config
 class RawMaterialButtonConfig {
   late TextStyle? textStyle;
   late Color? fillColor;

@@ -56,7 +56,7 @@ class ImageHandler extends DynamicBasicWidgetHandler {
     }else if(exactAssetImage != null) {
       type = '';
       src = exactAssetImage.assetName;
-      scale = exactAssetImage?.scale;
+      scale = exactAssetImage.scale;
     }
 
     return {
@@ -64,7 +64,7 @@ class ImageHandler extends DynamicBasicWidgetHandler {
       'xVar': {
         'type': type,
         'src': src,
-        'semanticLabel': realImage?.semanticLabel,
+        'semanticLabel': realImage.semanticLabel,
         'excludeFromSemantics': realImage.excludeFromSemantics,
         'scale': scale,
         'width': realImage.width,
@@ -154,7 +154,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Text config
 class ImageConfig {
   late String? type; //网络图片或者本地图片
   late String? src;

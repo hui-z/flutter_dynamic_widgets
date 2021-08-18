@@ -5,7 +5,6 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-/// Column handler
 class PaddingHandler extends DynamicBasicWidgetHandler {
   @override
   String get widgetName => 'Padding';
@@ -68,7 +67,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Column config
 class PaddingConfig {
   late EdgeInsetsGeometry? padding;
 

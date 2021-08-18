@@ -83,7 +83,6 @@ class _BuilderState extends State<_Builder> {
   }
 }
 
-/// The props of Text config
 class ContainerConfig {
   late Alignment? alignment;
   late EdgeInsetsGeometry? padding;

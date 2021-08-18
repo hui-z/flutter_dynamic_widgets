@@ -33,7 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -42,6 +41,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    var tableData = DataTable(columns: [
+      DataColumn(label: Text('姓名')),
+      DataColumn(label: Text('年龄')),
+    ], rows: [
+      DataRow(cells: [
+        DataCell(Text('老孟')),
+        DataCell(Text('18')),
+      ]),
+    ]);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -61,8 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   )
                 ]),
-              )
-          ),
+              )),
           SliverPadding(
             padding: EdgeInsets.all(20),
             sliver: SliverGrid(
@@ -90,6 +97,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 CodeEditorPage(json.encode(iconMap))));
+                  },
+                ),
+                RaisedButton(
+                  child: Text("TableData"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(json.encode(DynamicWidgetBuilder.transformMap(tableData, context)))));
                   },
                 ),
               ]),
@@ -169,7 +186,7 @@ class PreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     jsonStringToMap(String jsonString){
+    jsonStringToMap(String jsonString) {
       Map<String, dynamic> map = json.decode(jsonString);
       return map;
     }
@@ -180,7 +197,9 @@ class PreviewPage extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text("Preview"),
       ),
-      body: DynamicWidgetBuilder.buildWidget(DynamicWidgetConfig.fromJson(jsonStringToMap(jsonString)), context: context),
+      body: DynamicWidgetBuilder.buildWidget(
+          DynamicWidgetConfig.fromJson(jsonStringToMap(jsonString)),
+          context: context),
       // body: Column(
       //   children: [
       //     Expanded(
@@ -237,14 +256,12 @@ class _JSONExporterState extends State<JSONExporter> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text("export example"),
       ),
-
       body: Builder(
         builder: (context) => Container(
           width: double.infinity,
@@ -259,7 +276,7 @@ class _JSONExporterState extends State<JSONExporter> {
                       Image.asset("assets/vip.png"),
                       Positioned(
                         child: Image.asset("assets/vip.png"),
-                        top:50,
+                        top: 50,
                         left: 50,
                       )
                     ],
@@ -270,11 +287,13 @@ class _JSONExporterState extends State<JSONExporter> {
                 child: RaisedButton(
                   child: Text("Export"),
                   onPressed: () {
-                    var exportor = key.currentWidget as DynamicWidgetJsonExportor;
+                    var exportor =
+                        key.currentWidget as DynamicWidgetJsonExportor;
                     var exportJsonString = exportor.exportJsonString();
                     Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text("json string was exported to editor page.")));
-                    Future.delayed(Duration(seconds: 1), (){
+                        content:
+                            Text("json string was exported to editor page.")));
+                    Future.delayed(Duration(seconds: 1), () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -313,7 +332,7 @@ class DynamicWidgetJsonExportor extends StatelessWidget {
   String exportJsonString() {
     String rt = "failed to export";
     globalKey.currentContext!.visitChildElements((element) {
-      rt = '';//jsonEncode(DynamicWidgetBuilder.export(element.widget, null));
+      rt = ''; //jsonEncode(DynamicWidgetBuilder.export(element.widget, null));
     });
     return rt;
   }
