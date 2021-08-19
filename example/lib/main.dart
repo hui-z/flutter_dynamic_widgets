@@ -1,3 +1,4 @@
+import 'package:example/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
@@ -40,26 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    var tableData = DataTable(columns: [
-      DataColumn(label: Text('姓名')),
-      DataColumn(label: Text('年龄')),
-    ], rows: [
-      DataRow(cells: [
-        DataCell(Text('老孟')),
-        DataCell(Text('18')),
-      ]),
-    ]);
-    var wrap = Wrap(
-      spacing: 8.0, // 主轴(水平)方向间距
-      runSpacing: 4.0, // 纵轴（垂直）方向间距
-      alignment: WrapAlignment.center, //沿主轴方向居中
-      children: <Widget>[
-        Text('Hamilton'),
-        Text('Lafayette'),
-        Text('Mulligan'),
-        Text('Laurens'),
-      ],
-    );
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -149,6 +130,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(networkImageMap)));
                   },
                 ),
+                RaisedButton(
+                  child: Text("LoginInputItem"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(loginMap)));
+                  },
+                ),
               ]),
             ),
           ),
@@ -233,7 +224,9 @@ class PreviewPage extends StatelessWidget {
       ),
       body: DynamicWidgetBuilder.buildWidget(
           DynamicWidgetConfig.fromJson(json!),
-          context: context),
+          context: context, event: (event) {
+            print(event);
+      }),
       // body: Column(
       //   children: [
       //     Expanded(

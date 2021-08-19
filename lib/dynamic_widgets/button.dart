@@ -86,7 +86,7 @@ class _BuilderState extends State<_Builder> {
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onPressed: () {
         if (widget.event != null) {
-          widget.event!(widget.config?.clickEvent ?? '');
+          widget.event!(widget.config?.eventName ?? '');
         }
       },
       onLongPress: (){
