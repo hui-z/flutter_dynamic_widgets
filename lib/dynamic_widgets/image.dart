@@ -172,25 +172,6 @@ class ImageConfig {
   late bool? gaplessPlayback;
   late FilterQuality? filterQuality;
 
-  ImageConfig({
-    this.type,
-    this.src,
-    this.semanticLabel,
-    this.excludeFromSemantics,
-    this.scale,
-    this.width,
-    this.height,
-    this.color,
-    this.colorBlendMode,
-    this.fit,
-    this.alignment,
-    this.repeat,
-    this.centerSlice,
-    this.matchTextDirection,
-    this.gaplessPlayback,
-    this.filterQuality,
-  });
-
   ImageConfig.fromJson(Map<dynamic, dynamic> json) {
     type = json['type'];
     src = json['src'];
