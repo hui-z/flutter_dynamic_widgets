@@ -6,6 +6,7 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/container.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/data_table.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/image.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/list_body.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/list_view.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/padding.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/wrap.dart';
 
@@ -40,7 +41,8 @@ class DynamicWidgetBuilder {
       PaddingHandler(),
       CenterHandler(),
       WrapHandler(),
-      ListBodyHandler()
+      ListBodyHandler(),
+      ListViewHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;
@@ -52,7 +54,7 @@ class DynamicWidgetBuilder {
       {Key? key, required BuildContext context, Function(String value)? event}) {
     if (config == null) return null;
     DynamicBasicWidgetHandler? handler = _widgetHandlers[config.widget];
-    if (handler == null) return null;
+    if (handler == null) throw UnimplementedError('请实现并注册 ${config.widget}Handler');
     return handler.build(config, key: key, buildContext: context, event: event);
   }
 
@@ -62,10 +64,9 @@ class DynamicWidgetBuilder {
     List<Widget> widgets = [];
     configs?.forEach((element) {
       DynamicBasicWidgetHandler? handler = _widgetHandlers[element.widget];
-      Widget? widget = handler?.build(element, key: key, buildContext: context, event: event);
-      if (widget != null) {
-        widgets.add(widget);
-      }
+      if (handler == null) throw UnimplementedError('请实现并注册 ${element.widget}Handler');
+      Widget widget = handler.build(element, key: key, buildContext: context, event: event);
+      widgets.add(widget);
     });
     return widgets;
   }
@@ -98,6 +99,7 @@ class DynamicWidgetBuilder {
         handleWidget = handle;
       }
     });
+    if (handleWidget == null) throw UnimplementedError('请实现并注册 ${widget.runtimeType}Handler');
     return handleWidget;
   }
 }
