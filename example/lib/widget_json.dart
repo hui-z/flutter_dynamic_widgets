@@ -101,3 +101,40 @@ var networkImageMap = {
     }
   }
 };
+
+var listViewMap = {
+  'widget': 'ListView',
+  'children': [
+    {
+      'widget': 'ListBody',
+      'children': [
+        {
+          'widget': 'Container',
+          'xVar': {
+            'color': 'FFDC143C',
+            'width': 50.0,
+            'height': 50.0,
+          }
+        },
+
+        {
+          'widget': 'Container',
+          'xVar': {
+            'color': 'FF2196F3',
+            'width': 50.0,
+            'height': 50.0,
+          }
+        },
+
+        {
+          'widget': 'Container',
+          'xVar': {
+            'color': 'FF9E9E9E',
+            'width': 50.0,
+            'height': 50.0,
+          }
+        }
+      ]
+    }
+  ],
+};
