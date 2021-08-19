@@ -87,14 +87,6 @@ class ColumnConfig {
   late VerticalDirection? verticalDirection;
   late TextBaseline? textBaseline;
 
-  ColumnConfig(
-      {this.mainAxisAlignment,
-        this.mainAxisSize,
-        this.crossAxisAlignment,
-        this.textDirection,
-        this.verticalDirection,
-        this.textBaseline});
-
   ColumnConfig.fromJson(Map<dynamic, dynamic> json) {
     mainAxisAlignment = DynamicWidgetUtils.adapt<MainAxisAlignment>(json['mainAxisAlignment']);
     mainAxisSize = DynamicWidgetUtils.adapt<MainAxisSize>(json['mainAxisSize']);

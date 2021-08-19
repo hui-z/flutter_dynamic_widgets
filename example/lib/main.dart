@@ -140,6 +140,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(loginMap)));
                   },
                 ),
+                RaisedButton(
+                  child: Text("InkWell"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(inkWellMap)));
+                  },
+                ),
               ]),
             ),
           ),

@@ -166,3 +166,16 @@ var loginMap = {
     inputItemPassWordMap
   ]
 };
+
+var inkWellMap = {
+  'widget': 'InkWell',
+  'child': {
+    'widget': 'Container',
+    'xVar': {
+      'color': 'FF2196F3',
+      'width': 50.0,
+      'height': 50.0,
+    },
+  },
+  'eventName':'onLongPress'
+};

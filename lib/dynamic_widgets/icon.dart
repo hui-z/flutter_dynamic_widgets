@@ -77,14 +77,6 @@ class IconConfig {
   late String? semanticLabel;
   late TextDirection? textDirection;
 
-  IconConfig({
-    this.icon,
-    this.size,
-    this.color,
-    this.semanticLabel,
-    this.textDirection
-  });
-
   IconConfig.fromJson(Map<dynamic, dynamic> json) {
     icon = DynamicWidgetUtils.adapt<IconData>(json['icon']);
     size = json['size'];

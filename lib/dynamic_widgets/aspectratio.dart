@@ -5,9 +5,9 @@ import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
-class PaddingHandler extends DynamicBasicWidgetHandler {
+class AspectRatioHandler extends DynamicBasicWidgetHandler {
   @override
-  String get widgetName => 'Padding';
+  String get widgetName => 'AspectRatio';
 
   @override
   Widget build(DynamicWidgetConfig? config,
@@ -17,20 +17,21 @@ class PaddingHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var padding = widget as Padding?;
-    if (padding == null) return null;
+    var realWidget = widget as AspectRatio?;
+    if (realWidget == null) return null;
     return {
       'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(padding.child, buildContext),
+      'child': DynamicWidgetBuilder.transformMap(
+          realWidget.child, buildContext),
       'xVar': {
-        'padding': DynamicWidgetUtils.transform(padding.padding as EdgeInsets?)
+        'aspectRatio': realWidget.aspectRatio,
       },
-      'xKey': padding.key.toString()
+      'xKey': realWidget.key.toString()
     };
   }
 
   @override
-  Type get widgetType => Padding;
+  Type get widgetType => AspectRatio;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -44,7 +45,7 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  PaddingConfig? props;
+  AspectRatioConfig? props;
 
   @override
   void initState() {
@@ -54,23 +55,21 @@ class _BuilderState extends State<_Builder> {
   @override
   Widget build(BuildContext context) {
     if (widget.config?.xVar != null) {
-      props = PaddingConfig.fromJson(widget.config?.xVar ?? {});
+      props = AspectRatioConfig.fromJson(widget.config?.xVar ?? {});
     }
-    Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
-        context: context, event: widget.event);
-
-    return Padding(
+    return AspectRatio(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      padding: props?.padding ?? const EdgeInsets.all(0.0),
-      child: _child ?? SizedBox(),
+      aspectRatio: props?.aspectRatio ?? 0.0,
+      child: DynamicWidgetBuilder.buildWidget(
+          widget.config?.child, context: context, event: widget.event),
     );
   }
 }
 
-class PaddingConfig {
-  late EdgeInsetsGeometry? padding;
+class AspectRatioConfig {
+  late double? aspectRatio;
 
-  PaddingConfig.fromJson(Map<dynamic, dynamic> json) {
-    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+  AspectRatioConfig.fromJson(Map<dynamic, dynamic> json) {
+    aspectRatio = json["aspectRatio"]?.toDouble();
   }
 }

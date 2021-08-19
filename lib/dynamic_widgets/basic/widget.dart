@@ -13,7 +13,9 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/wrap.dart';
 
 import '../button.dart';
 import '../column.dart';
+import '../gesture_detector.dart';
 import '../icon.dart';
+import '../ink_well.dart';
 import '../row.dart';
 import '../text.dart';
 import 'handler.dart';
@@ -44,7 +46,9 @@ class DynamicWidgetBuilder {
       WrapHandler(),
       ListBodyHandler(),
       ListViewHandler(),
-      ListInputItemHandler()
+      ListInputItemHandler(),
+      GestureDetectorHandler(),
+      InkWellHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;

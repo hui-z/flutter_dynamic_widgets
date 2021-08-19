@@ -72,8 +72,6 @@ class CenterConfig {
   late double? widthFactor;
   late double? heightFactor;
 
-  CenterConfig({this.widthFactor, this.heightFactor});
-
   CenterConfig.fromJson(Map<dynamic, dynamic> json) {
     widthFactor = json['widthFactor'];
     heightFactor = json['heightFactor'];

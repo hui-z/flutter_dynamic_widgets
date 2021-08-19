@@ -96,20 +96,6 @@ class TextConfig {
   late String? semanticsLabel;
   late TextHeightBehavior? textHeightBehavior;
 
-  TextConfig({
-    this.data,
-    this.style,
-    this.strutStyle,
-    this.textAlign,
-    this.textDirection,
-    this.softWrap,
-    this.overflow,
-    this.textScaleFactor,
-    this.maxLines,
-    this.semanticsLabel,
-    this.textHeightBehavior
-  });
-
   TextConfig.fromJson(Map<dynamic, dynamic> json) {
     data = json['data'];
     style = DynamicWidgetUtils.adapt<TextStyle>(json['style']);
