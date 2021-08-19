@@ -130,6 +130,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                 wrap, context))));
                   },
                 ),
+                RaisedButton(
+                  child: Text("AssetImage"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(json.encode(assetImageMap))));
+                  },
+                ),
+                RaisedButton(
+                  child: Text("NetworkImage"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(json.encode(networkImageMap))));
+                  },
+                ),
               ]),
             ),
           ),
