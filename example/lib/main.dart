@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CodeEditorPage(json.encode(testMap))));
+                                CodeEditorPage(testMap)));
                   },
                 ),
                 RaisedButton(
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CodeEditorPage(json.encode(iconMap))));
+                                CodeEditorPage(iconMap)));
                   },
                 ),
                 RaisedButton(
@@ -116,9 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CodeEditorPage(json.encode(
-                                DynamicWidgetBuilder.transformMap(
-                                    tableData, context)))));
+                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                tableData, context))));
                   },
                 ),
                 RaisedButton(
@@ -127,9 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CodeEditorPage(json.encode(
-                                DynamicWidgetBuilder.transformMap(
-                                    wrap, context)))));
+                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                wrap, context))));
                   },
                 ),
                 RaisedButton(
@@ -160,21 +158,20 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class CodeEditorPage extends StatefulWidget {
-  final String jsonString;
+  final Map? json;
 
-  CodeEditorPage(this.jsonString);
+  CodeEditorPage(this.json);
 
   @override
   State<StatefulWidget> createState() {
-    return _CodeEditorPageState(jsonString);
+    return _CodeEditorPageState(json);
   }
 }
 
 class _CodeEditorPageState extends State<CodeEditorPage> {
-  String jsonString;
-  TextEditingController controller = TextEditingController();
+  Map? jsonMap;
 
-  _CodeEditorPageState(this.jsonString);
+  _CodeEditorPageState(this.jsonMap);
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +188,7 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
                 constraints: BoxConstraints.expand(
                     width: double.infinity, height: double.infinity),
                 child: TextField(
-                  controller: controller,
+                  controller: TextEditingController(text: json.encode(jsonMap)),
                   decoration: InputDecoration(hintText: 'Enter json string'),
                   maxLines: 1000000,
                 ),
@@ -204,35 +201,30 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
               child: Text("Preview"),
               onPressed: () {
                 setState(() {
-                  jsonString = controller.text;
+
                 });
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PreviewPage(controller.text)));
+                        builder: (context) => PreviewPage(jsonMap)));
               },
             )
           ],
         ));
-    controller.text = jsonString;
     return widget;
   }
 }
 
 // ignore: must_be_immutable
 class PreviewPage extends StatelessWidget {
-  final String jsonString;
+  final Map? json;
 
-  PreviewPage(this.jsonString);
+  PreviewPage(this.json);
 
   late DynamicWidgetJsonExportor _exportor;
 
   @override
   Widget build(BuildContext context) {
-    jsonStringToMap(String jsonString) {
-      Map<String, dynamic> map = json.decode(jsonString);
-      return map;
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -241,7 +233,7 @@ class PreviewPage extends StatelessWidget {
         title: Text("Preview"),
       ),
       body: DynamicWidgetBuilder.buildWidget(
-          DynamicWidgetConfig.fromJson(jsonStringToMap(jsonString)),
+          DynamicWidgetConfig.fromJson(json!),
           context: context),
       // body: Column(
       //   children: [
@@ -332,7 +324,7 @@ class _JSONExporterState extends State<JSONExporter> {
                   onPressed: () {
                     var exportor =
                         key.currentWidget as DynamicWidgetJsonExportor;
-                    var exportJsonString = exportor.exportJsonString();
+                    var exportJson = json.decode(exportor.exportJsonString());
                     Scaffold.of(context).showSnackBar(SnackBar(
                         content:
                             Text("json string was exported to editor page.")));
@@ -341,7 +333,7 @@ class _JSONExporterState extends State<JSONExporter> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  CodeEditorPage(exportJsonString)));
+                                  CodeEditorPage(exportJson)));
                     });
                   },
                 ),
