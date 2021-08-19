@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class DynamicWidgetUtils {
@@ -116,6 +117,12 @@ class DynamicWidgetUtils {
     if (origin is Size) {
       return _transformSize(origin);
     }
+    if (origin is DragStartBehavior) {
+      return _transformDragStartBehavior(origin);
+    }
+    if (origin is ScrollViewKeyboardDismissBehavior) {
+      return _transformScrollViewKeyboardDismissBehavior(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -197,8 +204,76 @@ class DynamicWidgetUtils {
         return _offsetAdapter(origin as Map?) as T?;
       case Size:
         return _sizeAdapter(origin as Map?) as T?;
+      case DragStartBehavior:
+        return _dragStartBehaviorAdapter(origin as String?) as T?;
+      case ScrollViewKeyboardDismissBehavior:
+        return _scrollViewKeyboardDismissBehaviorAdapter(origin as String?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
+  }
+
+  static ScrollViewKeyboardDismissBehavior? _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
+    if (str == null) return null;
+
+    ScrollViewKeyboardDismissBehavior? dragStartBehaviorStr;
+    switch (str) {
+      case 'manual':
+        dragStartBehaviorStr = ScrollViewKeyboardDismissBehavior.manual;
+        break;
+      case 'onDrag':
+        dragStartBehaviorStr = ScrollViewKeyboardDismissBehavior.onDrag;
+        break;
+      default:
+    }
+    return dragStartBehaviorStr;
+  }
+
+  static String? _transformScrollViewKeyboardDismissBehavior(ScrollViewKeyboardDismissBehavior? behavior) {
+    if (behavior == null) return null;
+
+    String? scrollViewKeyboardDismissBehaviorStr;
+    switch (behavior) {
+      case ScrollViewKeyboardDismissBehavior.manual:
+        scrollViewKeyboardDismissBehaviorStr = 'down';
+        break;
+      case ScrollViewKeyboardDismissBehavior.onDrag:
+        scrollViewKeyboardDismissBehaviorStr = 'start';
+        break;
+      default:
+    }
+    return scrollViewKeyboardDismissBehaviorStr;
+  }
+
+  static DragStartBehavior? _dragStartBehaviorAdapter(String? str) {
+    if (str == null) return null;
+
+    DragStartBehavior? dragStartBehavior;
+    switch (str) {
+      case 'down':
+        dragStartBehavior = DragStartBehavior.down;
+        break;
+      case 'start':
+        dragStartBehavior = DragStartBehavior.start;
+        break;
+      default:
+    }
+    return dragStartBehavior;
+  }
+
+  static String? _transformDragStartBehavior(DragStartBehavior? behavior) {
+    if (behavior == null) return null;
+
+    String? dragStartBehaviorStr;
+    switch (behavior) {
+      case DragStartBehavior.down:
+        dragStartBehaviorStr = 'down';
+        break;
+      case DragStartBehavior.start:
+        dragStartBehaviorStr = 'start';
+        break;
+      default:
+    }
+    return dragStartBehaviorStr;
   }
 
   static String? _transformColor(Color? color) {
