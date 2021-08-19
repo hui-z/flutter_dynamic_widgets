@@ -59,8 +59,9 @@ class _BuilderState extends State<_Builder> {
     }
     return AspectRatio(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      aspectRatio:props?.aspectRatio??0.0,
-      child: DynamicWidgetBuilder.buildWidget(widget.config?.child, context: context),
+      aspectRatio: props?.aspectRatio ?? 0.0,
+      child: DynamicWidgetBuilder.buildWidget(
+          widget.config?.child, context: context, event: widget.event),
     );
   }
 }

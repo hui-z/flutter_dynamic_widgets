@@ -78,7 +78,7 @@ class _BuilderState extends State<_Builder> {
       height: props?.height,
       constraints: props?.constraints,
       child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
-          context: context),
+          context: context, event: widget.event),
     );
   }
 }
