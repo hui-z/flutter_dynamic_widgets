@@ -117,7 +117,7 @@ class _BuilderState extends State<_Builder> {
           key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
           semanticLabel: props?.semanticLabel,
           excludeFromSemantics: props?.excludeFromSemantics ?? false,
-          scale: props?.scale ?? 0,
+          scale: props?.scale ?? 1,
           width: props?.width,
           height: props?.height,
           color: props?.color,
