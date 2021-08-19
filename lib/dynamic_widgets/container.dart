@@ -92,16 +92,6 @@ class ContainerConfig {
   late double? height;
   late BoxConstraints? constraints;
 
-  ContainerConfig({
-    this.alignment,
-    this.padding,
-    this.color,
-    this.margin,
-    this.width,
-    this.height,
-    this.constraints,
-  });
-
   ContainerConfig.fromJson(Map<dynamic, dynamic> json) {
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);

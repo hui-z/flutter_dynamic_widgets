@@ -139,18 +139,6 @@ class DataTableConfig {
   late List<Map>? rows;
   late List<Map>? columns;
 
-  DataTableConfig(
-      {this.dataRowHeight,
-      this.dataTextStyle,
-      this.headingRowHeight,
-      this.headingTextStyle,
-      this.horizontalMargin,
-      this.columnSpacing,
-      this.dividerThickness,
-      this.showBottomBorder,
-      this.rows,
-      this.columns});
-
   DataTableConfig.fromJson(Map<dynamic, dynamic> json) {
     this.dataRowHeight = json['dataRowHeight'];
     this.dataTextStyle =

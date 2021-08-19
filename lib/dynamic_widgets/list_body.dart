@@ -73,8 +73,6 @@ class ListBodyConfig {
   late Axis? mainAxis;
   late bool? reverse;
 
-  ListBodyConfig({this.mainAxis, this.reverse});
-
   ListBodyConfig.fromJson(Map<dynamic, dynamic> json) {
     mainAxis = DynamicWidgetUtils.adapt<Axis>(json['mainAxis']);
     reverse = json['reverse'];

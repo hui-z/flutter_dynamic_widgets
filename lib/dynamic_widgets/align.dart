@@ -76,8 +76,6 @@ class AlignConfig {
   late double? heightFactor;
   late AlignmentGeometry? alignment;
 
-  AlignConfig({this.widthFactor, this.heightFactor, this.alignment});
-
   AlignConfig.fromJson(Map<dynamic, dynamic> json) {
     widthFactor = json['widthFactor'];
     heightFactor = json['heightFactor'];

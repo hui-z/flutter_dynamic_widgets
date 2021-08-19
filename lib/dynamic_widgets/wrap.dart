@@ -96,17 +96,6 @@ class WrapConfig {
   late WrapCrossAlignment? crossAxisAlignment;
   late Clip? clipBehavior;
 
-  WrapConfig(
-      {this.direction,
-        this.alignment,
-        this.spacing,
-        this.runSpacing,
-        this.textDirection,
-        this.verticalDirection,
-        this.runAlignment,
-        this.crossAxisAlignment,
-        this.clipBehavior});
-
   WrapConfig.fromJson(Map<dynamic, dynamic> json) {
     direction = DynamicWidgetUtils.adapt<Axis>(json['direction']);
     alignment = DynamicWidgetUtils.adapt<WrapAlignment>(json['alignment']);

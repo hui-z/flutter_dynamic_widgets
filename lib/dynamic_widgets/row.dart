@@ -87,14 +87,6 @@ class RowConfig {
   late VerticalDirection? verticalDirection;
   late TextBaseline? textBaseline;
 
-  RowConfig(
-      {this.mainAxisAlignment,
-      this.mainAxisSize,
-      this.crossAxisAlignment,
-      this.textDirection,
-      this.verticalDirection,
-        this.textBaseline});
-
   RowConfig.fromJson(Map<dynamic, dynamic> json) {
     mainAxisAlignment = DynamicWidgetUtils.adapt<MainAxisAlignment>(json['mainAxisAlignment']);
     mainAxisSize = DynamicWidgetUtils.adapt<MainAxisSize>(json['mainAxisSize']);

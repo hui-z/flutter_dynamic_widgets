@@ -136,22 +136,6 @@ class RawMaterialButtonConfig {
   late bool? autofocus;
   late bool? enableFeedback;
 
-
-
-  RawMaterialButtonConfig(
-      {this.textStyle,
-      this.fillColor,
-      this.focusColor,
-      this.hoverColor,
-      this.highlightColor,
-      this.splashColor,
-      this.elevation,
-      this.focusElevation,
-      this.hoverElevation,
-      this.highlightElevation,
-      this.disabledElevation,      
-      this.padding, this.shape, this.animationDuration, this.clipBehavior, this.autofocus, this.enableFeedback});
-
   RawMaterialButtonConfig.fromJson(Map<dynamic, dynamic> json) {
     textStyle = DynamicWidgetUtils.adapt<TextStyle>(json['textStyle']);
     fillColor = DynamicWidgetUtils.adapt<Color>(json['fillColor']);
