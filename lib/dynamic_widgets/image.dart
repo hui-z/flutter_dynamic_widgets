@@ -181,7 +181,7 @@ class ImageConfig {
     width = json['width']?.toDouble() ;
     height = json['height']?.toDouble();
     color =  DynamicWidgetUtils.adapt<Color>(json['color']);
-    colorBlendMode = DynamicWidgetUtils.adapt<BlendMode>(json['blendMode']) ;
+    colorBlendMode = DynamicWidgetUtils.adapt<BlendMode>(json['colorBlendMode']) ;
     fit = DynamicWidgetUtils.adapt<BoxFit>(json['fit']);
     alignment = (DynamicWidgetUtils.adapt<Alignment>(json['alignment'])??Alignment.center) ;
     repeat = DynamicWidgetUtils.adapt<ImageRepeat>(json['repeat']);
