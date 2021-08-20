@@ -151,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 RaisedButton(
-                  child: Text("CheckListItem"),
+                  child: Text("CheckList"),
                   onPressed: () {
                     Navigator.push(
                         context,

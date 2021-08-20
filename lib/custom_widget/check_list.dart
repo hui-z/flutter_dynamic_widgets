@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/utils.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 
 import 'border_group.dart';
 
@@ -23,6 +26,34 @@ class CheckListData {
       this.subtitle,
       this.subtitleStyle,
       this.child});
+
+  static CheckListData? adapter(
+      Map? data, BuildContext? context) {
+    if (data == null) return null;
+    return CheckListData(
+        id: data['id'] ?? '',
+        title: data['title'],
+        titleStyle: DynamicWidgetUtils.adapt<TextStyle>(data['titleStyle']),
+        subtitle: data['subtitle'],
+        subtitleStyle:
+        DynamicWidgetUtils.adapt<TextStyle>(data['subtitleStyle']),
+        child: data['child'] != null
+            ? DynamicWidgetBuilder.buildWidget(
+            DynamicWidgetConfig.fromJson(data['child']),
+            context: context!)
+            : null);
+  }
+
+  Map? transform(BuildContext? context) {
+    return {
+      'id': id,
+      'title': title,
+      'titleStyle': DynamicWidgetUtils.transform(titleStyle),
+      'subtitle': subtitle,
+      'subtitleStyle': DynamicWidgetUtils.transform(subtitleStyle),
+      'child': DynamicWidgetBuilder.transformMap(child, context)
+    };
+  }
 }
 
 class CheckListGroupData {

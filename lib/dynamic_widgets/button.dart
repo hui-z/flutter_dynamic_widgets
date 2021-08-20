@@ -1,6 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event_name.dart';
 
 import 'basic/handler.dart';
 import 'basic/utils.dart';
@@ -8,13 +8,14 @@ import 'basic/widget.dart';
 import 'config/widget_config.dart';
 
 class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
-
   @override
   String get widgetName => 'RawMaterialButton';
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext buildContext,
+      Function(String value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -39,12 +40,13 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
         'disabledElevation': button.disabledElevation,
         'padding': DynamicWidgetUtils.transform(button.padding as EdgeInsets?),
         'constraints': DynamicWidgetUtils.transform(button.constraints),
-        'shape': DynamicWidgetUtils.transform(button.shape as RoundedRectangleBorder?),
-        'animationDuration': DynamicWidgetUtils.transform(button.animationDuration),
+        'shape': DynamicWidgetUtils.transform(
+            button.shape as RoundedRectangleBorder?),
+        'animationDuration':
+            DynamicWidgetUtils.transform(button.animationDuration),
         'clipBehavior': DynamicWidgetUtils.transform(button.clipBehavior),
         'autofocus': button.autofocus,
         'enableFeedback': button.enableFeedback,
-        
       },
       'xKey': button.key.toString()
     };
@@ -52,14 +54,14 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
 
   @override
   Type get widgetType => RawMaterialButton;
-  
 }
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
   final Function(String value)? event;
 
-  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -70,7 +72,6 @@ class _BuilderState extends State<_Builder> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -80,16 +81,28 @@ class _BuilderState extends State<_Builder> {
       props = RawMaterialButtonConfig.fromJson(widget.config?.xVar ?? {});
     }
     Widget _widget;
-    Widget child = DynamicWidgetBuilder.buildWidget(widget.config?.child, context: context, event: widget.event) ?? Container();
+    Widget child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
+            context: context, event: widget.event) ??
+        Container();
 
     _widget = RawMaterialButton(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onPressed: () {
-        if (widget.event != null) {
-          widget.event!(widget.config?.eventName ?? '');
+        if (widget.config?.eventNames?.contains(EventName.onTap) == true &&
+            widget.event != null) {
+          widget.event!(widget.config?.eventNames?.firstWhere(
+                  (element) => element.contains(EventName.onTap)) ??
+              '');
         }
       },
-      onLongPress: (){
+      onLongPress: () {
+        if (widget.config?.eventNames?.contains(EventName.onLongPress) ==
+                true &&
+            widget.event != null) {
+          widget.event!(widget.config?.eventNames?.firstWhere(
+                  (element) => element.contains(EventName.onLongPress)) ??
+              '');
+        }
       },
       fillColor: props?.fillColor,
       textStyle: props?.textStyle,
@@ -103,14 +116,15 @@ class _BuilderState extends State<_Builder> {
       highlightElevation: props?.highlightElevation ?? 8.0,
       disabledElevation: props?.disabledElevation ?? 0.0,
       padding: props?.padding ?? EdgeInsets.zero,
-      constraints: props?.constraints ?? BoxConstraints(minWidth: 88.0, minHeight: 36.0),
+      constraints:
+          props?.constraints ?? BoxConstraints(minWidth: 88.0, minHeight: 36.0),
       shape: props?.shape ?? const RoundedRectangleBorder(),
       animationDuration: props?.animationDuration ?? kThemeChangeDuration,
       clipBehavior: props?.clipBehavior ?? Clip.none,
       autofocus: props?.autofocus ?? false,
       enableFeedback: props?.enableFeedback ?? true,
       child: child,
-    );  
+    );
 
     return _widget;
   }
@@ -147,11 +161,12 @@ class RawMaterialButtonConfig {
     focusElevation = json['focusElevation'];
     hoverElevation = json['hoverElevation'];
     highlightElevation = json['highlightElevation'];
-    disabledElevation = json['disabledElevation'];   
+    disabledElevation = json['disabledElevation'];
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
     shape = DynamicWidgetUtils.adapt<RoundedRectangleBorder>(json['shape']);
-    animationDuration = DynamicWidgetUtils.adapt<Duration>(json['animationDuration']);
+    animationDuration =
+        DynamicWidgetUtils.adapt<Duration>(json['animationDuration']);
     clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
     autofocus = json['autofocus'];
     enableFeedback = json['enableFeedback'];

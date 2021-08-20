@@ -4,6 +4,7 @@ import 'package:flutter_dynamic_widgets/custom_widget/list_input_item.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class ListInputItemHandler extends DynamicBasicWidgetHandler {
@@ -12,7 +13,9 @@ class ListInputItemHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext buildContext,
+      Function(String value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -25,24 +28,29 @@ class ListInputItemHandler extends DynamicBasicWidgetHandler {
       'xVar': {
         'title': inputItem.title,
         'icon': inputItem.icon,
-        'customTitle': DynamicWidgetBuilder.transformMap(inputItem.customTitle, buildContext),
+        'customTitle': DynamicWidgetBuilder.transformMap(
+            inputItem.customTitle, buildContext),
         'text': inputItem.text,
         'placeholder': inputItem.placeholder,
-        'rightWidget': DynamicWidgetBuilder.transformMap(inputItem.rightWidget, buildContext),
+        'rightWidget': DynamicWidgetBuilder.transformMap(
+            inputItem.rightWidget, buildContext),
         'obscureText': inputItem.obscureText,
         'iconTitlePadding': inputItem.iconTitlePadding,
         'dividerLeftPadding': inputItem.dividerLeftPadding,
         'dividerRightPadding': inputItem.dividerRightPadding,
         'texFieldLeftPadding': inputItem.texFieldLeftPadding,
-        'textFieldAlign': DynamicWidgetUtils.transform(inputItem.textFieldAlign),
-        'textFieldStyle': DynamicWidgetUtils.transform(inputItem.textFieldStyle),
+        'textFieldAlign':
+            DynamicWidgetUtils.transform(inputItem.textFieldAlign),
+        'textFieldStyle':
+            DynamicWidgetUtils.transform(inputItem.textFieldStyle),
         'hintStyle': DynamicWidgetUtils.transform(inputItem.hintStyle),
         'keyboardType': DynamicWidgetUtils.transform(inputItem.keyboardType),
         'maxLength': inputItem.maxLength,
         'autofocus': inputItem.autofocus,
         'titleStyle': DynamicWidgetUtils.transform(inputItem.titleStyle),
         'isHideDivider': inputItem.isHideDivider,
-        'divider': DynamicWidgetBuilder.transformMap(inputItem.divider, buildContext),
+        'divider':
+            DynamicWidgetBuilder.transformMap(inputItem.divider, buildContext),
         'enable': DynamicWidgetUtils.transform(inputItem.enable),
       },
       'xKey': inputItem.key.toString()
@@ -57,7 +65,8 @@ class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
   final Function(String value)? event;
 
-  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -69,7 +78,6 @@ class _BuilderState extends State<_Builder> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -82,13 +90,27 @@ class _BuilderState extends State<_Builder> {
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       title: props?.title,
       icon: props?.icon,
-      customTitle: DynamicWidgetBuilder.buildWidget(props?.customTitle != null ? DynamicWidgetConfig.fromJson(props!.customTitle!) : null, context: context, event: widget.event),
+      customTitle: DynamicWidgetBuilder.buildWidget(
+          props?.customTitle != null
+              ? DynamicWidgetConfig.fromJson(props!.customTitle!)
+              : null,
+          context: context,
+          event: widget.event),
       text: props?.text,
-      placeholder: props?.placeholder ,
-      rightWidget: DynamicWidgetBuilder.buildWidget(props?.rightWidget != null ? DynamicWidgetConfig.fromJson(props!.rightWidget!) : null, context: context, event: widget.event),
+      placeholder: props?.placeholder,
+      rightWidget: DynamicWidgetBuilder.buildWidget(
+          props?.rightWidget != null
+              ? DynamicWidgetConfig.fromJson(props!.rightWidget!)
+              : null,
+          context: context,
+          event: widget.event),
       onChanged: (text) {
-        if (widget.event != null) {
-          widget.event!((widget.config?.eventName ?? '') + '&text=$text');
+        if (widget.config?.eventNames?.contains(EventName.onTextChanged) ==
+                true &&
+            widget.event != null) {
+          widget.event!(widget.config?.eventNames?.firstWhere(
+                  (element) => element.contains(EventName.onTextChanged)) ??
+              '' + '&text=$text');
         }
       },
       obscureText: props?.obscureText ?? false,
@@ -108,7 +130,11 @@ class _BuilderState extends State<_Builder> {
         _node.unfocus();
       },
       isHideDivider: props?.isHideDivider ?? false,
-      divider: DynamicWidgetBuilder.buildWidget(props?.divider != null ? DynamicWidgetConfig.fromJson(props!.divider!) : null, context: context) as Divider?,
+      divider: DynamicWidgetBuilder.buildWidget(
+          props?.divider != null
+              ? DynamicWidgetConfig.fromJson(props!.divider!)
+              : null,
+          context: context) as Divider?,
       enable: props?.enable,
     );
   }
@@ -149,10 +175,13 @@ class TextConfig {
     dividerLeftPadding = json['dividerLeftPadding'];
     dividerRightPadding = json['dividerRightPadding'];
     texFieldLeftPadding = json['texFieldLeftPadding'];
-    textFieldAlign = DynamicWidgetUtils.adapt<TextAlign>(json['textFieldAlign']);
-    textFieldStyle = DynamicWidgetUtils.adapt<TextStyle>(json['textFieldStyle']);
+    textFieldAlign =
+        DynamicWidgetUtils.adapt<TextAlign>(json['textFieldAlign']);
+    textFieldStyle =
+        DynamicWidgetUtils.adapt<TextStyle>(json['textFieldStyle']);
     hintStyle = DynamicWidgetUtils.adapt<TextStyle>(json['hintStyle']);
-    keyboardType = DynamicWidgetUtils.adapt<TextInputType>(json['keyboardType']);
+    keyboardType =
+        DynamicWidgetUtils.adapt<TextInputType>(json['keyboardType']);
     maxLength = json['maxLength'];
     autofocus = json['autofocus'];
     titleStyle = DynamicWidgetUtils.adapt<TextStyle>(json['titleStyle']);

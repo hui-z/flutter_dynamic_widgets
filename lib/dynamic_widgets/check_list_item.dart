@@ -6,6 +6,7 @@ import 'package:flutter_dynamic_widgets/custom_widget/check_list.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class CheckListItemHandler extends DynamicBasicWidgetHandler {
@@ -56,11 +57,13 @@ class _BuilderState extends State<_Builder> {
       props = CheckListItemConfig.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (bool? isChecked, CheckListData? item) {
-      if (widget.config?.eventName?.contains('onCheck') == true &&
+      if (widget.config?.eventNames?.contains(EventName.onCheck) == true &&
           widget.event != null) {
-        widget.event!(widget.config!.eventName! +
-            '&item=${json.encode(CheckListItemConfig._transformCheckListData(item, context)).toString()}' +
-            '&isChecked=${isChecked ?? false}');
+        widget.event!(widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onCheck)) ??
+            '' +
+                '&item=${json.encode(item?.transform(context)).toString()}' +
+                '&isChecked=${isChecked ?? false}');
       }
     };
 
@@ -74,13 +77,11 @@ class _BuilderState extends State<_Builder> {
       showIcon: props?.showIcon ?? false,
       icon: props?.icon,
       onIconPressed: (item) {
-        if (widget.config?.eventName?.contains('onIconPressed') == true &&
+        if (widget.config?.eventNames?.contains(EventName.onTap) == true &&
             widget.event != null) {
-          widget.event!(widget.config!.eventName! +
-              json
-                  .encode(CheckListItemConfig._transformCheckListData(
-                      item, context))
-                  .toString());
+          widget.event!(widget.config?.eventNames?.firstWhere(
+                  (element) => element.contains(EventName.onTap)) ??
+              '' + json.encode(item.transform(context)).toString());
         }
       },
       activeColor: props?.activeColor,
@@ -101,10 +102,10 @@ class CheckListItemConfig {
       Map<dynamic, dynamic> json, BuildContext? context) {
     checkType =
         json['checkType'] == 'multiple' ? CheckType.multiple : CheckType.single;
-    item = _checkListDataAdapter(json['item'], context);
+    item = CheckListData.adapter(json['item'], context);
     checkedData = [];
     json['checkedData']?.forEach((v) {
-      checkedData?.add(_checkListDataAdapter(v, context)!);
+      checkedData?.add(CheckListData.adapter(v, context)!);
     });
     crossAxisAlignment = DynamicWidgetUtils.adapt<CrossAxisAlignment>(
         json['crossAxisAlignment']);
@@ -121,10 +122,9 @@ class CheckListItemConfig {
         'checkType': checkListItem.checkType == CheckType.multiple
             ? 'multiple'
             : 'single',
-        'item': _transformCheckListData(checkListItem.item, context),
-        'checkedData': checkListItem.checkedData
-            .map((e) => _transformCheckListData(e, context))
-            .toList(),
+        'item': checkListItem.item?.transform(context),
+        'checkedData':
+            checkListItem.checkedData.map((e) => e.transform(context)).toList(),
         'crossAxisAlignment':
             DynamicWidgetUtils.transform(checkListItem.crossAxisAlignment),
         'showIcon': checkListItem.showIcon,
@@ -132,36 +132,6 @@ class CheckListItemConfig {
         'icon': checkListItem.icon,
       },
       'xKey': checkListItem.key.toString()
-    };
-  }
-
-  static CheckListData? _checkListDataAdapter(
-      Map? data, BuildContext? context) {
-    if (data == null) return null;
-    return CheckListData(
-        id: data['id'] ?? '',
-        title: data['title'],
-        titleStyle: DynamicWidgetUtils.adapt<TextStyle>(data['titleStyle']),
-        subtitle: data['subtitle'],
-        subtitleStyle:
-            DynamicWidgetUtils.adapt<TextStyle>(data['subtitleStyle']),
-        child: data['child'] != null
-            ? DynamicWidgetBuilder.buildWidget(
-                DynamicWidgetConfig.fromJson(data['child']),
-                context: context!)
-            : null);
-  }
-
-  static Map? _transformCheckListData(
-      CheckListData? data, BuildContext? context) {
-    if (data == null) return null;
-    return {
-      'id': data.id,
-      'title': data.title,
-      'titleStyle': DynamicWidgetUtils.transform(data.titleStyle),
-      'subtitle': data.subtitle,
-      'subtitleStyle': DynamicWidgetUtils.transform(data.subtitleStyle),
-      'child': DynamicWidgetBuilder.transformMap(data.child, context)
     };
   }
 }

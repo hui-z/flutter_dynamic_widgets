@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/custom_widget/check_list.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event_name.dart';
 
 import 'basic/handler.dart';
 import 'basic/utils.dart';
@@ -56,10 +57,12 @@ class _BuilderState extends State<_Builder> {
       props = CheckListConfig.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (List<CheckListData> checkedData) {
-      if (widget.config?.eventName?.contains('onCheck') == true &&
+      if (widget.config?.eventNames?.contains(EventName.onCheck) == true &&
           widget.event != null) {
-        widget.event!(widget.config!.eventName! +
-            '&checkedData=${json.encode(checkedData.map((e) => CheckListConfig._transformCheckListData(e, context))).toString()}');
+        widget.event!(widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onCheck)) ??
+            '' +
+                '&checkedData=${json.encode(checkedData.map((e) => e.transform(context))).toString()}');
       }
     };
 
@@ -70,13 +73,11 @@ class _BuilderState extends State<_Builder> {
       onCheck: onCheck,
       crossAxisAlignment: props?.crossAxisAlignment,
       onIconPressed: (item) {
-        if (widget.config?.eventName?.contains('onIconPressed') == true &&
+        if (widget.config?.eventNames?.contains('onTap') == true &&
             widget.event != null) {
-          widget.event!(widget.config!.eventName! +
-              json
-                  .encode(
-                      CheckListConfig._transformCheckListData(item, context))
-                  .toString());
+          widget.event!(widget.config?.eventNames?.firstWhere(
+                  (element) => element.contains(EventName.onTap)) ??
+              '' + json.encode(item.transform(context)).toString());
         }
       },
       showIcon: props?.showIcon ?? false,
@@ -116,7 +117,7 @@ class CheckListConfig {
     json['groupData']?.forEach((v) {
       var checkListData = <CheckListData>[];
       v['data']?.forEach((v) {
-        checkListData.add(_checkListDataAdapter(v, context)!);
+        checkListData.add(CheckListData.adapter(v, context)!);
       });
       groupData.add(CheckListGroupData(v['title'] ?? '', checkListData,
           DynamicWidgetUtils.adapt<TextStyle>(v['titleStyle'])));
@@ -134,14 +135,14 @@ class CheckListConfig {
     activeColor = json['activeColor'];
     selectedData = [];
     json['selectedData']?.forEach((v) {
-      selectedData.add(_checkListDataAdapter(v, context)!);
+      selectedData.add(CheckListData.adapter(v, context)!);
     });
     showCheckAll = json['showCheckAll'];
     isCheckAll = json['isCheckAll'];
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     data = [];
     json['data']?.forEach((v) {
-      data.add(_checkListDataAdapter(v, context)!);
+      data.add(CheckListData.adapter(v, context)!);
     });
   }
 
@@ -157,9 +158,7 @@ class CheckListConfig {
             ?.map((e) => {
                   'title': e.title,
                   'titleStyle': DynamicWidgetUtils.transform(e.titleStyle),
-                  'data': e.data
-                      .map((e) => _transformCheckListData(e, context))
-                      .toList()
+                  'data': e.data.map((e) => e.transform(context)).toList()
                 })
             .toList(),
         'crossAxisAlignment':
@@ -170,47 +169,14 @@ class CheckListConfig {
         'indent': checkList.indent,
         'divider':
             DynamicWidgetBuilder.transformMap(checkList.divider, context),
-        'selectedData': checkList.selectedData
-            .map((e) => _transformCheckListData(e, context))
-            .toList(),
+        'selectedData':
+            checkList.selectedData.map((e) => e.transform(context)).toList(),
         'showCheckAll': checkList.showCheckAll,
         'isCheckAll': checkList.isCheckAll,
         'padding': DynamicWidgetUtils.transform(checkList.padding),
-        'data': checkList.data
-            .map((e) => _transformCheckListData(e, context))
-            .toList()
+        'data': checkList.data.map((e) => e.transform(context)).toList()
       },
       'xKey': checkList.key.toString()
-    };
-  }
-
-  static CheckListData? _checkListDataAdapter(
-      Map? data, BuildContext? context) {
-    if (data == null) return null;
-    return CheckListData(
-        id: data['id'] ?? '',
-        title: data['title'],
-        titleStyle: DynamicWidgetUtils.adapt<TextStyle>(data['titleStyle']),
-        subtitle: data['subtitle'],
-        subtitleStyle:
-            DynamicWidgetUtils.adapt<TextStyle>(data['subtitleStyle']),
-        child: data['child'] != null
-            ? DynamicWidgetBuilder.buildWidget(
-                DynamicWidgetConfig.fromJson(data['child']),
-                context: context!)
-            : null);
-  }
-
-  static Map? _transformCheckListData(
-      CheckListData? data, BuildContext? context) {
-    if (data == null) return null;
-    return {
-      'id': data.id,
-      'title': data.title,
-      'titleStyle': DynamicWidgetUtils.transform(data.titleStyle),
-      'subtitle': data.subtitle,
-      'subtitleStyle': DynamicWidgetUtils.transform(data.subtitleStyle),
-      'child': DynamicWidgetBuilder.transformMap(data.child, context)
     };
   }
 }
