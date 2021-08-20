@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'basic/handler.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class GestureDetectorHandler extends DynamicBasicWidgetHandler {
@@ -54,14 +55,37 @@ class _BuilderState extends State<_Builder> {
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
 
-    var _click = () {
-      if (widget.event != null) {
-        widget.event!(widget.config?.eventName ?? '');
-      }
-    };
-    var onTap = widget.config?.eventName?.contains('onTap') == true ? _click : null;
-    var onLongPress = widget.config?.eventName?.contains('onLongPress') == true ? _click : null;
-    var onDoubleTap = widget.config?.eventName?.contains('onDoubleTap') == true ? _click : null;
+    var onTap = widget.config?.eventNames?.contains(EventName.onTap) == true
+        ? () {
+            if (widget.event != null) {
+              widget.event!(widget.config?.eventNames?.firstWhere(
+                      (element) => element.contains(EventName.onTap)) ??
+                  '');
+            }
+          }
+        : null;
+    var onLongPress =
+        widget.config?.eventNames?.contains(EventName.onLongPress) == true
+            ? () {
+                if (widget.event != null) {
+                  widget.event!(widget.config?.eventNames?.firstWhere(
+                          (element) =>
+                              element.contains(EventName.onLongPress)) ??
+                      '');
+                }
+              }
+            : null;
+    var onDoubleTap =
+        widget.config?.eventNames?.contains(EventName.onDoubleTap) == true
+            ? () {
+                if (widget.event != null) {
+                  widget.event!(widget.config?.eventNames?.firstWhere(
+                          (element) =>
+                              element.contains(EventName.onDoubleTap)) ??
+                      '');
+                }
+              }
+            : null;
     return GestureDetector(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onTap: onTap,

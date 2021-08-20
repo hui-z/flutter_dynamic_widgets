@@ -4,9 +4,9 @@ class DynamicWidgetConfig {
   late List<DynamicWidgetConfig>? children;
   late Map? xVar;
   late String? xKey;
-  late String? eventName;
+  late List<String>? eventNames;
 
-	DynamicWidgetConfig({required this.widget, this.child, this.xVar, this.children, this.xKey, this.eventName});
+	DynamicWidgetConfig({required this.widget, this.child, this.xVar, this.children, this.xKey, this.eventNames});
 
 	DynamicWidgetConfig.fromJson(Map<dynamic, dynamic> json) {
 		widget = json['widget'];
@@ -20,7 +20,7 @@ class DynamicWidgetConfig {
         children?.add(DynamicWidgetConfig.fromJson(v));
       });
     }
-    eventName = json['eventName'];
+    eventNames = json['eventName']?.cast<String>();
     xVar = json['xVar'];
     xKey = json['xKey'];
 	}

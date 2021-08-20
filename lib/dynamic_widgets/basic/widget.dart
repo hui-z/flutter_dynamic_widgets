@@ -12,7 +12,11 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/padding.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/wrap.dart';
 
 import '../button.dart';
+import '../check_list.dart';
+import '../check_list_item.dart';
 import '../column.dart';
+import '../divider.dart';
+import '../expansion_tile.dart';
 import '../gesture_detector.dart';
 import '../icon.dart';
 import '../ink_well.dart';
@@ -23,11 +27,10 @@ import 'handler.dart';
 abstract class DynamicBaseWidget extends StatefulWidget {
   final DynamicWidgetConfig? config;
   final Function(String value)? event;
-  DynamicBaseWidget(this.config, this.event, {Key? key}): super(key: key);
+  DynamicBaseWidget(this.config, this.event, {Key? key}) : super(key: key);
 }
 
 class DynamicWidgetBuilder {
-
   static Map<String, DynamicBasicWidgetHandler> _widgetHandlers = {};
 
   static registerSysWidgets() {
@@ -48,7 +51,11 @@ class DynamicWidgetBuilder {
       ListViewHandler(),
       ListInputItemHandler(),
       GestureDetectorHandler(),
-      InkWellHandler()
+      InkWellHandler(),
+      CheckListItemHandler(),
+      CheckListHandler(),
+      DividerHandler(),
+      CustomExpansionTileHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;
@@ -57,21 +64,28 @@ class DynamicWidgetBuilder {
 
   ///Build widget
   static Widget? buildWidget(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext context, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext context,
+      Function(String value)? event}) {
     if (config == null) return null;
     DynamicBasicWidgetHandler? handler = _widgetHandlers[config.widget];
-    if (handler == null) throw UnimplementedError('请实现并注册 ${config.widget}Handler');
+    if (handler == null)
+      throw UnimplementedError('请实现并注册 ${config.widget}Handler');
     return handler.build(config, key: key, buildContext: context, event: event);
   }
 
   ///Build widget
   static List<Widget> buildWidgets(List<DynamicWidgetConfig>? configs,
-      {Key? key, required BuildContext context,  Function(String value)? event}) {
+      {Key? key,
+      required BuildContext context,
+      Function(String value)? event}) {
     List<Widget> widgets = [];
     configs?.forEach((element) {
       DynamicBasicWidgetHandler? handler = _widgetHandlers[element.widget];
-      if (handler == null) throw UnimplementedError('请实现并注册 ${element.widget}Handler');
-      Widget widget = handler.build(element, key: key, buildContext: context, event: event);
+      if (handler == null)
+        throw UnimplementedError('请实现并注册 ${element.widget}Handler');
+      Widget widget =
+          handler.build(element, key: key, buildContext: context, event: event);
       widgets.add(widget);
     });
     return widgets;
@@ -97,7 +111,8 @@ class DynamicWidgetBuilder {
     return list;
   }
 
-  static DynamicBasicWidgetHandler? findMatchedWidgetHandlerForTransform(Widget? widget) {
+  static DynamicBasicWidgetHandler? findMatchedWidgetHandlerForTransform(
+      Widget? widget) {
     if (widget == null) return null;
     DynamicBasicWidgetHandler? handleWidget;
     _widgetHandlers.forEach((name, handle) {
@@ -105,7 +120,8 @@ class DynamicWidgetBuilder {
         handleWidget = handle;
       }
     });
-    if (handleWidget == null) throw UnimplementedError('请实现并注册 ${widget.runtimeType}Handler');
+    if (handleWidget == null)
+      throw UnimplementedError('请实现并注册 ${widget.runtimeType}Handler');
     return handleWidget;
   }
 }
