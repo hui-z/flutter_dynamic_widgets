@@ -138,3 +138,44 @@ var listViewMap = {
     }
   ],
 };
+
+var inputItemPhoneMap = {
+  'widget': 'ListInputItem',
+  'xVar': {
+    'title': '手机号',
+    'placeholder': '请输入手机号',
+    'obscureText': false,
+    'isHideDivider': true,
+  },
+};
+
+var inputItemPassWordMap = {
+  'widget': 'ListInputItem',
+  'xVar': {
+    'title': '密码',
+    'placeholder': '请输入密码',
+    'obscureText': true,
+    'isHideDivider': true,
+  },
+};
+
+var loginMap = {
+  'widget': 'Column',
+  'children': [
+    inputItemPhoneMap,
+    inputItemPassWordMap
+  ]
+};
+
+var inkWellMap = {
+  'widget': 'InkWell',
+  'child': {
+    'widget': 'Container',
+    'xVar': {
+      'color': 'FF2196F3',
+      'width': 50.0,
+      'height': 50.0,
+    },
+  },
+  'eventName':'onLongPress'
+};
