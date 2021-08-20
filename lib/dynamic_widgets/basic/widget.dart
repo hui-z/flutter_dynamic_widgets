@@ -16,6 +16,7 @@ import '../check_list.dart';
 import '../check_list_item.dart';
 import '../column.dart';
 import '../divider.dart';
+import '../expansion_tile.dart';
 import '../gesture_detector.dart';
 import '../icon.dart';
 import '../ink_well.dart';
@@ -53,7 +54,8 @@ class DynamicWidgetBuilder {
       InkWellHandler(),
       CheckListItemHandler(),
       CheckListHandler(),
-      DividerHandler()
+      DividerHandler(),
+      CustomExpansionTileHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/custom_widget/check_list.dart';
+import 'package:flutter_dynamic_widgets/custom_widget/expansion_tile.dart';
 
 var tableData = DataTable(columns: [
   DataColumn(label: Text('姓名')),
@@ -59,3 +60,19 @@ var checkList2 = CheckList(
   onCheck: (checkedItems) {},
   onIconPressed: (item) {},
 );
+
+var expand = CustomExpansionTile(
+    topMargin: 20,
+    leading: Text('收缩列表'),
+    title: Text(''),
+    initiallyExpanded: true,
+    backgroundColor: Colors.white,
+    onExpansionChanged: (isOn) {},
+    children: [
+      Text('1'),
+      Text('2'),
+      Text('3'),
+      Text('4'),
+      Text('5'),
+      Text('6'),
+    ]);

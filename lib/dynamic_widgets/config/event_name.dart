@@ -4,4 +4,5 @@ class EventName {
   static const String onDoubleTap = 'onDoubleTap';
   static const String onCheck = 'onCheck';
   static const String onTextChanged = 'onTextChanged';
+  static const String onExpansionChanged = 'onExpansionChanged';
 }

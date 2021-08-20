@@ -161,6 +161,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                     checkList2, context))));
                   },
                 ),
+                RaisedButton(
+                  child: Text("ExpansionTile"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                    expand, context))));
+                  },
+                ),
               ]),
             ),
           ),
