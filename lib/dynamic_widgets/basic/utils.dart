@@ -127,6 +127,9 @@ class DynamicWidgetUtils {
     if (origin is MouseCursor) {
       return _transformMouseCursor(origin);
     }
+    if (origin is Curve) {
+      return _transformCurve(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -215,6 +218,8 @@ class DynamicWidgetUtils {
             origin as String?) as T?;
       case MouseCursor:
         return _mouseCursorAdapter(origin as String?) as T?;
+      case Curve:
+        return _curveAdapter(origin as String?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
@@ -1854,7 +1859,6 @@ class DynamicWidgetUtils {
       return 'resizeLeftRight';
 
     if (mouseCursor == SystemMouseCursors.resizeUpDown)
-
       return 'resizeUpDown';
 
     if (mouseCursor == SystemMouseCursors.resizeUpLeftDownRight)
@@ -1900,5 +1904,183 @@ class DynamicWidgetUtils {
       return 'zoomOut';
 
     return 'none';
+  }
+
+  static Curve? _curveAdapter(String? curve) {
+    if (curve != null) {
+      switch (curve) {
+        case 'linear':
+          return Curves.linear;
+        case 'decelerate':
+          return Curves.decelerate;
+        case 'fastLinearToSlowEaseIn':
+          return Curves.fastLinearToSlowEaseIn;
+        case 'ease':
+          return Curves.ease;
+        case 'easeIn':
+          return Curves.easeIn;
+        case 'easeInToLinear':
+          return Curves.easeInToLinear;
+        case 'easeInSine':
+          return Curves.easeInSine;
+        case 'easeInQuad':
+          return Curves.easeInQuad;
+        case 'easeInCubic':
+          return Curves.easeInCubic;
+        case 'easeInQuart':
+          return Curves.easeInQuart;
+        case 'easeInQuint':
+          return Curves.easeInQuint;
+        case 'easeInExpo':
+          return Curves.easeInExpo;
+        case 'easeInCirc':
+          return Curves.easeInCirc;
+        case 'easeInBack':
+          return Curves.easeInBack;
+        case 'easeOut':
+          return Curves.easeOut;
+        case 'linearToEaseOut':
+          return Curves.linearToEaseOut;
+        case 'easeOutSine':
+          return Curves.easeOutSine;
+        case 'easeOutQuad':
+          return Curves.easeOutQuad;
+        case 'easeOutCubic':
+          return Curves.easeOutCubic;
+        case 'easeOutQuart':
+          return Curves.easeOutQuart;
+        case 'easeOutQuint':
+          return Curves.easeOutQuint;
+        case 'easeOutExpo':
+          return Curves.easeOutExpo;
+        case 'easeOutCirc':
+          return Curves.easeOutCirc;
+        case 'easeOutBack':
+          return Curves.easeOutBack;
+        case 'easeInOut':
+          return Curves.easeInOut;
+        case 'easeInOutSine':
+          return Curves.easeInOutSine;
+        case 'easeInOutQuad':
+          return Curves.easeInOutQuad;
+        case 'easeInOutCubic':
+          return Curves.easeInOutCubic;
+        case 'easeInOutQuart':
+          return Curves.easeInOutQuart;
+        case 'easeInOutQuint':
+          return Curves.easeInOutQuint;
+        case 'easeInOutExpo':
+          return Curves.easeInOutExpo;
+        case 'easeInOutCirc':
+          return Curves.easeInOutCirc;
+        case 'easeInOutBack':
+          return Curves.easeInOutBack;
+        case 'fastOutSlowIn':
+          return Curves.fastOutSlowIn;
+        case 'slowMiddle':
+          return Curves.slowMiddle;
+        case 'bounceIn':
+          return Curves.bounceIn;
+        case 'bounceOut':
+          return Curves.bounceOut;
+        case 'bounceInOut':
+          return Curves.bounceInOut;
+        case 'elasticIn':
+          return Curves.elasticIn;
+        case 'elasticOut':
+          return Curves.elasticOut;
+        case 'elasticInOut':
+          return Curves.elasticInOut;
+      }
+      return null;
+    }
+  }
+
+  static String? _transformCurve(Curve? curve) {
+    if (curve == null) {
+      return null;
+    }
+
+    if (curve == Curves.linear) return 'linear';
+
+    if (curve == Curves.decelerate) return 'decelerate';
+
+    if (curve == Curves.fastLinearToSlowEaseIn) return 'fastLinearToSlowEaseIn';
+
+    if (curve == Curves.ease) return 'ease';
+
+    if (curve == Curves.easeIn) return 'easeIn';
+
+    if (curve == Curves.easeInToLinear) return 'easeInToLinear';
+
+    if (curve == Curves.easeInSine) return 'easeInSine';
+
+    if (curve == Curves.easeInQuad) return 'easeInQuad';
+
+    if (curve == Curves.easeInCubic) return 'easeInCubic';
+
+    if (curve == Curves.easeInQuart) return 'easeInQuart';
+
+    if (curve == Curves.easeInQuint) return 'easeInQuint';
+
+    if (curve == Curves.easeInExpo) return 'easeInExpo';
+
+    if (curve == Curves.easeInCirc) return 'easeInCirc';
+
+    if (curve == Curves.easeInBack) return 'easeInBack';
+
+    if (curve == Curves.easeOut) return 'easeOut';
+
+    if (curve == Curves.linearToEaseOut) return 'linearToEaseOut';
+
+    if (curve == Curves.easeOutSine) return 'easeOutSine';
+
+    if (curve == Curves.easeOutQuad) return 'easeOutQuad';
+
+    if (curve == Curves.easeOutCubic) return 'easeOutCubic';
+
+    if (curve == Curves.easeOutQuart) return 'easeOutQuart';
+
+    if (curve == Curves.easeOutQuint) return 'easeOutQuint';
+
+    if (curve == Curves.easeOutExpo) return 'easeOutExpo';
+
+    if (curve == Curves.easeOutCirc) return 'easeOutCirc';
+
+    if (curve == Curves.easeOutBack) return 'easeOutBack';
+
+    if (curve == Curves.easeInOut) return 'easeInOut';
+
+    if (curve == Curves.easeInOutSine) return 'easeInOutSine';
+
+    if (curve == Curves.easeInOutQuad) return 'easeInOutQuad';
+
+    if (curve == Curves.easeInOutCubic) return 'easeInOutCubic';
+
+    if (curve == Curves.easeInOutQuart) return 'easeInOutQuart';
+
+    if (curve == Curves.easeInOutQuint) return 'easeInOutQuint';
+
+    if (curve == Curves.easeInOutExpo) return 'easeInOutExpo';
+
+    if (curve == Curves.easeInOutCirc) return 'easeInOutCirc';
+
+    if (curve == Curves.easeInOutBack) return 'easeInOutBack';
+
+    if (curve == Curves.fastOutSlowIn) return 'fastOutSlowIn';
+
+    if (curve == Curves.slowMiddle) return 'slowMiddle';
+
+    if (curve == Curves.bounceIn) return 'bounceIn';
+
+    if (curve == Curves.bounceOut) return 'bounceOut';
+
+    if (curve == Curves.bounceInOut) return 'bounceInOut';
+
+    if (curve == Curves.elasticIn) return 'elasticIn';
+
+    if (curve == Curves.elasticOut) return 'elasticOut';
+
+    if (curve == Curves.elasticInOut) return 'elasticInOut';
   }
 }
