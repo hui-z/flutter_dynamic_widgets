@@ -124,6 +124,12 @@ class DynamicWidgetUtils {
     if (origin is ScrollViewKeyboardDismissBehavior) {
       return _transformScrollViewKeyboardDismissBehavior(origin);
     }
+    if (origin is MouseCursor) {
+      return _transformMouseCursor(origin);
+    }
+    if (origin is Curve) {
+      return _transformCurve(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -208,12 +214,18 @@ class DynamicWidgetUtils {
       case DragStartBehavior:
         return _dragStartBehaviorAdapter(origin as String?) as T?;
       case ScrollViewKeyboardDismissBehavior:
-        return _scrollViewKeyboardDismissBehaviorAdapter(origin as String?) as T?;
+        return _scrollViewKeyboardDismissBehaviorAdapter(
+            origin as String?) as T?;
+      case MouseCursor:
+        return _mouseCursorAdapter(origin as String?) as T?;
+      case Curve:
+        return _curveAdapter(origin as String?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
 
-  static ScrollViewKeyboardDismissBehavior? _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
+  static ScrollViewKeyboardDismissBehavior? _scrollViewKeyboardDismissBehaviorAdapter(
+      String? str) {
     if (str == null) return null;
 
     ScrollViewKeyboardDismissBehavior? dragStartBehaviorStr;
@@ -229,7 +241,8 @@ class DynamicWidgetUtils {
     return dragStartBehaviorStr;
   }
 
-  static String? _transformScrollViewKeyboardDismissBehavior(ScrollViewKeyboardDismissBehavior? behavior) {
+  static String? _transformScrollViewKeyboardDismissBehavior(
+      ScrollViewKeyboardDismissBehavior? behavior) {
     if (behavior == null) return null;
 
     String? scrollViewKeyboardDismissBehaviorStr;
@@ -281,8 +294,7 @@ class DynamicWidgetUtils {
     return color?.value.toRadixString(16);
   }
 
-  static Map? _transformBoxConstraints(
-      BoxConstraints? constraints) {
+  static Map? _transformBoxConstraints(BoxConstraints? constraints) {
     if (constraints == null) return null;
     return {
       'minWidth': constraints.minWidth,
@@ -553,8 +565,7 @@ class DynamicWidgetUtils {
     return color;
   }
 
-  static BoxConstraints? _boxConstraintsAdapter(
-      Map? constraints) {
+  static BoxConstraints? _boxConstraintsAdapter(Map? constraints) {
     BoxConstraints? boxConstraints;
     if (constraints != null) {
       boxConstraints = BoxConstraints(
@@ -611,12 +622,13 @@ class DynamicWidgetUtils {
     return BorderRadius.only(
         topLeft: adapt(borderRadius['topLeft']?.toDouble()) ?? Radius.zero,
         topRight: adapt(borderRadius['topRight']?.toDouble()) ?? Radius.zero,
-        bottomLeft: adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
-        bottomRight: adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
+        bottomLeft: adapt(borderRadius['bottomLeft']?.toDouble()) ??
+            Radius.zero,
+        bottomRight: adapt(borderRadius['bottomRight']?.toDouble()) ??
+            Radius.zero);
   }
 
-  static Map? transformBorderRadius(
-      BorderRadius? borderRadius) {
+  static Map? transformBorderRadius(BorderRadius? borderRadius) {
     if (borderRadius == null) return null;
 
     return {
@@ -1131,7 +1143,8 @@ class DynamicWidgetUtils {
     return _wrapCrossAlignment;
   }
 
-  static String? _transformWrapCrossAlignment(WrapCrossAlignment? wrapCrossAlignment) {
+  static String? _transformWrapCrossAlignment(
+      WrapCrossAlignment? wrapCrossAlignment) {
     String? _wrapCrossAlignmentStr;
     switch (wrapCrossAlignment) {
       case WrapCrossAlignment.center:
@@ -1192,18 +1205,17 @@ class DynamicWidgetUtils {
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-            adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
-                TextLeadingDistribution.proportional);
+        adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
+            TextLeadingDistribution.proportional);
   }
 
-  static Map? _transformTextHeightBehavior(
-      TextHeightBehavior? behavior) {
+  static Map? _transformTextHeightBehavior(TextHeightBehavior? behavior) {
     if (behavior == null) return null;
     return {
       'applyHeightToFirstAscent': behavior.applyHeightToFirstAscent,
       'applyHeightToLastDescent': behavior.applyHeightToLastDescent,
       'leadingDistribution':
-          transform(behavior.leadingDistribution),
+      transform(behavior.leadingDistribution),
     };
   }
 
@@ -1450,7 +1462,8 @@ class DynamicWidgetUtils {
     if (size == null) return null;
 
     return Size(
-        size['width']?.toDouble() ?? double.infinity, size['height']?.toDouble() ?? double.infinity);
+        size['width']?.toDouble() ?? double.infinity,
+        size['height']?.toDouble() ?? double.infinity);
   }
 
   static Map? _transformSize(Size? size) {
@@ -1495,7 +1508,9 @@ class DynamicWidgetUtils {
   }
 
   static BlendMode? _blendModeAdapter(String? blendModeString) {
-    if (blendModeString == null || blendModeString.trim().length == 0) {
+    if (blendModeString == null || blendModeString
+        .trim()
+        .length == 0) {
       return null;
     }
 
@@ -1702,5 +1717,370 @@ class DynamicWidgetUtils {
       'fontFamily': icon.fontFamily,
       'matchTextDirection': icon.matchTextDirection
     };
+  }
+
+  static MouseCursor? _mouseCursorAdapter(String? mouseCursor) {
+    if (mouseCursor != null) {
+      switch (mouseCursor) {
+        case 'basic':
+          return SystemMouseCursors.basic;
+        case 'click':
+          return SystemMouseCursors.click;
+        case 'forbidden':
+          return SystemMouseCursors.forbidden;
+        case 'wait':
+          return SystemMouseCursors.wait;
+        case 'progress':
+          return SystemMouseCursors.progress;
+        case 'contextMenu':
+          return SystemMouseCursors.contextMenu;
+        case 'help':
+          return SystemMouseCursors.help;
+        case 'text':
+          return SystemMouseCursors.text;
+        case 'verticalText':
+          return SystemMouseCursors.verticalText;
+        case 'cell':
+          return SystemMouseCursors.cell;
+        case 'precise':
+          return SystemMouseCursors.precise;
+        case 'move':
+          return SystemMouseCursors.move;
+        case 'grab':
+          return SystemMouseCursors.grab;
+        case 'noDrop':
+          return SystemMouseCursors.noDrop;
+        case 'alias':
+          return SystemMouseCursors.alias;
+        case 'copy':
+          return SystemMouseCursors.copy;
+        case 'disappearing':
+          return SystemMouseCursors.disappearing;
+        case 'allScroll':
+          return SystemMouseCursors.allScroll;
+        case 'resizeLeftRight':
+          return SystemMouseCursors.resizeLeftRight;
+        case 'resizeUpDown':
+          return SystemMouseCursors.resizeUpDown;
+        case 'resizeUpLeftDownRight':
+          return SystemMouseCursors.resizeUpLeftDownRight;
+        case 'resizeUpRightDownLeft':
+          return SystemMouseCursors.resizeUpRightDownLeft;
+        case 'resizeUp':
+          return SystemMouseCursors.resizeUp;
+        case 'resizeDown':
+          return SystemMouseCursors.resizeDown;
+        case 'resizeLeft':
+          return SystemMouseCursors.resizeLeft;
+        case 'resizeRight':
+          return SystemMouseCursors.resizeRight;
+        case 'resizeUpLeft':
+          return SystemMouseCursors.resizeUpLeft;
+        case 'resizeUpRight':
+          return SystemMouseCursors.resizeUpRight;
+        case 'resizeDownLeft':
+          return SystemMouseCursors.resizeDownLeft;
+        case 'resizeDownRight':
+          return SystemMouseCursors.resizeDownRight;
+        case 'resizeColumn':
+          return SystemMouseCursors.resizeColumn;
+        case 'resizeRow':
+          return SystemMouseCursors.resizeRow;
+        case 'zoomIn':
+          return SystemMouseCursors.zoomIn;
+        case 'zoomOut':
+          return SystemMouseCursors.zoomOut;
+        default:
+          return SystemMouseCursors.none;
+      }
+    }
+    return SystemMouseCursors.none;
+  }
+
+  static String? _transformMouseCursor(MouseCursor? mouseCursor) {
+    if (mouseCursor == null) {
+      return null;
+    }
+    if (mouseCursor == SystemMouseCursors.basic)
+      return 'basic';
+
+    if (mouseCursor == SystemMouseCursors.click)
+      return 'click';
+
+    if (mouseCursor == SystemMouseCursors.forbidden)
+      return 'forbidden';
+
+    if (mouseCursor == SystemMouseCursors.wait)
+      return 'wait';
+
+    if (mouseCursor == SystemMouseCursors.progress)
+      return 'progress';
+
+    if (mouseCursor == SystemMouseCursors.contextMenu)
+      return 'contextMenu';
+
+    if (mouseCursor == SystemMouseCursors.help)
+      return 'help';
+
+    if (mouseCursor == SystemMouseCursors.text)
+      return 'text';
+
+    if (mouseCursor == SystemMouseCursors.verticalText)
+      return 'verticalText';
+
+    if (mouseCursor == SystemMouseCursors.cell)
+      return 'cell';
+
+    if (mouseCursor == SystemMouseCursors.precise)
+      return 'precise';
+
+    if (mouseCursor == SystemMouseCursors.move)
+      return 'move';
+
+    if (mouseCursor == SystemMouseCursors.grab)
+      return 'grab';
+
+    if (mouseCursor == SystemMouseCursors.noDrop)
+      return 'noDrop';
+
+    if (mouseCursor == SystemMouseCursors.alias)
+      return 'alias';
+
+    if (mouseCursor == SystemMouseCursors.copy)
+      return 'copy';
+
+    if (mouseCursor == SystemMouseCursors.disappearing)
+      return 'disappearing';
+
+    if (mouseCursor == SystemMouseCursors.allScroll)
+      return 'allScroll';
+
+    if (mouseCursor == SystemMouseCursors.resizeLeftRight)
+      return 'resizeLeftRight';
+
+    if (mouseCursor == SystemMouseCursors.resizeUpDown)
+      return 'resizeUpDown';
+
+    if (mouseCursor == SystemMouseCursors.resizeUpLeftDownRight)
+      return 'resizeUpLeftDownRight';
+
+    if (mouseCursor == SystemMouseCursors.resizeUpRightDownLeft)
+      return 'resizeUpRightDownLeft';
+
+    if (mouseCursor == SystemMouseCursors.resizeUp)
+      return 'resizeUp';
+
+    if (mouseCursor == SystemMouseCursors.resizeDown)
+      return 'resizeDown';
+
+    if (mouseCursor == SystemMouseCursors.resizeLeft)
+      return 'resizeLeft';
+
+    if (mouseCursor == SystemMouseCursors.resizeRight)
+      return 'resizeRight';
+
+    if (mouseCursor == SystemMouseCursors.resizeUpLeft)
+      return 'resizeUpLeft';
+
+    if (mouseCursor == SystemMouseCursors.resizeUpRight)
+      return 'resizeUpRight';
+
+    if (mouseCursor == SystemMouseCursors.resizeDownLeft)
+      return 'resizeDownLeft';
+
+    if (mouseCursor == SystemMouseCursors.resizeDownRight)
+      return 'resizeDownRight';
+
+    if (mouseCursor == SystemMouseCursors.resizeColumn)
+      return 'resizeColumn';
+
+    if (mouseCursor == SystemMouseCursors.resizeRow)
+      return 'resizeRow';
+
+    if (mouseCursor == SystemMouseCursors.zoomIn)
+      return 'zoomIn';
+
+    if (mouseCursor == SystemMouseCursors.zoomOut)
+      return 'zoomOut';
+
+    return 'none';
+  }
+
+  static Curve? _curveAdapter(String? curve) {
+    if (curve != null) {
+      switch (curve) {
+        case 'linear':
+          return Curves.linear;
+        case 'decelerate':
+          return Curves.decelerate;
+        case 'fastLinearToSlowEaseIn':
+          return Curves.fastLinearToSlowEaseIn;
+        case 'ease':
+          return Curves.ease;
+        case 'easeIn':
+          return Curves.easeIn;
+        case 'easeInToLinear':
+          return Curves.easeInToLinear;
+        case 'easeInSine':
+          return Curves.easeInSine;
+        case 'easeInQuad':
+          return Curves.easeInQuad;
+        case 'easeInCubic':
+          return Curves.easeInCubic;
+        case 'easeInQuart':
+          return Curves.easeInQuart;
+        case 'easeInQuint':
+          return Curves.easeInQuint;
+        case 'easeInExpo':
+          return Curves.easeInExpo;
+        case 'easeInCirc':
+          return Curves.easeInCirc;
+        case 'easeInBack':
+          return Curves.easeInBack;
+        case 'easeOut':
+          return Curves.easeOut;
+        case 'linearToEaseOut':
+          return Curves.linearToEaseOut;
+        case 'easeOutSine':
+          return Curves.easeOutSine;
+        case 'easeOutQuad':
+          return Curves.easeOutQuad;
+        case 'easeOutCubic':
+          return Curves.easeOutCubic;
+        case 'easeOutQuart':
+          return Curves.easeOutQuart;
+        case 'easeOutQuint':
+          return Curves.easeOutQuint;
+        case 'easeOutExpo':
+          return Curves.easeOutExpo;
+        case 'easeOutCirc':
+          return Curves.easeOutCirc;
+        case 'easeOutBack':
+          return Curves.easeOutBack;
+        case 'easeInOut':
+          return Curves.easeInOut;
+        case 'easeInOutSine':
+          return Curves.easeInOutSine;
+        case 'easeInOutQuad':
+          return Curves.easeInOutQuad;
+        case 'easeInOutCubic':
+          return Curves.easeInOutCubic;
+        case 'easeInOutQuart':
+          return Curves.easeInOutQuart;
+        case 'easeInOutQuint':
+          return Curves.easeInOutQuint;
+        case 'easeInOutExpo':
+          return Curves.easeInOutExpo;
+        case 'easeInOutCirc':
+          return Curves.easeInOutCirc;
+        case 'easeInOutBack':
+          return Curves.easeInOutBack;
+        case 'fastOutSlowIn':
+          return Curves.fastOutSlowIn;
+        case 'slowMiddle':
+          return Curves.slowMiddle;
+        case 'bounceIn':
+          return Curves.bounceIn;
+        case 'bounceOut':
+          return Curves.bounceOut;
+        case 'bounceInOut':
+          return Curves.bounceInOut;
+        case 'elasticIn':
+          return Curves.elasticIn;
+        case 'elasticOut':
+          return Curves.elasticOut;
+        case 'elasticInOut':
+          return Curves.elasticInOut;
+      }
+      return null;
+    }
+  }
+
+  static String? _transformCurve(Curve? curve) {
+    if (curve == null) {
+      return null;
+    }
+
+    if (curve == Curves.linear) return 'linear';
+
+    if (curve == Curves.decelerate) return 'decelerate';
+
+    if (curve == Curves.fastLinearToSlowEaseIn) return 'fastLinearToSlowEaseIn';
+
+    if (curve == Curves.ease) return 'ease';
+
+    if (curve == Curves.easeIn) return 'easeIn';
+
+    if (curve == Curves.easeInToLinear) return 'easeInToLinear';
+
+    if (curve == Curves.easeInSine) return 'easeInSine';
+
+    if (curve == Curves.easeInQuad) return 'easeInQuad';
+
+    if (curve == Curves.easeInCubic) return 'easeInCubic';
+
+    if (curve == Curves.easeInQuart) return 'easeInQuart';
+
+    if (curve == Curves.easeInQuint) return 'easeInQuint';
+
+    if (curve == Curves.easeInExpo) return 'easeInExpo';
+
+    if (curve == Curves.easeInCirc) return 'easeInCirc';
+
+    if (curve == Curves.easeInBack) return 'easeInBack';
+
+    if (curve == Curves.easeOut) return 'easeOut';
+
+    if (curve == Curves.linearToEaseOut) return 'linearToEaseOut';
+
+    if (curve == Curves.easeOutSine) return 'easeOutSine';
+
+    if (curve == Curves.easeOutQuad) return 'easeOutQuad';
+
+    if (curve == Curves.easeOutCubic) return 'easeOutCubic';
+
+    if (curve == Curves.easeOutQuart) return 'easeOutQuart';
+
+    if (curve == Curves.easeOutQuint) return 'easeOutQuint';
+
+    if (curve == Curves.easeOutExpo) return 'easeOutExpo';
+
+    if (curve == Curves.easeOutCirc) return 'easeOutCirc';
+
+    if (curve == Curves.easeOutBack) return 'easeOutBack';
+
+    if (curve == Curves.easeInOut) return 'easeInOut';
+
+    if (curve == Curves.easeInOutSine) return 'easeInOutSine';
+
+    if (curve == Curves.easeInOutQuad) return 'easeInOutQuad';
+
+    if (curve == Curves.easeInOutCubic) return 'easeInOutCubic';
+
+    if (curve == Curves.easeInOutQuart) return 'easeInOutQuart';
+
+    if (curve == Curves.easeInOutQuint) return 'easeInOutQuint';
+
+    if (curve == Curves.easeInOutExpo) return 'easeInOutExpo';
+
+    if (curve == Curves.easeInOutCirc) return 'easeInOutCirc';
+
+    if (curve == Curves.easeInOutBack) return 'easeInOutBack';
+
+    if (curve == Curves.fastOutSlowIn) return 'fastOutSlowIn';
+
+    if (curve == Curves.slowMiddle) return 'slowMiddle';
+
+    if (curve == Curves.bounceIn) return 'bounceIn';
+
+    if (curve == Curves.bounceOut) return 'bounceOut';
+
+    if (curve == Curves.bounceInOut) return 'bounceInOut';
+
+    if (curve == Curves.elasticIn) return 'elasticIn';
+
+    if (curve == Curves.elasticOut) return 'elasticOut';
+
+    if (curve == Curves.elasticInOut) return 'elasticInOut';
   }
 }
