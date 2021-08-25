@@ -179,3 +179,23 @@ var inkWellMap = {
   },
   'eventName':'onLongPress'
 };
+
+var richTextMap = {
+  'widget': 'RichText',
+  'xVar': {
+    'text': {
+      'children':[
+        {
+          'text':'强强',
+          'style':{'color':'FF8B0016'},
+        },
+        {
+          'text':',',
+        },
+        {
+          'text':'一个有态度的程序员',
+        }
+      ]
+    },
+  }
+};

@@ -172,6 +172,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     expand, context))));
                   },
                 ),
+                RaisedButton(
+                  child: Text("RichText"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(richTextMap)));
+                  },
+                ),
               ]),
             ),
           ),

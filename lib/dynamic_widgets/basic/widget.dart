@@ -20,6 +20,7 @@ import '../expansion_tile.dart';
 import '../gesture_detector.dart';
 import '../icon.dart';
 import '../ink_well.dart';
+import '../rich_text.dart';
 import '../row.dart';
 import '../text.dart';
 import 'handler.dart';
@@ -55,7 +56,8 @@ class DynamicWidgetBuilder {
       CheckListItemHandler(),
       CheckListHandler(),
       DividerHandler(),
-      CustomExpansionTileHandler()
+      CustomExpansionTileHandler(),
+      RichTextHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;

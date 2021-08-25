@@ -130,6 +130,9 @@ class DynamicWidgetUtils {
     if (origin is Curve) {
       return _transformCurve(origin);
     }
+    if(origin is TextSpan){
+      return _transformTextSpan(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -220,6 +223,8 @@ class DynamicWidgetUtils {
         return _mouseCursorAdapter(origin as String?) as T?;
       case Curve:
         return _curveAdapter(origin as String?) as T?;
+      case TextSpan:
+        return _textSpanAdapter(origin as Map?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
@@ -2082,5 +2087,45 @@ class DynamicWidgetUtils {
     if (curve == Curves.elasticOut) return 'elasticOut';
 
     if (curve == Curves.elasticInOut) return 'elasticInOut';
+  }
+
+  static TextSpan? _textSpanAdapter(Map? map) {
+    if (map == null) return null;
+    var cs = map['children'];
+    List<InlineSpan> cts = [];
+    // 检查可能有点问题，等测试的时候验证一波
+    if (cs != null && cs is List) {
+      for (var c in cs) {
+        var ts = _textSpanAdapter(c);
+        if (ts != null) {
+          cts.add(ts);
+        }
+      }
+    }
+    return TextSpan(
+      text: map['text'],
+      children: cts,
+      style: adapt<TextStyle>(map['style']),
+    );
+  }
+
+  static Map? _transformTextSpan(TextSpan? textSpan) {
+    if (textSpan == null) return null;
+    var cs = textSpan.children;
+    List<Map> cts = [];
+    // 检查可能有点问题，等测试的时候验证一波
+    if (cs != null && cs is List) {
+      for (var c in cs) {
+        var ts = _transformTextSpan(c as TextSpan?);
+        if (ts != null) {
+          cts.add(ts);
+        }
+      }
+    }
+    return {
+      'text': textSpan.text,
+      'children': cts,
+      'style': textSpan.style,
+    };
   }
 }
