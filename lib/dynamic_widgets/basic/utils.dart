@@ -133,6 +133,9 @@ class DynamicWidgetUtils {
     if(origin is TextSpan){
       return _transformTextSpan(origin);
     }
+    if(origin is TextDecoration){
+      return _transformTextDecoration(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -225,6 +228,8 @@ class DynamicWidgetUtils {
         return _curveAdapter(origin as String?) as T?;
       case TextSpan:
         return _textSpanAdapter(origin as Map?) as T?;
+      case TextDecoration:
+        return _textDecorationAdapter(origin as String?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
@@ -1352,6 +1357,7 @@ class DynamicWidgetUtils {
         fontSize: style['fontSize'],
         fontWeight: adapt(style['fontWeight']),
         fontStyle: adapt(style['fontStyle']),
+        decoration: adapt(style['decoration']),
         letterSpacing: style['letterSpacing'],
         wordSpacing: style['wordSpacing'],
         textBaseline: adapt(style['textBaseline']),
@@ -1372,6 +1378,7 @@ class DynamicWidgetUtils {
       'fontSize': style.fontSize,
       'fontWeight': transform(style.fontWeight),
       'fontStyle': transform(style.fontStyle),
+      'decoration': transform(style.decoration),
       'letterSpacing': style.letterSpacing,
       'wordSpacing': style.wordSpacing,
       'textBaseline': transform(style.textBaseline),
@@ -1508,7 +1515,7 @@ class DynamicWidgetUtils {
     if (icon == null) return null;
     var cp = hexToInt(icon['codePoint']);
     return IconData(cp,
-        fontFamily: icon['fontFamily'],
+        fontFamily: icon['fontFamily']??'MaterialIcons',
         matchTextDirection: icon['matchTextDirection'] ?? false);
   }
 
@@ -2127,5 +2134,31 @@ class DynamicWidgetUtils {
       'children': cts,
       'style': textSpan.style,
     };
+  }
+
+  static TextDecoration? _textDecorationAdapter(String? decoration) {
+    if (decoration == null) return null;
+    switch (decoration) {
+      case 'none':
+        return TextDecoration.none;
+      case 'underline':
+        return TextDecoration.underline;
+      case 'overline':
+        return TextDecoration.overline;
+      case 'lineThrough':
+        return TextDecoration.lineThrough;
+    }
+  }
+
+  static String? _transformTextDecoration(TextDecoration? decoration) {
+    if (decoration == null) return null;
+
+    if (decoration == TextDecoration.none) return 'none';
+
+    if (decoration == TextDecoration.underline) return 'underline';
+
+    if (decoration == TextDecoration.overline) return 'overline';
+
+    if (decoration == TextDecoration.lineThrough) return 'lineThrough';
   }
 }

@@ -35,32 +35,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
         body: CustomScrollView(slivers: [
-          SliverPadding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  RaisedButton(
-                    child: Text("Dynamic Widget Json String Export Example"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => JSONExporter()));
-                    },
-                  )
-                ]),
-              )),
+          // SliverPadding(
+          //     padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          //     sliver: SliverList(
+          //       delegate: SliverChildListDelegate([
+          //         ElevatedButton(
+          //           child: Text("Dynamic Widget Json String Export Example"),
+          //           onPressed: () {
+          //             Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                     builder: (context) => JSONExporter()));
+          //           },
+          //         )
+          //       ]),
+          //     )),
           SliverPadding(
             padding: EdgeInsets.all(20),
             sliver: SliverGrid(
@@ -70,17 +64,47 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisSpacing: 10,
               ),
               delegate: SliverChildListDelegate([
-                RaisedButton(
-                  child: Text("Test"),
+                ElevatedButton(
+                  child: Text("Container"),
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CodeEditorPage(testMap)));
+                                CodeEditorPage(containerMap)));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
+                  child: Text("Row"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(rowMap)));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("Column"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(columnMap)));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("Text"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(textMap)));
+                  },
+                ),
+                ElevatedButton(
                   child: Text("Icon"),
                   onPressed: () {
                     Navigator.push(
@@ -90,27 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(iconMap)));
                   },
                 ),
-                RaisedButton(
-                  child: Text("TableData"),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
-                                tableData, context))));
-                  },
-                ),
-                RaisedButton(
-                  child: Text("Wrap"),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
-                                wrap, context))));
-                  },
-                ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("AssetImage"),
                   onPressed: () {
                     Navigator.push(
@@ -120,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(assetImageMap)));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("NetworkImage"),
                   onPressed: () {
                     Navigator.push(
@@ -130,7 +134,57 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(networkImageMap)));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
+                  child: Text("ListView"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(listViewMap)));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("IndexedStack"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(indexedStackMap)));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("SizedBox"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(sizedBoxMap)));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("TableData"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                tableData, context))));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("Wrap"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                wrap, context))));
+                  },
+                ),
+                ElevatedButton(
                   child: Text("LoginInputItem"),
                   onPressed: () {
                     Navigator.push(
@@ -140,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(loginMap)));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("InkWell"),
                   onPressed: () {
                     Navigator.push(
@@ -150,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(inkWellMap)));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("CheckList"),
                   onPressed: () {
                     Navigator.push(
@@ -161,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     checkList2, context))));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("ExpansionTile"),
                   onPressed: () {
                     Navigator.push(
@@ -172,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     expand, context))));
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text("RichText"),
                   onPressed: () {
                     Navigator.push(
@@ -180,6 +234,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 CodeEditorPage(richTextMap)));
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("Test"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CodeEditorPage(testMap)));
                   },
                 ),
               ]),
@@ -229,7 +293,7 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
             SizedBox(
               height: 8,
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text("Preview"),
               onPressed: () {
                 setState(() {
@@ -247,13 +311,12 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
   }
 }
 
-// ignore: must_be_immutable
 class PreviewPage extends StatelessWidget {
   final Map? json;
 
   PreviewPage(this.json);
 
-  late DynamicWidgetJsonExportor _exportor;
+  //late DynamicWidgetJsonExporter _exporter;
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +352,7 @@ class PreviewPage extends StatelessWidget {
       //         },
       //       ),
       //     ),
-      //     RaisedButton(onPressed: (){
+      //     ElevatedButton(onPressed: (){
       //       var exportJsonString = _exportor.exportJsonString();
       //       Navigator.push(
       //           context,
@@ -315,94 +378,95 @@ class PreviewPage extends StatelessWidget {
 //   }
 // }
 
-class JSONExporter extends StatefulWidget {
-  @override
-  _JSONExporterState createState() => _JSONExporterState();
-}
-
-class _JSONExporterState extends State<JSONExporter> {
-  GlobalKey key = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("export example"),
-      ),
-      body: Builder(
-        builder: (context) => Container(
-          width: double.infinity,
-          child: Column(
-            children: [
-              Expanded(
-                child: DynamicWidgetJsonExportor(
-                  key: key,
-                  child: Stack(
-                    alignment: Alignment.topLeft,
-                    children: [
-                      Image.asset("assets/vip.png"),
-                      Positioned(
-                        child: Image.asset("assets/vip.png"),
-                        top: 50,
-                        left: 50,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                child: RaisedButton(
-                  child: Text("Export"),
-                  onPressed: () {
-                    var exportor =
-                        key.currentWidget as DynamicWidgetJsonExportor;
-                    var exportJson = json.decode(exportor.exportJsonString());
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                        content:
-                            Text("json string was exported to editor page.")));
-                    Future.delayed(Duration(seconds: 1), () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CodeEditorPage(exportJson)));
-                    });
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class DynamicWidgetJsonExportor extends StatelessWidget {
-  final Widget? child;
-
-  final GlobalKey globalKey = GlobalKey();
-
-  DynamicWidgetJsonExportor({
-    this.child,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: globalKey,
-      child: child,
-    );
-  }
-
-  String exportJsonString() {
-    String rt = "failed to export";
-    globalKey.currentContext!.visitChildElements((element) {
-      rt = ''; //jsonEncode(DynamicWidgetBuilder.export(element.widget, null));
-    });
-    return rt;
-  }
-}
+// class JSONExporter extends StatefulWidget {
+//   @override
+//   _JSONExporterState createState() => _JSONExporterState();
+// }
+//
+// class _JSONExporterState extends State<JSONExporter> {
+//   GlobalKey key = GlobalKey();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         // Here we take the value from the MyHomePage object that was created by
+//         // the App.build method, and use it to set our appbar title.
+//         title: Text("export example"),
+//       ),
+//       body: Builder(
+//         builder: (context) => Container(
+//           width: double.infinity,
+//           child: Column(
+//             children: [
+//               Expanded(
+//                 child: DynamicWidgetJsonExporter(
+//                   key: key,
+//                   child: Stack(
+//                     alignment: Alignment.topLeft,
+//                     children: [
+//                       Image.asset("assets/vip.png"),
+//                       Positioned(
+//                         child: Image.asset("assets/vip.png"),
+//                         top: 50,
+//                         left: 50,
+//                       )
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               Container(
+//                 child: ElevatedButton(
+//                   child: Text("Export"),
+//                   onPressed: () {
+//                     var exporter =
+//                         key.currentWidget as DynamicWidgetJsonExporter;
+//                     var exportJson = json.decode(exporter.exportJsonString());
+//
+//                     Scaffold.of(context).showSnackBar(
+//                         SnackBar(content: Text("json string was exported to editor page.")));
+//
+//                     Future.delayed(Duration(seconds: 1), () {
+//                       Navigator.push(
+//                           context,
+//                           MaterialPageRoute(
+//                               builder: (context) =>
+//                                   CodeEditorPage(exportJson)));
+//                     });
+//                   },
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class DynamicWidgetJsonExporter extends StatelessWidget {
+//   final Widget? child;
+//
+//   final GlobalKey globalKey = GlobalKey();
+//
+//   DynamicWidgetJsonExporter({
+//     this.child,
+//     Key? key,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       key: globalKey,
+//       child: child,
+//     );
+//   }
+//
+//   String exportJsonString() {
+//     String rt = "failed to export";
+//     globalKey.currentContext!.visitChildElements((element) {
+//       rt = ''; //jsonEncode(DynamicWidgetBuilder.export(element.widget, null));
+//     });
+//     return rt;
+//   }
+// }

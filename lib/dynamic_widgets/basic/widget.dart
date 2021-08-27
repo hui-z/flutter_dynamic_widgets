@@ -11,18 +11,29 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/list_view.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/padding.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/wrap.dart';
 
+import '../aspectratio.dart';
 import '../button.dart';
+import '../card.dart';
 import '../check_list.dart';
 import '../check_list_item.dart';
+import '../chip.dart';
 import '../column.dart';
+import '../constrained_box.dart';
+import '../cupertino_button.dart';
 import '../divider.dart';
 import '../expansion_tile.dart';
+import '../flow.dart';
 import '../gesture_detector.dart';
 import '../icon.dart';
+import '../icon_button.dart';
+import '../indexed_stack.dart';
 import '../ink_well.dart';
 import '../rich_text.dart';
 import '../row.dart';
+import '../sized_box.dart';
+import '../stack.dart';
 import '../text.dart';
+import '../tooltip.dart';
 import 'handler.dart';
 
 abstract class DynamicBaseWidget extends StatefulWidget {
@@ -57,7 +68,18 @@ class DynamicWidgetBuilder {
       CheckListHandler(),
       DividerHandler(),
       CustomExpansionTileHandler(),
-      RichTextHandler()
+      RichTextHandler(),
+      IndexedStackHandler(),
+      SizedBoxHandler(),
+      StackHandler(),
+      AspectRatioHandler(),
+      CardHandler(),
+      ChipHandler(),
+      BoxConstraintsHandler(),
+      CupertinoButtonHandler(),
+      FlowHandler(),
+      IconButtonHandler(),
+      TooltipHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;
