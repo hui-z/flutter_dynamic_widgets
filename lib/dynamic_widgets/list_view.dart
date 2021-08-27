@@ -65,7 +65,7 @@ class _BuilderState extends State<_Builder> {
       scrollDirection: props?.scrollDirection ?? Axis.vertical,
       reverse: props?.reverse ?? false,
       primary: props?.primary,
-      physics: NeverScrollableScrollPhysics(),
+      //physics: NeverScrollableScrollPhysics(),
       shrinkWrap: props?.shrinkWrap ?? false,
       padding: props?.padding,
       itemExtent: props?.itemExtent,

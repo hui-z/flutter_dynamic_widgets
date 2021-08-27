@@ -66,6 +66,7 @@ class _BuilderState extends State<_Builder> {
       alignment: props?.alignment ?? AlignmentDirectional.topStart,
       textDirection: props?.textDirection,
       fit: props?.fit ?? StackFit.loose,
+      children: DynamicWidgetBuilder.buildWidgets(widget.config?.children, context: context, event: widget.event),
     );
   }
 }
