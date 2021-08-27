@@ -69,37 +69,39 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = InkWellConfig.fromJson(widget.config?.xVar ?? {});
     }
-    var onTap = widget.config?.eventNames?.contains(EventName.onTap) == true
+    var eventName1 = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onTap), orElse: () => '');
+
+    var onTap = eventName1 != null && eventName1.isNotEmpty
         ? () {
-            if (widget.event != null) {
-              widget.event!(widget.config?.eventNames?.firstWhere(
-                      (element) => element.contains(EventName.onTap)) ??
-                  '');
-            }
-          }
+      if (widget.event != null) {
+        widget.event!(eventName1);
+      }
+    }
         : null;
+
+    var eventName2 = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onLongPress), orElse: () => '');
+
     var onLongPress =
-        widget.config?.eventNames?.contains(EventName.onLongPress) == true
-            ? () {
-                if (widget.event != null) {
-                  widget.event!(widget.config?.eventNames?.firstWhere(
-                          (element) =>
-                              element.contains(EventName.onLongPress)) ??
-                      '');
-                }
-              }
-            : null;
+    eventName2 != null && eventName2.isNotEmpty
+        ? () {
+      if (widget.event != null) {
+        widget.event!(eventName2);
+      }
+    }
+        : null;
+
+    var eventName3 = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onDoubleTap), orElse: () => '');
     var onDoubleTap =
-        widget.config?.eventNames?.contains(EventName.onDoubleTap) == true
-            ? () {
-                if (widget.event != null) {
-                  widget.event!(widget.config?.eventNames?.firstWhere(
-                          (element) =>
-                              element.contains(EventName.onDoubleTap)) ??
-                      '');
-                }
-              }
-            : null;
+    eventName3 != null && eventName3.isNotEmpty
+        ? () {
+      if (widget.event != null) {
+        widget.event!(eventName3);
+      }
+    }
+        : null;
     return InkWell(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       child: DynamicWidgetBuilder.buildWidget(widget.config?.child,

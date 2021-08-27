@@ -63,12 +63,11 @@ class _BuilderState extends State<_Builder> {
       subtitle: props?.subtitle,
       backgroundColor: props?.backgroundColor,
       onExpansionChanged: (expanded) {
-        if (widget.config?.eventNames?.contains(EventName.onExpansionChanged) ==
-                true &&
+        var eventName = widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onExpansionChanged), orElse: () => '');
+        if (eventName != null && eventName.isNotEmpty &&
             widget.event != null) {
-          widget.event!(widget.config?.eventNames?.firstWhere((element) =>
-                  element.contains(EventName.onExpansionChanged)) ??
-              '' + '&expanded=$expanded');
+          widget.event!(eventName + '&expanded=$expanded');
         }
       },
       children: DynamicWidgetBuilder.buildWidgets(widget.config?.children,
@@ -131,7 +130,7 @@ class CustomExpansionTileConfig {
         'trailing': DynamicWidgetBuilder.transformMap(
             expansionTile.trailing, buildContext),
         'backgroundColor':
-            DynamicWidgetUtils.transform(expansionTile.backgroundColor),
+        DynamicWidgetUtils.transform(expansionTile.backgroundColor),
         'initiallyExpanded': expansionTile.initiallyExpanded,
         'topMargin': expansionTile.topMargin,
       },

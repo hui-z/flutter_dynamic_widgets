@@ -88,20 +88,19 @@ class _BuilderState extends State<_Builder> {
     _widget = RawMaterialButton(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onPressed: () {
-        if (widget.config?.eventNames?.contains(EventName.onTap) == true &&
+        var eventName = widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onTap), orElse: () => '');
+        if (eventName != null && eventName.isNotEmpty &&
             widget.event != null) {
-          widget.event!(widget.config?.eventNames?.firstWhere(
-                  (element) => element.contains(EventName.onTap)) ??
-              '');
+          widget.event!(eventName);
         }
       },
       onLongPress: () {
-        if (widget.config?.eventNames?.contains(EventName.onLongPress) ==
-                true &&
+        var eventName = widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onLongPress), orElse: () => '');
+        if (eventName != null && eventName.isNotEmpty &&
             widget.event != null) {
-          widget.event!(widget.config?.eventNames?.firstWhere(
-                  (element) => element.contains(EventName.onLongPress)) ??
-              '');
+          widget.event!(eventName);
         }
       },
       fillColor: props?.fillColor,

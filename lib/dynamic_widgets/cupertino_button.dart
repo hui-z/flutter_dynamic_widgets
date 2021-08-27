@@ -54,13 +54,12 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = CupertinoButtonConfig.fromJson(widget.config?.xVar ?? {});
     }
-    var onPressed = widget.config?.eventNames?.contains(EventName.onPressed) ==
-        true
+    var eventName = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onTap), orElse: () => '');
+    var onPressed = eventName != null && eventName.isNotEmpty
         ? () {
       if (widget.event != null) {
-        widget.event!(widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onPressed)) ??
-            '');
+        widget.event!(eventName);
       }
     } : null;
 

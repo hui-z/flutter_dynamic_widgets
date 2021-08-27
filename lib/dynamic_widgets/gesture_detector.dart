@@ -55,34 +55,36 @@ class _BuilderState extends State<_Builder> {
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
 
-    var onTap = widget.config?.eventNames?.contains(EventName.onTap) == true
+    var eventName1 = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onTap), orElse: () => '');
+
+    var onTap = eventName1 != null && eventName1.isNotEmpty
         ? () {
             if (widget.event != null) {
-              widget.event!(widget.config?.eventNames?.firstWhere(
-                      (element) => element.contains(EventName.onTap)) ??
-                  '');
+              widget.event!(eventName1);
             }
           }
         : null;
+
+    var eventName2 = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onLongPress), orElse: () => '');
+
     var onLongPress =
-        widget.config?.eventNames?.contains(EventName.onLongPress) == true
+        eventName2 != null && eventName2.isNotEmpty
             ? () {
                 if (widget.event != null) {
-                  widget.event!(widget.config?.eventNames?.firstWhere(
-                          (element) =>
-                              element.contains(EventName.onLongPress)) ??
-                      '');
+                  widget.event!(eventName2);
                 }
               }
             : null;
+
+    var eventName3 = widget.config?.eventNames?.firstWhere(
+            (element) => element.contains(EventName.onDoubleTap), orElse: () => '');
     var onDoubleTap =
-        widget.config?.eventNames?.contains(EventName.onDoubleTap) == true
+    eventName3 != null && eventName3.isNotEmpty
             ? () {
                 if (widget.event != null) {
-                  widget.event!(widget.config?.eventNames?.firstWhere(
-                          (element) =>
-                              element.contains(EventName.onDoubleTap)) ??
-                      '');
+                  widget.event!(eventName3);
                 }
               }
             : null;

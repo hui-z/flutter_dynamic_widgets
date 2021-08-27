@@ -6,5 +6,4 @@ class EventName {
   static const String onTextChanged = 'onTextChanged';
   static const String onExpansionChanged = 'onExpansionChanged';
   static const String onDeleted = 'onDeleted';
-  static const String onPressed = 'onPressed';
 }

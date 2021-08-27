@@ -105,12 +105,11 @@ class _BuilderState extends State<_Builder> {
           context: context,
           event: widget.event),
       onChanged: (text) {
-        if (widget.config?.eventNames?.contains(EventName.onTextChanged) ==
-                true &&
+        var eventName = widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onTextChanged), orElse: () => '');
+        if (eventName != null && eventName.isNotEmpty &&
             widget.event != null) {
-          widget.event!(widget.config?.eventNames?.firstWhere(
-                  (element) => element.contains(EventName.onTextChanged)) ??
-              '' + '&text=$text');
+          widget.event!(eventName + '&text=$text');
         }
       },
       obscureText: props?.obscureText ?? false,

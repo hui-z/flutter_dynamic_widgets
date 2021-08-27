@@ -57,12 +57,11 @@ class _BuilderState extends State<_Builder> {
       props = CheckListConfig.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (List<CheckListData> checkedData) {
-      if (widget.config?.eventNames?.contains(EventName.onCheck) == true &&
+      var eventName = widget.config?.eventNames?.firstWhere(
+              (element) => element.contains(EventName.onCheck), orElse: () => '');
+      if (eventName != null && eventName.isNotEmpty &&
           widget.event != null) {
-        widget.event!(widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onCheck)) ??
-            '' +
-                '&checkedData=${json.encode(checkedData.map((e) => e.transform(context))).toString()}');
+        widget.event!(eventName + '&checkedData=${json.encode(checkedData.map((e) => e.transform(context))).toString()}');
       }
     };
 
@@ -73,11 +72,11 @@ class _BuilderState extends State<_Builder> {
       onCheck: onCheck,
       crossAxisAlignment: props?.crossAxisAlignment,
       onIconPressed: (item) {
-        if (widget.config?.eventNames?.contains('onTap') == true &&
+        var eventName = widget.config?.eventNames?.firstWhere(
+                (element) => element.contains(EventName.onTap), orElse: () => '');
+        if (eventName != null && eventName.isNotEmpty &&
             widget.event != null) {
-          widget.event!(widget.config?.eventNames?.firstWhere(
-                  (element) => element.contains(EventName.onTap)) ??
-              '' + json.encode(item.transform(context)).toString());
+          widget.event!(eventName + json.encode(item.transform(context)).toString());
         }
       },
       showIcon: props?.showIcon ?? false,

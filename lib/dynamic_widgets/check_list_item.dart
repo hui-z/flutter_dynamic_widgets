@@ -57,13 +57,12 @@ class _BuilderState extends State<_Builder> {
       props = CheckListItemConfig.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (bool? isChecked, CheckListData? item) {
-      if (widget.config?.eventNames?.contains(EventName.onCheck) == true &&
+      var eventName = widget.config?.eventNames?.firstWhere(
+              (element) => element.contains(EventName.onCheck), orElse: () => '');
+      if (eventName != null && eventName.isNotEmpty &&
           widget.event != null) {
-        widget.event!(widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onCheck)) ??
-            '' +
-                '&item=${json.encode(item?.transform(context)).toString()}' +
-                '&isChecked=${isChecked ?? false}');
+        widget.event!(eventName + '&item=${json.encode(item?.transform(context)).toString()}' +
+            '&isChecked=${isChecked ?? false}');
       }
     };
 
