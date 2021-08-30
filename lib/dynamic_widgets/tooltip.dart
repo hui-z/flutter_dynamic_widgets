@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class TooltipHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +16,8 @@ class TooltipHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -30,7 +31,7 @@ class TooltipHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -64,8 +65,8 @@ class _BuilderState extends State<_Builder> {
       textStyle: props?.textStyle,
       waitDuration: props?.waitDuration,
       showDuration: props?.showDuration,
-      child: DynamicWidgetBuilder.buildWidget(
-          widget.config?.child, context: context, event: widget.event),
+      child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
+          context: context, event: widget.event),
     );
   }
 }
@@ -100,18 +101,16 @@ class TooltipConfig {
     showDuration = DynamicWidgetUtils.adapt<Duration>(json['showDuration']);
   }
 
-  static Map? toJson(Tooltip widget, String widgetName,
-      BuildContext? buildContext) {
+  static Map? toJson(
+      Tooltip widget, String widgetName, BuildContext? buildContext) {
     return {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(widget.child, buildContext),
       'xVar': {
         'message': widget.message,
         'height': widget.height,
-        'padding': DynamicWidgetUtils.transform(
-            widget.padding as EdgeInsets),
-        'margin': DynamicWidgetUtils.transform(
-            widget.margin as EdgeInsets),
+        'padding': DynamicWidgetUtils.transform(widget.padding as EdgeInsets),
+        'margin': DynamicWidgetUtils.transform(widget.margin as EdgeInsets),
         'verticalOffset': widget.verticalOffset,
         'preferBelow': widget.preferBelow,
         'excludeFromSemantics': widget.excludeFromSemantics,

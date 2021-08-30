@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_widgets/custom_widget/check_list.dart';
 
 class DynamicWidgetUtils {
   DynamicWidgetUtils._();
@@ -130,10 +129,10 @@ class DynamicWidgetUtils {
     if (origin is Curve) {
       return _transformCurve(origin);
     }
-    if(origin is TextSpan){
+    if (origin is TextSpan) {
       return _transformTextSpan(origin);
     }
-    if(origin is TextDecoration){
+    if (origin is TextDecoration) {
       return _transformTextDecoration(origin);
     }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
@@ -220,8 +219,8 @@ class DynamicWidgetUtils {
       case DragStartBehavior:
         return _dragStartBehaviorAdapter(origin as String?) as T?;
       case ScrollViewKeyboardDismissBehavior:
-        return _scrollViewKeyboardDismissBehaviorAdapter(
-            origin as String?) as T?;
+        return _scrollViewKeyboardDismissBehaviorAdapter(origin as String?)
+            as T?;
       case MouseCursor:
         return _mouseCursorAdapter(origin as String?) as T?;
       case Curve:
@@ -234,8 +233,8 @@ class DynamicWidgetUtils {
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
 
-  static ScrollViewKeyboardDismissBehavior? _scrollViewKeyboardDismissBehaviorAdapter(
-      String? str) {
+  static ScrollViewKeyboardDismissBehavior?
+      _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
     if (str == null) return null;
 
     ScrollViewKeyboardDismissBehavior? dragStartBehaviorStr;
@@ -632,10 +631,10 @@ class DynamicWidgetUtils {
     return BorderRadius.only(
         topLeft: adapt(borderRadius['topLeft']?.toDouble()) ?? Radius.zero,
         topRight: adapt(borderRadius['topRight']?.toDouble()) ?? Radius.zero,
-        bottomLeft: adapt(borderRadius['bottomLeft']?.toDouble()) ??
-            Radius.zero,
-        bottomRight: adapt(borderRadius['bottomRight']?.toDouble()) ??
-            Radius.zero);
+        bottomLeft:
+            adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
+        bottomRight:
+            adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
   }
 
   static Map? transformBorderRadius(BorderRadius? borderRadius) {
@@ -1215,8 +1214,8 @@ class DynamicWidgetUtils {
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-        adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
-            TextLeadingDistribution.proportional);
+            adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
+                TextLeadingDistribution.proportional);
   }
 
   static Map? _transformTextHeightBehavior(TextHeightBehavior? behavior) {
@@ -1224,8 +1223,7 @@ class DynamicWidgetUtils {
     return {
       'applyHeightToFirstAscent': behavior.applyHeightToFirstAscent,
       'applyHeightToLastDescent': behavior.applyHeightToLastDescent,
-      'leadingDistribution':
-      transform(behavior.leadingDistribution),
+      'leadingDistribution': transform(behavior.leadingDistribution),
     };
   }
 
@@ -1464,27 +1462,20 @@ class DynamicWidgetUtils {
   static Map? _transformOffset(Offset? offset) {
     if (offset == null) return null;
 
-    return {
-      'dx': offset.dx,
-      'dy': offset.dy
-    };
+    return {'dx': offset.dx, 'dy': offset.dy};
   }
 
   static Size? _sizeAdapter(Map? size) {
     if (size == null) return null;
 
-    return Size(
-        size['width']?.toDouble() ?? double.infinity,
+    return Size(size['width']?.toDouble() ?? double.infinity,
         size['height']?.toDouble() ?? double.infinity);
   }
 
   static Map? _transformSize(Size? size) {
     if (size == null) return null;
 
-    return {
-      'width': size.width,
-      'height': size.height
-    };
+    return {'width': size.width, 'height': size.height};
   }
 
   static int hexToInt(String? hex) {
@@ -1515,14 +1506,12 @@ class DynamicWidgetUtils {
     if (icon == null) return null;
     var cp = hexToInt(icon['codePoint']);
     return IconData(cp,
-        fontFamily: icon['fontFamily']??'MaterialIcons',
+        fontFamily: icon['fontFamily'] ?? 'MaterialIcons',
         matchTextDirection: icon['matchTextDirection'] ?? false);
   }
 
   static BlendMode? _blendModeAdapter(String? blendModeString) {
-    if (blendModeString == null || blendModeString
-        .trim()
-        .length == 0) {
+    if (blendModeString == null || blendModeString.trim().length == 0) {
       return null;
     }
 
@@ -1813,65 +1802,46 @@ class DynamicWidgetUtils {
     if (mouseCursor == null) {
       return null;
     }
-    if (mouseCursor == SystemMouseCursors.basic)
-      return 'basic';
+    if (mouseCursor == SystemMouseCursors.basic) return 'basic';
 
-    if (mouseCursor == SystemMouseCursors.click)
-      return 'click';
+    if (mouseCursor == SystemMouseCursors.click) return 'click';
 
-    if (mouseCursor == SystemMouseCursors.forbidden)
-      return 'forbidden';
+    if (mouseCursor == SystemMouseCursors.forbidden) return 'forbidden';
 
-    if (mouseCursor == SystemMouseCursors.wait)
-      return 'wait';
+    if (mouseCursor == SystemMouseCursors.wait) return 'wait';
 
-    if (mouseCursor == SystemMouseCursors.progress)
-      return 'progress';
+    if (mouseCursor == SystemMouseCursors.progress) return 'progress';
 
-    if (mouseCursor == SystemMouseCursors.contextMenu)
-      return 'contextMenu';
+    if (mouseCursor == SystemMouseCursors.contextMenu) return 'contextMenu';
 
-    if (mouseCursor == SystemMouseCursors.help)
-      return 'help';
+    if (mouseCursor == SystemMouseCursors.help) return 'help';
 
-    if (mouseCursor == SystemMouseCursors.text)
-      return 'text';
+    if (mouseCursor == SystemMouseCursors.text) return 'text';
 
-    if (mouseCursor == SystemMouseCursors.verticalText)
-      return 'verticalText';
+    if (mouseCursor == SystemMouseCursors.verticalText) return 'verticalText';
 
-    if (mouseCursor == SystemMouseCursors.cell)
-      return 'cell';
+    if (mouseCursor == SystemMouseCursors.cell) return 'cell';
 
-    if (mouseCursor == SystemMouseCursors.precise)
-      return 'precise';
+    if (mouseCursor == SystemMouseCursors.precise) return 'precise';
 
-    if (mouseCursor == SystemMouseCursors.move)
-      return 'move';
+    if (mouseCursor == SystemMouseCursors.move) return 'move';
 
-    if (mouseCursor == SystemMouseCursors.grab)
-      return 'grab';
+    if (mouseCursor == SystemMouseCursors.grab) return 'grab';
 
-    if (mouseCursor == SystemMouseCursors.noDrop)
-      return 'noDrop';
+    if (mouseCursor == SystemMouseCursors.noDrop) return 'noDrop';
 
-    if (mouseCursor == SystemMouseCursors.alias)
-      return 'alias';
+    if (mouseCursor == SystemMouseCursors.alias) return 'alias';
 
-    if (mouseCursor == SystemMouseCursors.copy)
-      return 'copy';
+    if (mouseCursor == SystemMouseCursors.copy) return 'copy';
 
-    if (mouseCursor == SystemMouseCursors.disappearing)
-      return 'disappearing';
+    if (mouseCursor == SystemMouseCursors.disappearing) return 'disappearing';
 
-    if (mouseCursor == SystemMouseCursors.allScroll)
-      return 'allScroll';
+    if (mouseCursor == SystemMouseCursors.allScroll) return 'allScroll';
 
     if (mouseCursor == SystemMouseCursors.resizeLeftRight)
       return 'resizeLeftRight';
 
-    if (mouseCursor == SystemMouseCursors.resizeUpDown)
-      return 'resizeUpDown';
+    if (mouseCursor == SystemMouseCursors.resizeUpDown) return 'resizeUpDown';
 
     if (mouseCursor == SystemMouseCursors.resizeUpLeftDownRight)
       return 'resizeUpLeftDownRight';
@@ -1879,23 +1849,17 @@ class DynamicWidgetUtils {
     if (mouseCursor == SystemMouseCursors.resizeUpRightDownLeft)
       return 'resizeUpRightDownLeft';
 
-    if (mouseCursor == SystemMouseCursors.resizeUp)
-      return 'resizeUp';
+    if (mouseCursor == SystemMouseCursors.resizeUp) return 'resizeUp';
 
-    if (mouseCursor == SystemMouseCursors.resizeDown)
-      return 'resizeDown';
+    if (mouseCursor == SystemMouseCursors.resizeDown) return 'resizeDown';
 
-    if (mouseCursor == SystemMouseCursors.resizeLeft)
-      return 'resizeLeft';
+    if (mouseCursor == SystemMouseCursors.resizeLeft) return 'resizeLeft';
 
-    if (mouseCursor == SystemMouseCursors.resizeRight)
-      return 'resizeRight';
+    if (mouseCursor == SystemMouseCursors.resizeRight) return 'resizeRight';
 
-    if (mouseCursor == SystemMouseCursors.resizeUpLeft)
-      return 'resizeUpLeft';
+    if (mouseCursor == SystemMouseCursors.resizeUpLeft) return 'resizeUpLeft';
 
-    if (mouseCursor == SystemMouseCursors.resizeUpRight)
-      return 'resizeUpRight';
+    if (mouseCursor == SystemMouseCursors.resizeUpRight) return 'resizeUpRight';
 
     if (mouseCursor == SystemMouseCursors.resizeDownLeft)
       return 'resizeDownLeft';
@@ -1903,17 +1867,13 @@ class DynamicWidgetUtils {
     if (mouseCursor == SystemMouseCursors.resizeDownRight)
       return 'resizeDownRight';
 
-    if (mouseCursor == SystemMouseCursors.resizeColumn)
-      return 'resizeColumn';
+    if (mouseCursor == SystemMouseCursors.resizeColumn) return 'resizeColumn';
 
-    if (mouseCursor == SystemMouseCursors.resizeRow)
-      return 'resizeRow';
+    if (mouseCursor == SystemMouseCursors.resizeRow) return 'resizeRow';
 
-    if (mouseCursor == SystemMouseCursors.zoomIn)
-      return 'zoomIn';
+    if (mouseCursor == SystemMouseCursors.zoomIn) return 'zoomIn';
 
-    if (mouseCursor == SystemMouseCursors.zoomOut)
-      return 'zoomOut';
+    if (mouseCursor == SystemMouseCursors.zoomOut) return 'zoomOut';
 
     return 'none';
   }

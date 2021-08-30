@@ -17,8 +17,8 @@ class CupertinoButtonHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -32,7 +32,7 @@ class CupertinoButtonHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -54,29 +54,32 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = CupertinoButtonConfig.fromJson(widget.config?.xVar ?? {});
     }
-    var eventName = widget.config?.eventNames?.firstWhere(
-            (element) => element.contains(EventName.onTap), orElse: () => '');
-    var onPressed = eventName != null && eventName.isNotEmpty
+    var eventInfo = widget.config?.events.firstWhere(
+        (element) => element.type == EventType.onTap,
+        orElse: () => EventInfo(type: '', action: ''));
+    var onPressed = eventInfo?.type != null && eventInfo?.type != ''
         ? () {
-      if (widget.event != null) {
-        widget.event!(eventName);
-      }
-    } : null;
+            if (widget.event != null) {
+              widget.event!(eventInfo!);
+            }
+          }
+        : null;
 
     return CupertinoButton(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       padding: props?.padding ?? EdgeInsets.all(8.0),
       color: props?.color,
-      disabledColor: props?.disabledColor ??
-          CupertinoColors.quaternarySystemFill,
+      disabledColor:
+          props?.disabledColor ?? CupertinoColors.quaternarySystemFill,
       minSize: props?.minSize ?? kMinInteractiveDimensionCupertino,
       pressedOpacity: props?.pressedOpacity ?? 0.4,
-      borderRadius: props?.borderRadius ??
-          const BorderRadius.all(Radius.circular(8.0)),
+      borderRadius:
+          props?.borderRadius ?? const BorderRadius.all(Radius.circular(8.0)),
       alignment: props?.alignment ?? Alignment.center,
       onPressed: onPressed,
       child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
-          context: context, event: widget.event) ?? SizedBox(),
+              context: context, event: widget.event) ??
+          SizedBox(),
     );
   }
 }
@@ -103,21 +106,20 @@ class CupertinoButtonConfig {
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
   }
 
-  static Map? toJson(CupertinoButton widget, String widgetName,
-      BuildContext? buildContext) {
+  static Map? toJson(
+      CupertinoButton widget, String widgetName, BuildContext? buildContext) {
     return {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(widget.child, buildContext),
       'xVar': {
-        'padding': DynamicWidgetUtils.transform(
-            widget.padding as EdgeInsets),
+        'padding': DynamicWidgetUtils.transform(widget.padding as EdgeInsets),
         'color': DynamicWidgetUtils.transform(widget.color),
         'disabledColor': DynamicWidgetUtils.transform(widget.disabledColor),
         'minSize': widget.minSize,
         'pressedOpacity': widget.pressedOpacity,
         'borderRadius': DynamicWidgetUtils.transform(widget.borderRadius),
-        'alignment': DynamicWidgetUtils.transform(
-            widget.alignment as Alignment),
+        'alignment':
+            DynamicWidgetUtils.transform(widget.alignment as Alignment),
       },
       'xKey': widget.key.toString()
     };

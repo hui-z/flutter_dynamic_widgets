@@ -15,7 +15,7 @@ class ListInputItemHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -63,7 +63,7 @@ class ListInputItemHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -105,11 +105,14 @@ class _BuilderState extends State<_Builder> {
           context: context,
           event: widget.event),
       onChanged: (text) {
-        var eventName = widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onTextChanged), orElse: () => '');
-        if (eventName != null && eventName.isNotEmpty &&
+        var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onTextChanged,
+            orElse: () => EventInfo(type: '', action: ''));
+        if (eventInfo?.type != null &&
+            eventInfo?.type != '' &&
             widget.event != null) {
-          widget.event!(eventName + '&text=$text');
+          eventInfo?.operateData = text;
+          widget.event!(eventInfo!);
         }
       },
       obscureText: props?.obscureText ?? false,

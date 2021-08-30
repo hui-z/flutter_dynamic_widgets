@@ -17,7 +17,7 @@ class CheckListItemHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -34,7 +34,7 @@ class CheckListItemHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -57,12 +57,16 @@ class _BuilderState extends State<_Builder> {
       props = CheckListItemConfig.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (bool? isChecked, CheckListData? item) {
-      var eventName = widget.config?.eventNames?.firstWhere(
-              (element) => element.contains(EventName.onCheck), orElse: () => '');
-      if (eventName != null && eventName.isNotEmpty &&
+      var eventInfo = widget.config?.events.firstWhere(
+          (element) => element.type == EventType.onCheck,
+          orElse: () => EventInfo(type: '', action: ''));
+      if (eventInfo?.type != null &&
+          eventInfo?.type != '' &&
           widget.event != null) {
-        widget.event!(eventName + '&item=${json.encode(item?.transform(context)).toString()}' +
-            '&isChecked=${isChecked ?? false}');
+        eventInfo?.operateData =
+            '&item=${json.encode(item?.transform(context)).toString()}' +
+                '&isChecked=${isChecked ?? false}';
+        widget.event!(eventInfo!);
       }
     };
 
@@ -76,11 +80,15 @@ class _BuilderState extends State<_Builder> {
       showIcon: props?.showIcon ?? false,
       icon: props?.icon,
       onIconPressed: (item) {
-        if (widget.config?.eventNames?.contains(EventName.onTap) == true &&
+        var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onTap,
+            orElse: () => EventInfo(type: '', action: ''));
+        if (eventInfo?.type != null &&
+            eventInfo?.type != '' &&
             widget.event != null) {
-          widget.event!(widget.config?.eventNames?.firstWhere(
-                  (element) => element.contains(EventName.onTap)) ??
-              '' + json.encode(item.transform(context)).toString());
+          eventInfo?.operateData =
+              json.encode(item.transform(context)).toString();
+          widget.event!(eventInfo!);
         }
       },
       activeColor: props?.activeColor,

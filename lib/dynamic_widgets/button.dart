@@ -15,7 +15,7 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -58,7 +58,7 @@ class RawMaterialButtonHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -88,19 +88,23 @@ class _BuilderState extends State<_Builder> {
     _widget = RawMaterialButton(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onPressed: () {
-        var eventName = widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onTap), orElse: () => '');
-        if (eventName != null && eventName.isNotEmpty &&
+        var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onTap,
+            orElse: () => EventInfo(type: '', action: ''));
+        if (eventInfo?.type != null &&
+            eventInfo?.type != '' &&
             widget.event != null) {
-          widget.event!(eventName);
+          widget.event!(eventInfo!);
         }
       },
       onLongPress: () {
-        var eventName = widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onLongPress), orElse: () => '');
-        if (eventName != null && eventName.isNotEmpty &&
+        var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onLongPress,
+            orElse: () => EventInfo(type: '', action: ''));
+        if (eventInfo?.type != null &&
+            eventInfo?.type != '' &&
             widget.event != null) {
-          widget.event!(eventName);
+          widget.event!(eventInfo!);
         }
       },
       fillColor: props?.fillColor,

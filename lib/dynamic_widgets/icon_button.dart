@@ -16,8 +16,8 @@ class IconButtonHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -31,7 +31,7 @@ class IconButtonHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -53,15 +53,15 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = IconButtonConfig.fromJson(widget.config?.xVar ?? {});
     }
-    var eventName = widget.config?.eventNames?.firstWhere(
-            (element) => element.contains(EventName.onTap), orElse: () => '');
-
-    var onPressed = eventName != null && eventName.isNotEmpty
+    var eventInfo = widget.config?.events.firstWhere(
+        (element) => element.type == EventType.onTap,
+        orElse: () => EventInfo(type: '', action: ''));
+    var onPressed = eventInfo?.type != null && eventInfo?.type != ''
         ? () {
-      if (widget.event != null) {
-        widget.event!(eventName);
-      }
-    }
+            if (widget.event != null) {
+              widget.event!(eventInfo!);
+            }
+          }
         : null;
 
     return IconButton(
@@ -81,8 +81,10 @@ class _BuilderState extends State<_Builder> {
       enableFeedback: props?.enableFeedback ?? true,
       constraints: props?.constraints,
       icon: DynamicWidgetBuilder.buildWidget(
-          DynamicWidgetConfig.fromJson(props?.icon ?? {}), context: context,
-          event: widget.event) ?? SizedBox(),
+              DynamicWidgetConfig.fromJson(props?.icon ?? {}),
+              context: context,
+              event: widget.event) ??
+          SizedBox(),
     );
   }
 }
@@ -127,17 +129,16 @@ class IconButtonConfig {
     constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
   }
 
-  static Map? toJson(IconButton widget, String widgetName,
-      BuildContext? buildContext) {
+  static Map? toJson(
+      IconButton widget, String widgetName, BuildContext? buildContext) {
     return {
       'widget': widgetName,
       'icon': DynamicWidgetBuilder.transformMap(widget.icon, buildContext),
       'xVar': {
         'iconSize': widget.iconSize,
-        'padding': DynamicWidgetUtils.transform(
-            widget.padding as EdgeInsets),
-        'alignment': DynamicWidgetUtils.transform(
-            widget.alignment as Alignment),
+        'padding': DynamicWidgetUtils.transform(widget.padding as EdgeInsets),
+        'alignment':
+            DynamicWidgetUtils.transform(widget.alignment as Alignment),
         'splashRadius': widget.splashRadius,
         'color': DynamicWidgetUtils.transform(widget.color),
         'focusColor': DynamicWidgetUtils.transform(widget.focusColor),

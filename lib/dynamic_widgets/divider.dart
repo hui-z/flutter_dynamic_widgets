@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class DividerHandler extends DynamicBasicWidgetHandler {
@@ -11,7 +12,9 @@ class DividerHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -28,9 +31,10 @@ class DividerHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
-  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -76,7 +80,8 @@ class DividerConfig {
     color = DynamicWidgetUtils.adapt<Color>(json['Color']);
   }
 
-  static Map? toJson(Divider divider, String widgetName, BuildContext? buildContext) {
+  static Map? toJson(
+      Divider divider, String widgetName, BuildContext? buildContext) {
     return {
       'widget': widgetName,
       'xVar': {

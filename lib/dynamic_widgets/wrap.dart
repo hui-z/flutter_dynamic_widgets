@@ -3,16 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class WrapHandler extends DynamicBasicWidgetHandler {
-
   @override
   String get widgetName => 'Wrap';
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -22,13 +24,16 @@ class WrapHandler extends DynamicBasicWidgetHandler {
     if (wrap == null) return null;
     return {
       'widget': widgetName,
-      'children': DynamicWidgetBuilder.transformList(wrap.children, buildContext),
+      'children':
+          DynamicWidgetBuilder.transformList(wrap.children, buildContext),
       'xVar': {
         'direction': DynamicWidgetUtils.transform(wrap.direction),
         'alignment': DynamicWidgetUtils.transform(wrap.alignment),
         'runAlignment': DynamicWidgetUtils.transform(wrap.runAlignment),
-        'crossAxisAlignment': DynamicWidgetUtils.transform(wrap.crossAxisAlignment),
-        'verticalDirection': DynamicWidgetUtils.transform(wrap.verticalDirection),
+        'crossAxisAlignment':
+            DynamicWidgetUtils.transform(wrap.crossAxisAlignment),
+        'verticalDirection':
+            DynamicWidgetUtils.transform(wrap.verticalDirection),
         'textDirection': DynamicWidgetUtils.transform(wrap.textDirection),
         'clipBehavior': DynamicWidgetUtils.transform(wrap.clipBehavior),
         'runSpacing': wrap.runSpacing,
@@ -44,9 +49,10 @@ class WrapHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
-  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -57,7 +63,6 @@ class _BuilderState extends State<_Builder> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -66,7 +71,10 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = WrapConfig.fromJson(widget.config?.xVar ?? {});
     }
-    List<Widget> _children = DynamicWidgetBuilder.buildWidgets(widget.config?.children, context: context, event: widget.event);
+    List<Widget> _children = DynamicWidgetBuilder.buildWidgets(
+        widget.config?.children,
+        context: context,
+        event: widget.event);
 
     return Wrap(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -82,7 +90,6 @@ class _BuilderState extends State<_Builder> {
       children: _children,
     );
   }
-
 }
 
 class WrapConfig {
@@ -101,11 +108,14 @@ class WrapConfig {
     alignment = DynamicWidgetUtils.adapt<WrapAlignment>(json['alignment']);
     spacing = json['spacing'];
     runSpacing = json['runSpacing'];
-    crossAxisAlignment = DynamicWidgetUtils.adapt<WrapCrossAlignment>(json['crossAxisAlignment']);
-    textDirection = DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
-    verticalDirection = DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
+    crossAxisAlignment = DynamicWidgetUtils.adapt<WrapCrossAlignment>(
+        json['crossAxisAlignment']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    verticalDirection =
+        DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
     clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
-    runAlignment = DynamicWidgetUtils.adapt<WrapAlignment>(json['runAlignment']);
+    runAlignment =
+        DynamicWidgetUtils.adapt<WrapAlignment>(json['runAlignment']);
   }
-
 }

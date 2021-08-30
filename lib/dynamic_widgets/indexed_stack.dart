@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class IndexedStackHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +16,8 @@ class IndexedStackHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -26,11 +27,11 @@ class IndexedStackHandler extends DynamicBasicWidgetHandler {
     if (realWidget == null) return null;
     return {
       'widget': widgetName,
-      'children': DynamicWidgetBuilder.transformList(
-          realWidget.children, buildContext),
+      'children':
+          DynamicWidgetBuilder.transformList(realWidget.children, buildContext),
       'xVar': {
-        'alignment': DynamicWidgetUtils.transform(
-            realWidget.alignment as Alignment?),
+        'alignment':
+            DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
         'textDirection': DynamicWidgetUtils.transform(realWidget.textDirection),
         'sizing': DynamicWidgetUtils.transform(realWidget.fit),
       },
@@ -41,7 +42,7 @@ class IndexedStackHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);

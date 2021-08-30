@@ -17,7 +17,7 @@ class ChipHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -56,7 +56,7 @@ class ChipHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -78,13 +78,13 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = ChipConfig.fromJson(widget.config?.xVar ?? {});
     }
-    var eventName = widget.config?.eventNames?.firstWhere(
-        (element) => element.contains(EventName.onDeleted),
-        orElse: () => '');
-    var onDeleted = eventName != null && eventName.isNotEmpty
+    var eventInfo = widget.config?.events.firstWhere(
+        (element) => element.type == EventType.onDeleted,
+        orElse: () => EventInfo(type: '', action: ''));
+    var onDeleted = eventInfo?.type != null && eventInfo?.type != ''
         ? () {
             if (widget.event != null) {
-              widget.event!(eventName);
+              widget.event!(eventInfo!);
             }
           }
         : null;

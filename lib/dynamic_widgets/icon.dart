@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class IconHandler extends DynamicBasicWidgetHandler {
@@ -11,7 +12,9 @@ class IconHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -38,9 +41,10 @@ class IconHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
-  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -59,14 +63,12 @@ class _BuilderState extends State<_Builder> {
     if (widget.config?.xVar != null) {
       props = IconConfig.fromJson(widget.config?.xVar ?? {});
     }
-    return Icon(
-      props?.icon,
-      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      size: props?.size,
-      color: props?.color,
-      semanticLabel: props?.semanticLabel,
-      textDirection: props?.textDirection
-    );
+    return Icon(props?.icon,
+        key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+        size: props?.size,
+        color: props?.color,
+        semanticLabel: props?.semanticLabel,
+        textDirection: props?.textDirection);
   }
 }
 
@@ -82,6 +84,7 @@ class IconConfig {
     size = json['size'];
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
     semanticLabel = json['semanticLabel'];
-    textDirection = DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
   }
 }
