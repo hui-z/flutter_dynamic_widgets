@@ -11,22 +11,20 @@ class DividerHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Divider';
 
   @override
+  Type get widgetType => Divider;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var divider = widget as Divider?;
-    if (divider == null) return null;
-    return DividerConfig.toJson(divider, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Divider;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -41,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  DividerConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -50,8 +46,29 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late double? height;
+  late double? thickness;
+  late double? indent;
+  late double? endIndent;
+  late Color? color;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    height = json['height'];
+    thickness = json['thickness'];
+    indent = json['indent'];
+    endIndent = json['endIndent'];
+    color = DynamicWidgetUtils.adapt<Color>(json['Color']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = DividerConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
 
     return Divider(
@@ -63,25 +80,11 @@ class _BuilderState extends State<_Builder> {
       color: props?.color,
     );
   }
-}
 
-class DividerConfig {
-  late double? height;
-  late double? thickness;
-  late double? indent;
-  late double? endIndent;
-  late Color? color;
-
-  DividerConfig.fromJson(Map<dynamic, dynamic> json) {
-    height = json['height'];
-    thickness = json['thickness'];
-    indent = json['indent'];
-    endIndent = json['endIndent'];
-    color = DynamicWidgetUtils.adapt<Color>(json['Color']);
-  }
-
-  static Map? toJson(
-      Divider divider, String widgetName, BuildContext? buildContext) {
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var divider = widget as Divider?;
+    if (divider == null) return null;
     return {
       'widget': widgetName,
       'xVar': {

@@ -11,6 +11,9 @@ class WrapHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Wrap';
 
   @override
+  Type get widgetType => Wrap;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -20,31 +23,8 @@ class WrapHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var wrap = widget as Wrap?;
-    if (wrap == null) return null;
-    return {
-      'widget': widgetName,
-      'children':
-          DynamicWidgetBuilder.transformList(wrap.children, buildContext),
-      'xVar': {
-        'direction': DynamicWidgetUtils.transform(wrap.direction),
-        'alignment': DynamicWidgetUtils.transform(wrap.alignment),
-        'runAlignment': DynamicWidgetUtils.transform(wrap.runAlignment),
-        'crossAxisAlignment':
-            DynamicWidgetUtils.transform(wrap.crossAxisAlignment),
-        'verticalDirection':
-            DynamicWidgetUtils.transform(wrap.verticalDirection),
-        'textDirection': DynamicWidgetUtils.transform(wrap.textDirection),
-        'clipBehavior': DynamicWidgetUtils.transform(wrap.clipBehavior),
-        'runSpacing': wrap.runSpacing,
-        'spacing': wrap.spacing,
-      },
-      'xKey': wrap.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Wrap;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -59,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  WrapConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -68,8 +46,41 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Axis? direction;
+  late WrapAlignment? alignment;
+  late double? spacing;
+  late double? runSpacing;
+  late TextDirection? textDirection;
+  late VerticalDirection? verticalDirection;
+  late WrapAlignment? runAlignment;
+  late WrapCrossAlignment? crossAxisAlignment;
+  late Clip? clipBehavior;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    direction = DynamicWidgetUtils.adapt<Axis>(json['direction']);
+    alignment = DynamicWidgetUtils.adapt<WrapAlignment>(json['alignment']);
+    spacing = json['spacing'];
+    runSpacing = json['runSpacing'];
+    crossAxisAlignment = DynamicWidgetUtils.adapt<WrapCrossAlignment>(
+        json['crossAxisAlignment']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    verticalDirection =
+        DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
+    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+    runAlignment =
+        DynamicWidgetUtils.adapt<WrapAlignment>(json['runAlignment']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = WrapConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     List<Widget> _children = DynamicWidgetBuilder.buildWidgets(
         widget.config?.children,
@@ -90,32 +101,29 @@ class _BuilderState extends State<_Builder> {
       children: _children,
     );
   }
-}
 
-class WrapConfig {
-  late Axis? direction;
-  late WrapAlignment? alignment;
-  late double? spacing;
-  late double? runSpacing;
-  late TextDirection? textDirection;
-  late VerticalDirection? verticalDirection;
-  late WrapAlignment? runAlignment;
-  late WrapCrossAlignment? crossAxisAlignment;
-  late Clip? clipBehavior;
-
-  WrapConfig.fromJson(Map<dynamic, dynamic> json) {
-    direction = DynamicWidgetUtils.adapt<Axis>(json['direction']);
-    alignment = DynamicWidgetUtils.adapt<WrapAlignment>(json['alignment']);
-    spacing = json['spacing'];
-    runSpacing = json['runSpacing'];
-    crossAxisAlignment = DynamicWidgetUtils.adapt<WrapCrossAlignment>(
-        json['crossAxisAlignment']);
-    textDirection =
-        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
-    verticalDirection =
-        DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
-    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
-    runAlignment =
-        DynamicWidgetUtils.adapt<WrapAlignment>(json['runAlignment']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var wrap = widget as Wrap?;
+    if (wrap == null) return null;
+    return {
+      'widget': widgetName,
+      'children':
+      DynamicWidgetBuilder.transformList(wrap.children, buildContext),
+      'xVar': {
+        'direction': DynamicWidgetUtils.transform(wrap.direction),
+        'alignment': DynamicWidgetUtils.transform(wrap.alignment),
+        'runAlignment': DynamicWidgetUtils.transform(wrap.runAlignment),
+        'crossAxisAlignment':
+        DynamicWidgetUtils.transform(wrap.crossAxisAlignment),
+        'verticalDirection':
+        DynamicWidgetUtils.transform(wrap.verticalDirection),
+        'textDirection': DynamicWidgetUtils.transform(wrap.textDirection),
+        'clipBehavior': DynamicWidgetUtils.transform(wrap.clipBehavior),
+        'runSpacing': wrap.runSpacing,
+        'spacing': wrap.spacing,
+      },
+      'xKey': wrap.key.toString()
+    };
   }
 }

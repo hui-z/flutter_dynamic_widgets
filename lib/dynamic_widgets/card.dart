@@ -23,9 +23,7 @@ class CardHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as Card?;
-    if (realWidget == null) return null;
-    return CardConfig.toJson(realWidget, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -41,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  CardConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -50,8 +46,35 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Color? color;
+  late Color? shadowColor;
+  late double? elevation;
+
+  //late ShapeBorder? shape;
+  late bool? borderOnForeground;
+  late EdgeInsetsGeometry? margin;
+  late Clip? clipBehavior;
+  late bool? semanticContainer;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    color = DynamicWidgetUtils.adapt<Color>(json['color']);
+    shadowColor = DynamicWidgetUtils.adapt<Color>(json['shadowColor']);
+    elevation = json['elevation']?.toDouble();
+    borderOnForeground = json['borderOnForeground'];
+    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
+    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+    semanticContainer = json['semanticContainer'];
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = CardConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Card(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -66,44 +89,25 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class CardConfig {
-  late Color? color;
-  late Color? shadowColor;
-  late double? elevation;
-
-  //late ShapeBorder? shape;
-  late bool? borderOnForeground;
-  late EdgeInsetsGeometry? margin;
-  late Clip? clipBehavior;
-  late bool? semanticContainer;
-
-  CardConfig.fromJson(Map<dynamic, dynamic> json) {
-    color = DynamicWidgetUtils.adapt<Color>(json['color']);
-    shadowColor = DynamicWidgetUtils.adapt<Color>(json['shadowColor']);
-    elevation = json['elevation']?.toDouble();
-    borderOnForeground = json['borderOnForeground'];
-    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
-    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
-    semanticContainer = json['semanticContainer'];
-  }
-
-  static Map? toJson(
-      Card widget, String widgetName, BuildContext? buildContext) {
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as Card?;
+    if (realWidget == null) return null;
     return {
       'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(widget.child, buildContext),
+      'child': DynamicWidgetBuilder.transformMap(
+          realWidget.child, buildContext),
       'xVar': {
-        'color': widget.color,
-        'shadowColor': widget.shadowColor,
-        'elevation': widget.elevation,
-        'borderOnForeground': widget.borderOnForeground,
-        'margin': DynamicWidgetUtils.transform(widget.margin as EdgeInsets),
-        'clipBehavior': DynamicWidgetUtils.transform(widget.clipBehavior),
-        'semanticContainer': widget.semanticContainer,
+        'color': realWidget.color,
+        'shadowColor': realWidget.shadowColor,
+        'elevation': realWidget.elevation,
+        'borderOnForeground': realWidget.borderOnForeground,
+        'margin': DynamicWidgetUtils.transform(realWidget.margin as EdgeInsets),
+        'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
+        'semanticContainer': realWidget.semanticContainer,
       },
-      'xKey': widget.key.toString()
+      'xKey': realWidget.key.toString()
     };
   }
 }

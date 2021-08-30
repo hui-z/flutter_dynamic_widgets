@@ -11,6 +11,9 @@ class TextHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Text';
 
   @override
+  Type get widgetType => Text;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -20,30 +23,8 @@ class TextHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var text = widget as Text?;
-    if (text == null) return null;
-    return {
-      'widget': widgetName,
-      'xVar': {
-        'data': text.data,
-        'style': DynamicWidgetUtils.transform(text.style),
-        'strutStyle': DynamicWidgetUtils.transform(text.strutStyle),
-        'textAlign': DynamicWidgetUtils.transform(text.textAlign),
-        'textDirection': DynamicWidgetUtils.transform(text.textDirection),
-        'softWrap': text.softWrap,
-        'overflow': DynamicWidgetUtils.transform(text.overflow),
-        'textScaleFactor': text.textScaleFactor,
-        'maxLines': text.maxLines,
-        'semanticsLabel': text.semanticsLabel,
-        'textHeightBehavior':
-            DynamicWidgetUtils.transform(text.textHeightBehavior),
-      },
-      'xKey': text.key.toString()
-    };
+   return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Text;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -58,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  TextConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -67,8 +46,43 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late String? data;
+  late TextStyle? style;
+  late StrutStyle? strutStyle;
+  late TextAlign? textAlign;
+  late TextDirection? textDirection;
+  late bool? softWrap;
+  late TextOverflow? overflow;
+  late double? textScaleFactor;
+  late int? maxLines;
+  late String? semanticsLabel;
+  late TextHeightBehavior? textHeightBehavior;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    data = json['data'];
+    style = DynamicWidgetUtils.adapt<TextStyle>(json['style']);
+    strutStyle = DynamicWidgetUtils.adapt<StrutStyle>(json['strutStyle']);
+    textAlign = DynamicWidgetUtils.adapt<TextAlign>(json['textAlign']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    softWrap = json['softWrap'];
+    overflow = DynamicWidgetUtils.adapt<TextOverflow>(json['overflow']);
+    maxLines = json['maxLines'];
+    semanticsLabel = json['semanticsLabel'];
+    textHeightBehavior = DynamicWidgetUtils.adapt<TextHeightBehavior>(
+        json['textHeightBehavior']);
+    textScaleFactor = json['textScaleFactor'];
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = TextConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Text(
       props?.data ?? '',
@@ -85,34 +99,28 @@ class _BuilderState extends State<_Builder> {
       textHeightBehavior: props?.textHeightBehavior,
     );
   }
-}
 
-class TextConfig {
-  late String? data;
-  late TextStyle? style;
-  late StrutStyle? strutStyle;
-  late TextAlign? textAlign;
-  late TextDirection? textDirection;
-  late bool? softWrap;
-  late TextOverflow? overflow;
-  late double? textScaleFactor;
-  late int? maxLines;
-  late String? semanticsLabel;
-  late TextHeightBehavior? textHeightBehavior;
-
-  TextConfig.fromJson(Map<dynamic, dynamic> json) {
-    data = json['data'];
-    style = DynamicWidgetUtils.adapt<TextStyle>(json['style']);
-    strutStyle = DynamicWidgetUtils.adapt<StrutStyle>(json['strutStyle']);
-    textAlign = DynamicWidgetUtils.adapt<TextAlign>(json['textAlign']);
-    textDirection =
-        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
-    softWrap = json['softWrap'];
-    overflow = DynamicWidgetUtils.adapt<TextOverflow>(json['overflow']);
-    maxLines = json['maxLines'];
-    semanticsLabel = json['semanticsLabel'];
-    textHeightBehavior = DynamicWidgetUtils.adapt<TextHeightBehavior>(
-        json['textHeightBehavior']);
-    textScaleFactor = json['textScaleFactor'];
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var text = widget as Text?;
+    if (text == null) return null;
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'data': text.data,
+        'style': DynamicWidgetUtils.transform(text.style),
+        'strutStyle': DynamicWidgetUtils.transform(text.strutStyle),
+        'textAlign': DynamicWidgetUtils.transform(text.textAlign),
+        'textDirection': DynamicWidgetUtils.transform(text.textDirection),
+        'softWrap': text.softWrap,
+        'overflow': DynamicWidgetUtils.transform(text.overflow),
+        'textScaleFactor': text.textScaleFactor,
+        'maxLines': text.maxLines,
+        'semanticsLabel': text.semanticsLabel,
+        'textHeightBehavior':
+        DynamicWidgetUtils.transform(text.textHeightBehavior),
+      },
+      'xKey': text.key.toString()
+    };
   }
 }

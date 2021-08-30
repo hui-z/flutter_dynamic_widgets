@@ -16,32 +16,14 @@ class ContainerHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as Container?;
-    if (realWidget == null) return null;
-    var padding = realWidget.padding as EdgeInsets?;
-    var margin = realWidget.margin as EdgeInsets?;
-    var constraints = realWidget.constraints;
-    return {
-      'widget': widgetName,
-      'child':
-          DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
-      'xVar': {
-        'alignment':
-            DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
-        'padding': DynamicWidgetUtils.transform(padding),
-        'color': DynamicWidgetUtils.transform(realWidget.color),
-        'margin': DynamicWidgetUtils.transform(margin),
-        'constraints': DynamicWidgetUtils.transform(constraints),
-      },
-      'xKey': realWidget.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -57,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  ContainerConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -66,8 +46,33 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Alignment? alignment;
+  late EdgeInsetsGeometry? padding;
+  late Color? color;
+  late EdgeInsetsGeometry? margin;
+  late double? width;
+  late double? height;
+  late BoxConstraints? constraints;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+    color = DynamicWidgetUtils.adapt<Color>(json['color']);
+    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
+    width = json['width']?.toDouble();
+    height = json['height']?.toDouble();
+    constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = ContainerConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Container(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -82,24 +87,27 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class ContainerConfig {
-  late Alignment? alignment;
-  late EdgeInsetsGeometry? padding;
-  late Color? color;
-  late EdgeInsetsGeometry? margin;
-  late double? width;
-  late double? height;
-  late BoxConstraints? constraints;
-
-  ContainerConfig.fromJson(Map<dynamic, dynamic> json) {
-    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
-    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
-    color = DynamicWidgetUtils.adapt<Color>(json['color']);
-    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
-    width = json['width']?.toDouble();
-    height = json['height']?.toDouble();
-    constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as Container?;
+    if (realWidget == null) return null;
+    var padding = realWidget.padding as EdgeInsets?;
+    var margin = realWidget.margin as EdgeInsets?;
+    var constraints = realWidget.constraints;
+    return {
+      'widget': widgetName,
+      'child':
+      DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
+      'xVar': {
+        'alignment':
+        DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
+        'padding': DynamicWidgetUtils.transform(padding),
+        'color': DynamicWidgetUtils.transform(realWidget.color),
+        'margin': DynamicWidgetUtils.transform(margin),
+        'constraints': DynamicWidgetUtils.transform(constraints),
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }

@@ -12,53 +12,20 @@ class ListInputItemHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'ListInputItem';
 
   @override
+  Type get widgetType => ListInputItem;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var inputItem = widget as ListInputItem?;
-    if (inputItem == null) return null;
-    return {
-      'widget': widgetName,
-      'xVar': {
-        'title': inputItem.title,
-        'icon': inputItem.icon,
-        'customTitle': DynamicWidgetBuilder.transformMap(
-            inputItem.customTitle, buildContext),
-        'text': inputItem.text,
-        'placeholder': inputItem.placeholder,
-        'rightWidget': DynamicWidgetBuilder.transformMap(
-            inputItem.rightWidget, buildContext),
-        'obscureText': inputItem.obscureText,
-        'iconTitlePadding': inputItem.iconTitlePadding,
-        'dividerLeftPadding': inputItem.dividerLeftPadding,
-        'dividerRightPadding': inputItem.dividerRightPadding,
-        'texFieldLeftPadding': inputItem.texFieldLeftPadding,
-        'textFieldAlign':
-            DynamicWidgetUtils.transform(inputItem.textFieldAlign),
-        'textFieldStyle':
-            DynamicWidgetUtils.transform(inputItem.textFieldStyle),
-        'hintStyle': DynamicWidgetUtils.transform(inputItem.hintStyle),
-        'keyboardType': DynamicWidgetUtils.transform(inputItem.keyboardType),
-        'maxLength': inputItem.maxLength,
-        'autofocus': inputItem.autofocus,
-        'titleStyle': DynamicWidgetUtils.transform(inputItem.titleStyle),
-        'isHideDivider': inputItem.isHideDivider,
-        'divider':
-            DynamicWidgetBuilder.transformMap(inputItem.divider, buildContext),
-        'enable': DynamicWidgetUtils.transform(inputItem.enable),
-      },
-      'xKey': inputItem.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => ListInputItem;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -73,9 +40,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  TextConfig? props;
-  FocusNode _node = FocusNode();
-
   @override
   void initState() {
     super.initState();
@@ -83,8 +47,65 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late String? title;
+  late String? icon;
+  late Map? customTitle;
+  late String? text;
+  late String? placeholder;
+  late Map? rightWidget;
+  late bool? obscureText;
+  late double? iconTitlePadding;
+  late double? dividerLeftPadding;
+  late double? dividerRightPadding;
+  late double? texFieldLeftPadding;
+  late TextAlign? textFieldAlign;
+  late TextStyle? textFieldStyle;
+  late TextStyle? hintStyle;
+  late TextInputType? keyboardType;
+  late int? maxLength;
+  late bool? autofocus;
+  late TextStyle? titleStyle;
+  late bool? isHideDivider;
+  late Map? divider;
+  late bool? enable;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    title = json['title'];
+    icon = json['icon'];
+    customTitle = json['customTitle'];
+    text = json['text'];
+    placeholder = json['placeholder'];
+    rightWidget = json['rightWidget'];
+    obscureText = json['obscureText'];
+    iconTitlePadding = json['iconTitlePadding'];
+    dividerLeftPadding = json['dividerLeftPadding'];
+    dividerRightPadding = json['dividerRightPadding'];
+    texFieldLeftPadding = json['texFieldLeftPadding'];
+    textFieldAlign =
+        DynamicWidgetUtils.adapt<TextAlign>(json['textFieldAlign']);
+    textFieldStyle =
+        DynamicWidgetUtils.adapt<TextStyle>(json['textFieldStyle']);
+    hintStyle = DynamicWidgetUtils.adapt<TextStyle>(json['hintStyle']);
+    keyboardType =
+        DynamicWidgetUtils.adapt<TextInputType>(json['keyboardType']);
+    maxLength = json['maxLength'];
+    autofocus = json['autofocus'];
+    titleStyle = DynamicWidgetUtils.adapt<TextStyle>(json['titleStyle']);
+    isHideDivider = json['isHideDivider'];
+    divider = json['divider'];
+    enable = json['enable'];
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
+    FocusNode _node = FocusNode();
     if (widget.config?.xVar != null) {
-      props = TextConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return ListInputItem(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -106,7 +127,7 @@ class _BuilderState extends State<_Builder> {
           event: widget.event),
       onChanged: (text) {
         var eventInfo = widget.config?.events.firstWhere(
-            (element) => element.type == EventType.onTextChanged,
+                (element) => element.type == EventType.onTextChanged,
             orElse: () => EventInfo(type: '', action: ''));
         if (eventInfo?.type != null &&
             eventInfo?.type != '' &&
@@ -140,55 +161,42 @@ class _BuilderState extends State<_Builder> {
       enable: props?.enable,
     );
   }
-}
 
-class TextConfig {
-  late String? title;
-  late String? icon;
-  late Map? customTitle;
-  late String? text;
-  late String? placeholder;
-  late Map? rightWidget;
-  late bool? obscureText;
-  late double? iconTitlePadding;
-  late double? dividerLeftPadding;
-  late double? dividerRightPadding;
-  late double? texFieldLeftPadding;
-  late TextAlign? textFieldAlign;
-  late TextStyle? textFieldStyle;
-  late TextStyle? hintStyle;
-  late TextInputType? keyboardType;
-  late int? maxLength;
-  late bool? autofocus;
-  late TextStyle? titleStyle;
-  late bool? isHideDivider;
-  late Map? divider;
-  late bool? enable;
-
-  TextConfig.fromJson(Map<dynamic, dynamic> json) {
-    title = json['title'];
-    icon = json['icon'];
-    customTitle = json['customTitle'];
-    text = json['text'];
-    placeholder = json['placeholder'];
-    rightWidget = json['rightWidget'];
-    obscureText = json['obscureText'];
-    iconTitlePadding = json['iconTitlePadding'];
-    dividerLeftPadding = json['dividerLeftPadding'];
-    dividerRightPadding = json['dividerRightPadding'];
-    texFieldLeftPadding = json['texFieldLeftPadding'];
-    textFieldAlign =
-        DynamicWidgetUtils.adapt<TextAlign>(json['textFieldAlign']);
-    textFieldStyle =
-        DynamicWidgetUtils.adapt<TextStyle>(json['textFieldStyle']);
-    hintStyle = DynamicWidgetUtils.adapt<TextStyle>(json['hintStyle']);
-    keyboardType =
-        DynamicWidgetUtils.adapt<TextInputType>(json['keyboardType']);
-    maxLength = json['maxLength'];
-    autofocus = json['autofocus'];
-    titleStyle = DynamicWidgetUtils.adapt<TextStyle>(json['titleStyle']);
-    isHideDivider = json['isHideDivider'];
-    divider = json['divider'];
-    enable = json['enable'];
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var inputItem = widget as ListInputItem?;
+    if (inputItem == null) return null;
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'title': inputItem.title,
+        'icon': inputItem.icon,
+        'customTitle': DynamicWidgetBuilder.transformMap(
+            inputItem.customTitle, buildContext),
+        'text': inputItem.text,
+        'placeholder': inputItem.placeholder,
+        'rightWidget': DynamicWidgetBuilder.transformMap(
+            inputItem.rightWidget, buildContext),
+        'obscureText': inputItem.obscureText,
+        'iconTitlePadding': inputItem.iconTitlePadding,
+        'dividerLeftPadding': inputItem.dividerLeftPadding,
+        'dividerRightPadding': inputItem.dividerRightPadding,
+        'texFieldLeftPadding': inputItem.texFieldLeftPadding,
+        'textFieldAlign':
+        DynamicWidgetUtils.transform(inputItem.textFieldAlign),
+        'textFieldStyle':
+        DynamicWidgetUtils.transform(inputItem.textFieldStyle),
+        'hintStyle': DynamicWidgetUtils.transform(inputItem.hintStyle),
+        'keyboardType': DynamicWidgetUtils.transform(inputItem.keyboardType),
+        'maxLength': inputItem.maxLength,
+        'autofocus': inputItem.autofocus,
+        'titleStyle': DynamicWidgetUtils.transform(inputItem.titleStyle),
+        'isHideDivider': inputItem.isHideDivider,
+        'divider':
+        DynamicWidgetBuilder.transformMap(inputItem.divider, buildContext),
+        'enable': DynamicWidgetUtils.transform(inputItem.enable),
+      },
+      'xKey': inputItem.key.toString()
+    };
   }
 }

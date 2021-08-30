@@ -23,19 +23,7 @@ class FlowHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as Flow?;
-    if (realWidget == null) return null;
-    return {
-      'widget': widgetName,
-      'children':
-          DynamicWidgetBuilder.transformList(realWidget.children, buildContext),
-      'xVar': {
-        'delegate':
-            DyFlowDelegate.toJson(realWidget.delegate as DyFlowDelegate),
-        'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
-      },
-      'xKey': realWidget.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -51,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  FlowConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -60,8 +46,23 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late FlowDelegate? delegate;
+  late Clip? clipBehavior;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    delegate = DyFlowDelegate.fromJson(json['delegate']);
+    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = FlowConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Flow(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -71,15 +72,22 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class FlowConfig {
-  late FlowDelegate? delegate;
-  late Clip? clipBehavior;
-
-  FlowConfig.fromJson(Map<dynamic, dynamic> json) {
-    delegate = DyFlowDelegate.fromJson(json['delegate']);
-    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as Flow?;
+    if (realWidget == null) return null;
+    return {
+      'widget': widgetName,
+      'children':
+      DynamicWidgetBuilder.transformList(realWidget.children, buildContext),
+      'xVar': {
+        'delegate':
+        DyFlowDelegate.toJson(realWidget.delegate as DyFlowDelegate),
+        'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }
 

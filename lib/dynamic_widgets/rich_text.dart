@@ -16,16 +16,14 @@ class RichTextHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as RichText?;
-    if (realWidget == null) return null;
-    return RichTextConfig.toJson(realWidget, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -41,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  RichTextConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -50,24 +46,11 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.config?.xVar != null) {
-      props = RichTextConfig.fromJson(widget.config?.xVar ?? {});
-    }
-    return RichText(
-      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      text: props?.text ?? TextSpan(),
-      textAlign: props?.textAlign ?? TextAlign.start,
-      textDirection: props?.textDirection,
-      softWrap: props?.softWrap ?? true,
-      overflow: props?.overflow ?? TextOverflow.clip,
-      textScaleFactor: props?.textScaleFactor ?? 1.0,
-      maxLines: props?.maxLines,
-      strutStyle: props?.strutStyle,
-    );
+    return Config.toWidget(context, widget);
   }
 }
 
-class RichTextConfig {
+class Config {
   late TextSpan? text;
   late TextAlign? textAlign;
   late TextDirection? textDirection;
@@ -82,7 +65,7 @@ class RichTextConfig {
   // late TextWidthBasis? textWidthBasis;
   // late ui.TextHeightBehavior? textHeightBehavior;
 
-  RichTextConfig.fromJson(Map<dynamic, dynamic> json) {
+  Config.fromJson(Map<dynamic, dynamic> json) {
     text = DynamicWidgetUtils.adapt<TextSpan>(json['text']);
     textAlign = DynamicWidgetUtils.adapt<TextAlign>(json['textAlign']);
     textDirection =
@@ -94,8 +77,28 @@ class RichTextConfig {
     strutStyle = DynamicWidgetUtils.adapt<StrutStyle>(json['strutStyle']);
   }
 
-  static Map? toJson(
-      RichText widget, String widgetName, BuildContext? buildContext) {
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
+    if (widget.config?.xVar != null) {
+      props = Config.fromJson(widget.config?.xVar ?? {});
+    }
+    return RichText(
+      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+      text: props?.text ?? TextSpan(),
+      textAlign: props?.textAlign ?? TextAlign.start,
+      textDirection: props?.textDirection,
+      softWrap: props?.softWrap ?? true,
+      overflow: props?.overflow ?? TextOverflow.clip,
+      textScaleFactor: props?.textScaleFactor ?? 1.0,
+      maxLines: props?.maxLines,
+      strutStyle: props?.strutStyle,
+    );
+  }
+
+  static Map? toJson(Widget? realWidget, String widgetName,
+      BuildContext? buildContext) {
+    var widget = realWidget as RichText?;
+    if (widget == null) return null;
     return {
       'widget': widgetName,
       'xVar': {

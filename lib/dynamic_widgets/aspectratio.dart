@@ -10,6 +10,9 @@ class AspectRatioHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'AspectRatio';
 
   @override
+  Type get widgetType => AspectRatio;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -19,21 +22,8 @@ class AspectRatioHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as AspectRatio?;
-    if (realWidget == null) return null;
-    return {
-      'widget': widgetName,
-      'child':
-          DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
-      'xVar': {
-        'aspectRatio': realWidget.aspectRatio,
-      },
-      'xKey': realWidget.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => AspectRatio;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -48,8 +38,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  AspectRatioConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -57,8 +45,21 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late double? aspectRatio;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    aspectRatio = json["aspectRatio"]?.toDouble();
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = AspectRatioConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return AspectRatio(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -67,12 +68,19 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class AspectRatioConfig {
-  late double? aspectRatio;
-
-  AspectRatioConfig.fromJson(Map<dynamic, dynamic> json) {
-    aspectRatio = json["aspectRatio"]?.toDouble();
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as AspectRatio?;
+    if (realWidget == null) return null;
+    return {
+      'widget': widgetName,
+      'child':
+      DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
+      'xVar': {
+        'aspectRatio': realWidget.aspectRatio,
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }

@@ -16,27 +16,14 @@ class IndexedStackHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as IndexedStack?;
-    if (realWidget == null) return null;
-    return {
-      'widget': widgetName,
-      'children':
-          DynamicWidgetBuilder.transformList(realWidget.children, buildContext),
-      'xVar': {
-        'alignment':
-            DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
-        'textDirection': DynamicWidgetUtils.transform(realWidget.textDirection),
-        'sizing': DynamicWidgetUtils.transform(realWidget.fit),
-      },
-      'xKey': realWidget.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -52,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  IndexedStackConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -61,8 +46,28 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Alignment? alignment;
+  late TextDirection? textDirection;
+  late StackFit? sizing;
+  late int? index;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    sizing = DynamicWidgetUtils.adapt<StackFit>(json['sizing']);
+    index = json['index']?.toInt();
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = IndexedStackConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return IndexedStack(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -74,19 +79,22 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class IndexedStackConfig {
-  late Alignment? alignment;
-  late TextDirection? textDirection;
-  late StackFit? sizing;
-  late int? index;
-
-  IndexedStackConfig.fromJson(Map<dynamic, dynamic> json) {
-    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
-    textDirection =
-        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
-    sizing = DynamicWidgetUtils.adapt<StackFit>(json['sizing']);
-    index = json['index']?.toInt();
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as IndexedStack?;
+    if (realWidget == null) return null;
+    return {
+      'widget': widgetName,
+      'children':
+      DynamicWidgetBuilder.transformList(realWidget.children, buildContext),
+      'xVar': {
+        'alignment':
+        DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
+        'textDirection': DynamicWidgetUtils.transform(realWidget.textDirection),
+        'sizing': DynamicWidgetUtils.transform(realWidget.fit),
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }

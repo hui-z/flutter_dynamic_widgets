@@ -10,6 +10,9 @@ class GestureDetectorHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'GestureDetector';
 
   @override
+  Type get widgetType => GestureDetector;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -19,18 +22,8 @@ class GestureDetectorHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var gestureDetector = widget as GestureDetector?;
-    if (gestureDetector == null) return null;
-    return {
-      'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(
-          gestureDetector.child, buildContext),
-      'xKey': gestureDetector.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => GestureDetector;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -52,42 +45,48 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  static Widget toWidget(BuildContext context, _Builder widget) {
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
 
     var eventInfo1 = widget.config?.events.firstWhere(
-        (element) => element.type == EventType.onTap,
+            (element) => element.type == EventType.onTap,
         orElse: () => EventInfo(type: '', action: ''));
 
     var onTap = eventInfo1?.type != null && eventInfo1?.type != ''
         ? () {
-            if (widget.event != null) {
-              widget.event!(eventInfo1!);
-            }
-          }
+      if (widget.event != null) {
+        widget.event!(eventInfo1!);
+      }
+    }
         : null;
 
     var eventInfo2 = widget.config?.events.firstWhere(
-        (element) => element.type == EventType.onLongPress,
+            (element) => element.type == EventType.onLongPress,
         orElse: () => EventInfo(type: '', action: ''));
 
     var onLongPress = eventInfo2?.type != null && eventInfo2?.type != ''
         ? () {
-            if (widget.event != null) {
-              widget.event!(eventInfo2!);
-            }
-          }
+      if (widget.event != null) {
+        widget.event!(eventInfo2!);
+      }
+    }
         : null;
 
     var eventInfo3 = widget.config?.events.firstWhere(
-        (element) => element.type == EventType.onDoubleTap,
+            (element) => element.type == EventType.onDoubleTap,
         orElse: () => EventInfo(type: '', action: ''));
     var onDoubleTap = eventInfo3?.type != null && eventInfo3?.type != ''
         ? () {
-            if (widget.event != null) {
-              widget.event!(eventInfo3!);
-            }
-          }
+      if (widget.event != null) {
+        widget.event!(eventInfo3!);
+      }
+    }
         : null;
     return GestureDetector(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -96,5 +95,17 @@ class _BuilderState extends State<_Builder> {
       onLongPress: onLongPress,
       child: _child ?? SizedBox(),
     );
+  }
+
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var gestureDetector = widget as GestureDetector?;
+    if (gestureDetector == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(
+          gestureDetector.child, buildContext),
+      'xKey': gestureDetector.key.toString()
+    };
   }
 }

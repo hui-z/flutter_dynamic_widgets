@@ -12,22 +12,20 @@ class ListViewHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'ListView';
 
   @override
+  Type get widgetType => ListView;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var listView = widget as ListView?;
-    if (listView == null) return null;
-    return {'widget': widgetName, 'xVar': {}, 'xKey': listView.key.toString()};
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => ListView;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -42,8 +40,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  ListViewConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -51,8 +47,50 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Axis? scrollDirection;
+  late bool? reverse;
+  late bool? primary;
+  late bool? shrinkWrap;
+  late EdgeInsetsGeometry? padding;
+  late double? itemExtent;
+  late bool? addAutomaticKeepAlives;
+  late bool? addRepaintBoundaries;
+  late bool? addSemanticIndexes;
+  late double? cacheExtent;
+  late DragStartBehavior? dragStartBehavior;
+  late ScrollViewKeyboardDismissBehavior? keyboardDismissBehavior;
+  late String? restorationId;
+  late Clip? clipBehavior;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    scrollDirection = DynamicWidgetUtils.adapt<Axis>(json['scrollDirection']);
+    reverse = json['reverse'];
+    primary = json['primary'];
+    shrinkWrap = json['shrinkWrap'];
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+    itemExtent = json['itemExtent'];
+    addAutomaticKeepAlives = json['addAutomaticKeepAlives'];
+    addRepaintBoundaries = json['addRepaintBoundaries'];
+    addSemanticIndexes = json['addSemanticIndexes'];
+    cacheExtent = json['cacheExtent'];
+    dragStartBehavior =
+        DynamicWidgetUtils.adapt<DragStartBehavior>(json['dragStartBehavior']);
+    keyboardDismissBehavior =
+        DynamicWidgetUtils.adapt<ScrollViewKeyboardDismissBehavior>(
+            json['keyboardDismissBehavior']);
+    restorationId = json['restorationId'];
+    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = ListViewConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     List<Widget> _children = DynamicWidgetBuilder.buildWidgets(
         widget.config?.children,
@@ -80,41 +118,11 @@ class _BuilderState extends State<_Builder> {
       clipBehavior: props?.clipBehavior ?? Clip.none,
     );
   }
-}
 
-class ListViewConfig {
-  late Axis? scrollDirection;
-  late bool? reverse;
-  late bool? primary;
-  late bool? shrinkWrap;
-  late EdgeInsetsGeometry? padding;
-  late double? itemExtent;
-  late bool? addAutomaticKeepAlives;
-  late bool? addRepaintBoundaries;
-  late bool? addSemanticIndexes;
-  late double? cacheExtent;
-  late DragStartBehavior? dragStartBehavior;
-  late ScrollViewKeyboardDismissBehavior? keyboardDismissBehavior;
-  late String? restorationId;
-  late Clip? clipBehavior;
-
-  ListViewConfig.fromJson(Map<dynamic, dynamic> json) {
-    scrollDirection = DynamicWidgetUtils.adapt<Axis>(json['scrollDirection']);
-    reverse = json['reverse'];
-    primary = json['primary'];
-    shrinkWrap = json['shrinkWrap'];
-    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
-    itemExtent = json['itemExtent'];
-    addAutomaticKeepAlives = json['addAutomaticKeepAlives'];
-    addRepaintBoundaries = json['addRepaintBoundaries'];
-    addSemanticIndexes = json['addSemanticIndexes'];
-    cacheExtent = json['cacheExtent'];
-    dragStartBehavior =
-        DynamicWidgetUtils.adapt<DragStartBehavior>(json['dragStartBehavior']);
-    keyboardDismissBehavior =
-        DynamicWidgetUtils.adapt<ScrollViewKeyboardDismissBehavior>(
-            json['keyboardDismissBehavior']);
-    restorationId = json['restorationId'];
-    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var listView = widget as ListView?;
+    if (listView == null) return null;
+    return {'widget': widgetName, 'xVar': {}, 'xKey': listView.key.toString()};
   }
 }

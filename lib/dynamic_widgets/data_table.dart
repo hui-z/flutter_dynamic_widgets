@@ -12,59 +12,20 @@ class DataTableHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'DataTable';
 
   @override
+  Type get widgetType => DataTable;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var table = widget as DataTable?;
-    if (table == null) return null;
-    return {
-      'widget': widgetName,
-      'children': [],
-      'xVar': {
-        'dataRowHeight': table.dataRowHeight,
-        'dataTextStyle': table.dataTextStyle,
-        'headingRowHeight': table.headingRowHeight,
-        'headingTextStyle': table.headingTextStyle,
-        'horizontalMargin': table.horizontalMargin,
-        'columnSpacing': table.columnSpacing,
-        'dividerThickness': table.dividerThickness,
-        'showBottomBorder': table.showBottomBorder,
-        'rows': table.rows.map((e) => dataRowToMap(e, buildContext)).toList(),
-        'columns':
-            table.columns.map((e) => dataColumnToMap(e, buildContext)).toList(),
-      },
-      'xKey': table.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  Map dataRowToMap(DataRow row, BuildContext? buildContext) {
-    return {
-      'cells': row.cells.map((e) => dataCellToMap(e, buildContext)).toList()
-    };
-  }
-
-  Map dataCellToMap(DataCell cell, BuildContext? buildContext) {
-    return {
-      'child': DynamicWidgetBuilder.transformMap(cell.child, buildContext)
-    };
-  }
-
-  Map dataColumnToMap(DataColumn column, BuildContext? buildContext) {
-    return {
-      'label': DynamicWidgetBuilder.transformMap(column.label, buildContext),
-      'tooltip': column.tooltip,
-      'numeric': column.numeric
-    };
-  }
-
-  @override
-  Type get widgetType => DataTable;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -79,8 +40,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  DataTableConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -88,25 +47,59 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late double? dataRowHeight;
+  late TextStyle? dataTextStyle;
+  late double? headingRowHeight;
+  late TextStyle? headingTextStyle;
+  late double? horizontalMargin;
+  late double? columnSpacing;
+  late double? dividerThickness;
+  late bool? showBottomBorder;
+  late List<Map>? rows;
+  late List<Map>? columns;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    this.dataRowHeight = json['dataRowHeight'];
+    this.dataTextStyle =
+        DynamicWidgetUtils.adapt<TextStyle>(json['dataTextStyle']);
+    this.headingRowHeight = json['dataTextStyle'];
+    this.headingTextStyle =
+        DynamicWidgetUtils.adapt<TextStyle>(json['headingTextStyle']);
+    this.horizontalMargin = json['horizontalMargin'];
+    this.dividerThickness = json['dividerThickness'];
+    this.columnSpacing = json['columnSpacing'];
+    this.showBottomBorder = json['showBottomBorder'];
+    this.rows = json['rows']?.cast<Map>();
+    this.columns = json['columns']?.cast<Map>();
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     List<DataRow> rows = [];
     List<DataColumn>? columns;
     if (widget.config?.xVar != null) {
-      props = DataTableConfig.fromJson(widget.config?.xVar ?? {});
-      props?.rows?.forEach((element) {
+      props = Config.fromJson(widget.config?.xVar ?? {});
+      props.rows?.forEach((element) {
         List<DataCell> cells = [];
         element['cells']?.forEach((cell) {
           cells.add(DataCell(DynamicWidgetBuilder.buildWidget(
-                  DynamicWidgetConfig.fromJson(cell['child']),
-                  context: context) ??
+              DynamicWidgetConfig.fromJson(cell['child']),
+              context: context) ??
               SizedBox()));
         });
         rows.add(DataRow(cells: cells));
       });
-      columns = props?.columns
-          ?.map((e) => DataColumn(
+      columns = props.columns
+          ?.map((e) =>
+          DataColumn(
               label: DynamicWidgetBuilder.buildWidget(
-                      DynamicWidgetConfig.fromJson(e['label']),
-                      context: context) ??
+                  DynamicWidgetConfig.fromJson(e['label']),
+                  context: context) ??
                   SizedBox(),
               tooltip: e['tooltip'],
               numeric: e['numeric']))
@@ -126,32 +119,48 @@ class _BuilderState extends State<_Builder> {
       showBottomBorder: props?.showBottomBorder ?? false,
     );
   }
-}
 
-class DataTableConfig {
-  late double? dataRowHeight;
-  late TextStyle? dataTextStyle;
-  late double? headingRowHeight;
-  late TextStyle? headingTextStyle;
-  late double? horizontalMargin;
-  late double? columnSpacing;
-  late double? dividerThickness;
-  late bool? showBottomBorder;
-  late List<Map>? rows;
-  late List<Map>? columns;
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var table = widget as DataTable?;
+    if (table == null) return null;
+    return {
+      'widget': widgetName,
+      'children': [],
+      'xVar': {
+        'dataRowHeight': table.dataRowHeight,
+        'dataTextStyle': table.dataTextStyle,
+        'headingRowHeight': table.headingRowHeight,
+        'headingTextStyle': table.headingTextStyle,
+        'horizontalMargin': table.horizontalMargin,
+        'columnSpacing': table.columnSpacing,
+        'dividerThickness': table.dividerThickness,
+        'showBottomBorder': table.showBottomBorder,
+        'rows': table.rows.map((e) => dataRowToMap(e, buildContext)).toList(),
+        'columns':
+        table.columns.map((e) => dataColumnToMap(e, buildContext)).toList(),
+      },
+      'xKey': table.key.toString()
+    };
+  }
 
-  DataTableConfig.fromJson(Map<dynamic, dynamic> json) {
-    this.dataRowHeight = json['dataRowHeight'];
-    this.dataTextStyle =
-        DynamicWidgetUtils.adapt<TextStyle>(json['dataTextStyle']);
-    this.headingRowHeight = json['dataTextStyle'];
-    this.headingTextStyle =
-        DynamicWidgetUtils.adapt<TextStyle>(json['headingTextStyle']);
-    this.horizontalMargin = json['horizontalMargin'];
-    this.dividerThickness = json['dividerThickness'];
-    this.columnSpacing = json['columnSpacing'];
-    this.showBottomBorder = json['showBottomBorder'];
-    this.rows = json['rows']?.cast<Map>();
-    this.columns = json['columns']?.cast<Map>();
+  static Map dataRowToMap(DataRow row, BuildContext? buildContext) {
+    return {
+      'cells': row.cells.map((e) => dataCellToMap(e, buildContext)).toList()
+    };
+  }
+
+  static Map dataCellToMap(DataCell cell, BuildContext? buildContext) {
+    return {
+      'child': DynamicWidgetBuilder.transformMap(cell.child, buildContext)
+    };
+  }
+
+  static Map dataColumnToMap(DataColumn column, BuildContext? buildContext) {
+    return {
+      'label': DynamicWidgetBuilder.transformMap(column.label, buildContext),
+      'tooltip': column.tooltip,
+      'numeric': column.numeric
+    };
   }
 }
