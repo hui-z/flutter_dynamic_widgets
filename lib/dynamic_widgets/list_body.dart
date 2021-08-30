@@ -11,6 +11,9 @@ class ListBodyHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'ListBody';
 
   @override
+  Type get widgetType => ListBody;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -20,22 +23,8 @@ class ListBodyHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var listBody = widget as ListBody?;
-    if (listBody == null) return null;
-    return {
-      'widget': widgetName,
-      'children':
-          DynamicWidgetBuilder.transformList(listBody.children, buildContext),
-      'xVar': {
-        'reverse': listBody.reverse,
-        'mainAxis': DynamicWidgetUtils.transform(listBody.mainAxis),
-      },
-      'xKey': listBody.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => ListBody;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -50,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  ListBodyConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -59,8 +46,23 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+     return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Axis? mainAxis;
+  late bool? reverse;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    mainAxis = DynamicWidgetUtils.adapt<Axis>(json['mainAxis']);
+    reverse = json['reverse'];
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = ListBodyConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     List<Widget> _children = DynamicWidgetBuilder.buildWidgets(
         widget.config?.children,
@@ -74,14 +76,20 @@ class _BuilderState extends State<_Builder> {
       children: _children,
     );
   }
-}
 
-class ListBodyConfig {
-  late Axis? mainAxis;
-  late bool? reverse;
-
-  ListBodyConfig.fromJson(Map<dynamic, dynamic> json) {
-    mainAxis = DynamicWidgetUtils.adapt<Axis>(json['mainAxis']);
-    reverse = json['reverse'];
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var listBody = widget as ListBody?;
+    if (listBody == null) return null;
+    return {
+      'widget': widgetName,
+      'children':
+      DynamicWidgetBuilder.transformList(listBody.children, buildContext),
+      'xVar': {
+        'reverse': listBody.reverse,
+        'mainAxis': DynamicWidgetUtils.transform(listBody.mainAxis),
+      },
+      'xKey': listBody.key.toString()
+    };
   }
 }

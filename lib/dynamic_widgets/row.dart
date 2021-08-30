@@ -11,6 +11,9 @@ class RowHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Row';
 
   @override
+  Type get widgetType => Row;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -20,29 +23,8 @@ class RowHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var row = widget as Row?;
-    if (row == null) return null;
-    return {
-      'widget': widgetName,
-      'children':
-          DynamicWidgetBuilder.transformList(row.children, buildContext),
-      'xVar': {
-        'mainAxisAlignment':
-            DynamicWidgetUtils.transform(row.mainAxisAlignment),
-        'mainAxisSize': DynamicWidgetUtils.transform(row.mainAxisSize),
-        'crossAxisAlignment':
-            DynamicWidgetUtils.transform(row.crossAxisAlignment),
-        'textDirection': DynamicWidgetUtils.transform(row.textDirection),
-        'verticalDirection':
-            DynamicWidgetUtils.transform(row.verticalDirection),
-        'textBaseline': DynamicWidgetUtils.transform(row.textBaseline),
-      },
-      'xKey': row.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Row;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -57,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  RowConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -66,8 +46,35 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late MainAxisAlignment? mainAxisAlignment;
+  late MainAxisSize? mainAxisSize;
+  late CrossAxisAlignment? crossAxisAlignment;
+  late TextDirection? textDirection;
+  late VerticalDirection? verticalDirection;
+  late TextBaseline? textBaseline;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    mainAxisAlignment =
+        DynamicWidgetUtils.adapt<MainAxisAlignment>(json['mainAxisAlignment']);
+    mainAxisSize = DynamicWidgetUtils.adapt<MainAxisSize>(json['mainAxisSize']);
+    crossAxisAlignment = DynamicWidgetUtils.adapt<CrossAxisAlignment>(
+        json['crossAxisAlignment']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    verticalDirection =
+        DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
+    textBaseline = DynamicWidgetUtils.adapt<TextBaseline>(json['textBaseline']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = RowConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     List<Widget> _children = DynamicWidgetBuilder.buildWidgets(
         widget.config?.children,
@@ -79,33 +86,34 @@ class _BuilderState extends State<_Builder> {
       mainAxisAlignment: props?.mainAxisAlignment ?? MainAxisAlignment.start,
       mainAxisSize: props?.mainAxisSize ?? MainAxisSize.max,
       crossAxisAlignment:
-          props?.crossAxisAlignment ?? CrossAxisAlignment.center,
+      props?.crossAxisAlignment ?? CrossAxisAlignment.center,
       textDirection: props?.textDirection,
       verticalDirection: props?.verticalDirection ?? VerticalDirection.down,
       textBaseline: props?.textBaseline,
       children: _children,
     );
   }
-}
 
-class RowConfig {
-  late MainAxisAlignment? mainAxisAlignment;
-  late MainAxisSize? mainAxisSize;
-  late CrossAxisAlignment? crossAxisAlignment;
-  late TextDirection? textDirection;
-  late VerticalDirection? verticalDirection;
-  late TextBaseline? textBaseline;
-
-  RowConfig.fromJson(Map<dynamic, dynamic> json) {
-    mainAxisAlignment =
-        DynamicWidgetUtils.adapt<MainAxisAlignment>(json['mainAxisAlignment']);
-    mainAxisSize = DynamicWidgetUtils.adapt<MainAxisSize>(json['mainAxisSize']);
-    crossAxisAlignment = DynamicWidgetUtils.adapt<CrossAxisAlignment>(
-        json['crossAxisAlignment']);
-    textDirection =
-        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
-    verticalDirection =
-        DynamicWidgetUtils.adapt<VerticalDirection>(json['verticalDirection']);
-    textBaseline = DynamicWidgetUtils.adapt<TextBaseline>(json['textBaseline']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var row = widget as Row?;
+    if (row == null) return null;
+    return {
+      'widget': widgetName,
+      'children':
+      DynamicWidgetBuilder.transformList(row.children, buildContext),
+      'xVar': {
+        'mainAxisAlignment':
+        DynamicWidgetUtils.transform(row.mainAxisAlignment),
+        'mainAxisSize': DynamicWidgetUtils.transform(row.mainAxisSize),
+        'crossAxisAlignment':
+        DynamicWidgetUtils.transform(row.crossAxisAlignment),
+        'textDirection': DynamicWidgetUtils.transform(row.textDirection),
+        'verticalDirection':
+        DynamicWidgetUtils.transform(row.verticalDirection),
+        'textBaseline': DynamicWidgetUtils.transform(row.textBaseline),
+      },
+      'xKey': row.key.toString()
+    };
   }
 }

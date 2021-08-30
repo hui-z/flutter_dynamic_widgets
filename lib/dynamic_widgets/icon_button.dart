@@ -16,16 +16,14 @@ class IconButtonHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as IconButton?;
-    if (realWidget == null) return null;
-    return IconButtonConfig.toJson(realWidget, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -41,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  IconButtonConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -50,46 +46,11 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.config?.xVar != null) {
-      props = IconButtonConfig.fromJson(widget.config?.xVar ?? {});
-    }
-    var eventInfo = widget.config?.events.firstWhere(
-        (element) => element.type == EventType.onTap,
-        orElse: () => EventInfo(type: '', action: ''));
-    var onPressed = eventInfo?.type != null && eventInfo?.type != ''
-        ? () {
-            if (widget.event != null) {
-              widget.event!(eventInfo!);
-            }
-          }
-        : null;
-
-    return IconButton(
-      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      iconSize: props?.iconSize ?? 24.0,
-      padding: props?.padding ?? EdgeInsets.all(8.0),
-      alignment: props?.alignment ?? Alignment.center,
-      splashRadius: props?.splashRadius,
-      color: props?.color,
-      focusColor: props?.focusColor,
-      hoverColor: props?.hoverColor,
-      highlightColor: props?.highlightColor,
-      splashColor: props?.splashColor,
-      onPressed: onPressed,
-      autofocus: props?.autofocus ?? false,
-      tooltip: props?.tooltip,
-      enableFeedback: props?.enableFeedback ?? true,
-      constraints: props?.constraints,
-      icon: DynamicWidgetBuilder.buildWidget(
-              DynamicWidgetConfig.fromJson(props?.icon ?? {}),
-              context: context,
-              event: widget.event) ??
-          SizedBox(),
-    );
+    return Config.toWidget(context, widget);
   }
 }
 
-class IconButtonConfig {
+class Config {
   late double? iconSize;
 
   //late VisualDensity? visualDensity;
@@ -112,7 +73,7 @@ class IconButtonConfig {
   late BoxConstraints? constraints;
   late Map? icon;
 
-  IconButtonConfig.fromJson(Map<dynamic, dynamic> json) {
+  Config.fromJson(Map<dynamic, dynamic> json) {
     iconSize = json['iconSize'];
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
@@ -129,8 +90,50 @@ class IconButtonConfig {
     constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
   }
 
-  static Map? toJson(
-      IconButton widget, String widgetName, BuildContext? buildContext) {
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
+    if (widget.config?.xVar != null) {
+      props = Config.fromJson(widget.config?.xVar ?? {});
+    }
+    var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onTap,
+        orElse: () => EventInfo(type: '', action: ''));
+    var onPressed = eventInfo?.type != null && eventInfo?.type != ''
+        ? () {
+      if (widget.event != null) {
+        widget.event!(eventInfo!);
+      }
+    }
+        : null;
+
+    return IconButton(
+      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+      iconSize: props?.iconSize ?? 24.0,
+      padding: props?.padding ?? EdgeInsets.all(8.0),
+      alignment: props?.alignment ?? Alignment.center,
+      splashRadius: props?.splashRadius,
+      color: props?.color,
+      focusColor: props?.focusColor,
+      hoverColor: props?.hoverColor,
+      highlightColor: props?.highlightColor,
+      splashColor: props?.splashColor,
+      onPressed: onPressed,
+      autofocus: props?.autofocus ?? false,
+      tooltip: props?.tooltip,
+      enableFeedback: props?.enableFeedback ?? true,
+      constraints: props?.constraints,
+      icon: DynamicWidgetBuilder.buildWidget(
+          DynamicWidgetConfig.fromJson(props?.icon ?? {}),
+          context: context,
+          event: widget.event) ??
+          SizedBox(),
+    );
+  }
+
+  static Map? toJson(Widget? realWidget, String widgetName,
+      BuildContext? buildContext) {
+    var widget = realWidget as IconButton?;
+    if (widget == null) return null;
     return {
       'widget': widgetName,
       'icon': DynamicWidgetBuilder.transformMap(widget.icon, buildContext),
@@ -138,7 +141,7 @@ class IconButtonConfig {
         'iconSize': widget.iconSize,
         'padding': DynamicWidgetUtils.transform(widget.padding as EdgeInsets),
         'alignment':
-            DynamicWidgetUtils.transform(widget.alignment as Alignment),
+        DynamicWidgetUtils.transform(widget.alignment as Alignment),
         'splashRadius': widget.splashRadius,
         'color': DynamicWidgetUtils.transform(widget.color),
         'focusColor': DynamicWidgetUtils.transform(widget.focusColor),

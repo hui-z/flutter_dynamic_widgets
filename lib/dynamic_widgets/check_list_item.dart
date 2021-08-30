@@ -14,22 +14,20 @@ class CheckListItemHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'CheckListItem';
 
   @override
+  Type get widgetType => CheckListItem;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var checkListItem = widget as CheckListItem?;
-    if (checkListItem == null) return null;
-    return CheckListItemConfig.toJson(checkListItem, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => CheckListItem;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -44,8 +42,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  CheckListItemConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -53,12 +49,42 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late CheckType? checkType;
+  late CheckListData? item;
+  late List<CheckListData>? checkedData;
+  late CrossAxisAlignment? crossAxisAlignment;
+  late bool? showIcon;
+  late String? icon;
+  late Color? activeColor;
+
+  Config.fromJson(Map<dynamic, dynamic> json, BuildContext? context) {
+    checkType =
+    json['checkType'] == 'multiple' ? CheckType.multiple : CheckType.single;
+    item = CheckListData.adapter(json['item'], context);
+    checkedData = [];
+    json['checkedData']?.forEach((v) {
+      checkedData?.add(CheckListData.adapter(v, context)!);
+    });
+    crossAxisAlignment = DynamicWidgetUtils.adapt<CrossAxisAlignment>(
+        json['crossAxisAlignment']);
+    showIcon = json['showIcon'];
+    icon = json['icon'];
+    activeColor = json['activeColor'];
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = CheckListItemConfig.fromJson(widget.config?.xVar ?? {}, context);
+      props = Config.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (bool? isChecked, CheckListData? item) {
       var eventInfo = widget.config?.events.firstWhere(
-          (element) => element.type == EventType.onCheck,
+              (element) => element.type == EventType.onCheck,
           orElse: () => EventInfo(type: '', action: ''));
       if (eventInfo?.type != null &&
           eventInfo?.type != '' &&
@@ -76,12 +102,12 @@ class _BuilderState extends State<_Builder> {
       onCheck,
       props?.checkedData ?? [],
       crossAxisAlignment:
-          props?.crossAxisAlignment ?? CrossAxisAlignment.center,
+      props?.crossAxisAlignment ?? CrossAxisAlignment.center,
       showIcon: props?.showIcon ?? false,
       icon: props?.icon,
       onIconPressed: (item) {
         var eventInfo = widget.config?.events.firstWhere(
-            (element) => element.type == EventType.onTap,
+                (element) => element.type == EventType.onTap,
             orElse: () => EventInfo(type: '', action: ''));
         if (eventInfo?.type != null &&
             eventInfo?.type != '' &&
@@ -94,46 +120,23 @@ class _BuilderState extends State<_Builder> {
       activeColor: props?.activeColor,
     );
   }
-}
 
-class CheckListItemConfig {
-  late CheckType? checkType;
-  late CheckListData? item;
-  late List<CheckListData>? checkedData;
-  late CrossAxisAlignment? crossAxisAlignment;
-  late bool? showIcon;
-  late String? icon;
-  late Color? activeColor;
-
-  CheckListItemConfig.fromJson(
-      Map<dynamic, dynamic> json, BuildContext? context) {
-    checkType =
-        json['checkType'] == 'multiple' ? CheckType.multiple : CheckType.single;
-    item = CheckListData.adapter(json['item'], context);
-    checkedData = [];
-    json['checkedData']?.forEach((v) {
-      checkedData?.add(CheckListData.adapter(v, context)!);
-    });
-    crossAxisAlignment = DynamicWidgetUtils.adapt<CrossAxisAlignment>(
-        json['crossAxisAlignment']);
-    showIcon = json['showIcon'];
-    icon = json['icon'];
-    activeColor = json['activeColor'];
-  }
-
-  static Map? toJson(
-      CheckListItem checkListItem, String widgetName, BuildContext? context) {
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var checkListItem = widget as CheckListItem?;
+    if (checkListItem == null) return null;
     return {
       'widget': widgetName,
       'xVar': {
         'checkType': checkListItem.checkType == CheckType.multiple
             ? 'multiple'
             : 'single',
-        'item': checkListItem.item?.transform(context),
+        'item': checkListItem.item?.transform(buildContext),
         'checkedData':
-            checkListItem.checkedData.map((e) => e.transform(context)).toList(),
+        checkListItem.checkedData.map((e) => e.transform(buildContext))
+            .toList(),
         'crossAxisAlignment':
-            DynamicWidgetUtils.transform(checkListItem.crossAxisAlignment),
+        DynamicWidgetUtils.transform(checkListItem.crossAxisAlignment),
         'showIcon': checkListItem.showIcon,
         'activeColor': DynamicWidgetUtils.transform(checkListItem.activeColor),
         'icon': checkListItem.icon,

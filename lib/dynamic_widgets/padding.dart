@@ -11,29 +11,20 @@ class PaddingHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Padding';
 
   @override
+  Type get widgetType => Padding;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var padding = widget as Padding?;
-    if (padding == null) return null;
-    return {
-      'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(padding.child, buildContext),
-      'xVar': {
-        'padding': DynamicWidgetUtils.transform(padding.padding as EdgeInsets?)
-      },
-      'xKey': padding.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Padding;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -48,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  PaddingConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -57,8 +46,21 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late EdgeInsetsGeometry? padding;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = PaddingConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
@@ -69,12 +71,18 @@ class _BuilderState extends State<_Builder> {
       child: _child ?? SizedBox(),
     );
   }
-}
 
-class PaddingConfig {
-  late EdgeInsetsGeometry? padding;
-
-  PaddingConfig.fromJson(Map<dynamic, dynamic> json) {
-    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var padding = widget as Padding?;
+    if (padding == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(padding.child, buildContext),
+      'xVar': {
+        'padding': DynamicWidgetUtils.transform(padding.padding as EdgeInsets?)
+      },
+      'xKey': padding.key.toString()
+    };
   }
 }

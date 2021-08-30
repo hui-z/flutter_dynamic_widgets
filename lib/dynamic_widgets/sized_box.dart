@@ -22,18 +22,7 @@ class SizedBoxHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as SizedBox?;
-    if (realWidget == null) return null;
-    return {
-      'widget': widgetName,
-      'child':
-          DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
-      'xVar': {
-        'width': realWidget.width,
-        'height': realWidget.height,
-      },
-      'xKey': realWidget.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -49,8 +38,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  SizedBoxConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -58,8 +45,23 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late double? width;
+  late double? height;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    width = json['width']?.toDouble();
+    height = json['height']?.toDouble();
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = SizedBoxConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return SizedBox(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -69,14 +71,20 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class SizedBoxConfig {
-  late double? width;
-  late double? height;
-
-  SizedBoxConfig.fromJson(Map<dynamic, dynamic> json) {
-    width = json['width']?.toDouble();
-    height = json['height']?.toDouble();
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as SizedBox?;
+    if (realWidget == null) return null;
+    return {
+      'widget': widgetName,
+      'child':
+      DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
+      'xVar': {
+        'width': realWidget.width,
+        'height': realWidget.height,
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }

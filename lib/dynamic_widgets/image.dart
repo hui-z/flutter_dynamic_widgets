@@ -11,6 +11,9 @@ class ImageHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Image';
 
   @override
+  Type get widgetType => Image;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -20,6 +23,117 @@ class ImageHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
+    return Config.toJson(widget, widgetName, buildContext);
+  }
+}
+
+class _Builder extends DynamicBaseWidget {
+  final DynamicWidgetConfig? config;
+  final Function(EventInfo value)? event;
+
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
+
+  @override
+  _BuilderState createState() => _BuilderState();
+}
+
+class _BuilderState extends State<_Builder> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late String? type; //网络图片或者本地图片
+  late String? src;
+  late String? semanticLabel;
+  late bool? excludeFromSemantics;
+  late double? scale;
+  late double? width;
+  late double? height;
+  late Color? color;
+  late BlendMode? colorBlendMode;
+  late BoxFit? fit;
+  late Alignment? alignment;
+  late ImageRepeat? repeat;
+  late Rect? centerSlice;
+  late bool? matchTextDirection;
+  late bool? gaplessPlayback;
+  late FilterQuality? filterQuality;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    type = json['type'];
+    src = json['src'];
+    semanticLabel = json['semanticLabel'];
+    excludeFromSemantics = json['excludeFromSemantics'];
+    scale = json['scale']?.toDouble();
+    width = json['width']?.toDouble();
+    height = json['height']?.toDouble();
+    color = DynamicWidgetUtils.adapt<Color>(json['color']);
+    colorBlendMode =
+        DynamicWidgetUtils.adapt<BlendMode>(json['colorBlendMode']);
+    fit = DynamicWidgetUtils.adapt<BoxFit>(json['fit']);
+    alignment = (DynamicWidgetUtils.adapt<Alignment>(json['alignment']) ??
+        Alignment.center);
+    repeat = DynamicWidgetUtils.adapt<ImageRepeat>(json['repeat']);
+    centerSlice = DynamicWidgetUtils.adapt<Rect>(json['centerSlice']);
+    matchTextDirection = json['matchTextDirection'];
+    gaplessPlayback = json['gaplessPlayback'];
+    filterQuality =
+        DynamicWidgetUtils.adapt<FilterQuality>(json['filterQuality']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
+    if (widget.config?.xVar != null) {
+      props = Config.fromJson(widget.config?.xVar ?? {});
+    }
+    if (props?.type == 'network') {
+      return Image.network(props?.src ?? '',
+          key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+          semanticLabel: props?.semanticLabel,
+          excludeFromSemantics: props?.excludeFromSemantics ?? false,
+          scale: props?.scale ?? 1,
+          width: props?.width,
+          height: props?.height,
+          color: props?.color,
+          colorBlendMode: props?.colorBlendMode,
+          fit: props?.fit,
+          alignment: props?.alignment ?? Alignment.center,
+          repeat: props?.repeat ?? ImageRepeat.noRepeat,
+          centerSlice: props?.centerSlice,
+          matchTextDirection: props?.matchTextDirection ?? false,
+          gaplessPlayback: props?.gaplessPlayback ?? false,
+          filterQuality: props?.filterQuality ?? FilterQuality.low);
+    } else {
+      return Image.asset(props?.src ?? '',
+          key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+          semanticLabel: props?.semanticLabel,
+          excludeFromSemantics: props?.excludeFromSemantics ?? false,
+          scale: props?.scale,
+          width: props?.width,
+          height: props?.height,
+          color: props?.color,
+          colorBlendMode: props?.colorBlendMode,
+          fit: props?.fit,
+          alignment: props?.alignment ?? Alignment.center,
+          repeat: props?.repeat ?? ImageRepeat.noRepeat,
+          centerSlice: props?.centerSlice,
+          matchTextDirection: props?.matchTextDirection ?? false,
+          gaplessPlayback: props?.gaplessPlayback ?? false,
+          filterQuality: props?.filterQuality ?? FilterQuality.low);
+    }
+  }
+
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
     var realImage = widget as Image?;
     if (realImage == null) return null;
     late AssetImage? assetImage;
@@ -67,10 +181,10 @@ class ImageHandler extends DynamicBasicWidgetHandler {
         'height': realImage.height,
         'color': DynamicWidgetUtils.transform(realImage.color),
         'colorBlendMode':
-            DynamicWidgetUtils.transform(realImage.colorBlendMode),
+        DynamicWidgetUtils.transform(realImage.colorBlendMode),
         'fit': DynamicWidgetUtils.transform(realImage.fit),
         'alignment':
-            DynamicWidgetUtils.transform(realImage.alignment as Alignment?),
+        DynamicWidgetUtils.transform(realImage.alignment as Alignment?),
         'repeat': DynamicWidgetUtils.transform(realImage.repeat),
         'centerSlice': DynamicWidgetUtils.transform(realImage.centerSlice),
         'matchTextDirection': realImage.matchTextDirection,
@@ -79,111 +193,5 @@ class ImageHandler extends DynamicBasicWidgetHandler {
       },
       'xKey': realImage.key.toString()
     };
-  }
-
-  @override
-  Type get widgetType => Image;
-}
-
-class _Builder extends DynamicBaseWidget {
-  final DynamicWidgetConfig? config;
-  final Function(EventInfo value)? event;
-
-  _Builder(this.config, this.event, {Key? key})
-      : super(config, event, key: key);
-
-  @override
-  _BuilderState createState() => _BuilderState();
-}
-
-class _BuilderState extends State<_Builder> {
-  ImageConfig? props;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.config?.xVar != null) {
-      props = ImageConfig.fromJson(widget.config?.xVar ?? {});
-    }
-    if (props?.type == 'network') {
-      return Image.network(props?.src ?? '',
-          key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-          semanticLabel: props?.semanticLabel,
-          excludeFromSemantics: props?.excludeFromSemantics ?? false,
-          scale: props?.scale ?? 1,
-          width: props?.width,
-          height: props?.height,
-          color: props?.color,
-          colorBlendMode: props?.colorBlendMode,
-          fit: props?.fit,
-          alignment: props?.alignment ?? Alignment.center,
-          repeat: props?.repeat ?? ImageRepeat.noRepeat,
-          centerSlice: props?.centerSlice,
-          matchTextDirection: props?.matchTextDirection ?? false,
-          gaplessPlayback: props?.gaplessPlayback ?? false,
-          filterQuality: props?.filterQuality ?? FilterQuality.low);
-    } else {
-      return Image.asset(props?.src ?? '',
-          key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-          semanticLabel: props?.semanticLabel,
-          excludeFromSemantics: props?.excludeFromSemantics ?? false,
-          scale: props?.scale,
-          width: props?.width,
-          height: props?.height,
-          color: props?.color,
-          colorBlendMode: props?.colorBlendMode,
-          fit: props?.fit,
-          alignment: props?.alignment ?? Alignment.center,
-          repeat: props?.repeat ?? ImageRepeat.noRepeat,
-          centerSlice: props?.centerSlice,
-          matchTextDirection: props?.matchTextDirection ?? false,
-          gaplessPlayback: props?.gaplessPlayback ?? false,
-          filterQuality: props?.filterQuality ?? FilterQuality.low);
-    }
-  }
-}
-
-class ImageConfig {
-  late String? type; //网络图片或者本地图片
-  late String? src;
-  late String? semanticLabel;
-  late bool? excludeFromSemantics;
-  late double? scale;
-  late double? width;
-  late double? height;
-  late Color? color;
-  late BlendMode? colorBlendMode;
-  late BoxFit? fit;
-  late Alignment? alignment;
-  late ImageRepeat? repeat;
-  late Rect? centerSlice;
-  late bool? matchTextDirection;
-  late bool? gaplessPlayback;
-  late FilterQuality? filterQuality;
-
-  ImageConfig.fromJson(Map<dynamic, dynamic> json) {
-    type = json['type'];
-    src = json['src'];
-    semanticLabel = json['semanticLabel'];
-    excludeFromSemantics = json['excludeFromSemantics'];
-    scale = json['scale']?.toDouble();
-    width = json['width']?.toDouble();
-    height = json['height']?.toDouble();
-    color = DynamicWidgetUtils.adapt<Color>(json['color']);
-    colorBlendMode =
-        DynamicWidgetUtils.adapt<BlendMode>(json['colorBlendMode']);
-    fit = DynamicWidgetUtils.adapt<BoxFit>(json['fit']);
-    alignment = (DynamicWidgetUtils.adapt<Alignment>(json['alignment']) ??
-        Alignment.center);
-    repeat = DynamicWidgetUtils.adapt<ImageRepeat>(json['repeat']);
-    centerSlice = DynamicWidgetUtils.adapt<Rect>(json['centerSlice']);
-    matchTextDirection = json['matchTextDirection'];
-    gaplessPlayback = json['gaplessPlayback'];
-    filterQuality =
-        DynamicWidgetUtils.adapt<FilterQuality>(json['filterQuality']);
   }
 }

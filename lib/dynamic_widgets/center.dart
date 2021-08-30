@@ -10,6 +10,9 @@ class CenterHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Center';
 
   @override
+  Type get widgetType => Center;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -19,21 +22,8 @@ class CenterHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var center = widget as Center?;
-    if (center == null) return null;
-    return {
-      'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(center.child, buildContext),
-      'xVar': {
-        'widthFactor': center.widthFactor,
-        'heightFactor': center.heightFactor,
-      },
-      'xKey': center.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Center;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -48,8 +38,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  CenterConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -57,8 +45,23 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late double? widthFactor;
+  late double? heightFactor;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    widthFactor = json['widthFactor'];
+    heightFactor = json['heightFactor'];
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = CenterConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
@@ -70,14 +73,19 @@ class _BuilderState extends State<_Builder> {
       child: _child ?? SizedBox(),
     );
   }
-}
 
-class CenterConfig {
-  late double? widthFactor;
-  late double? heightFactor;
-
-  CenterConfig.fromJson(Map<dynamic, dynamic> json) {
-    widthFactor = json['widthFactor'];
-    heightFactor = json['heightFactor'];
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var center = widget as Center?;
+    if (center == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(center.child, buildContext),
+      'xVar': {
+        'widthFactor': center.widthFactor,
+        'heightFactor': center.heightFactor,
+      },
+      'xKey': center.key.toString()
+    };
   }
 }

@@ -12,6 +12,9 @@ class CustomExpansionTileHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'CustomExpansionTile';
 
   @override
+  Type get widgetType => CustomExpansionTile;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
@@ -21,13 +24,8 @@ class CustomExpansionTileHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var expand = widget as CustomExpansionTile?;
-    if (expand == null) return null;
-    return CustomExpansionTileConfig.toJson(expand, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => CustomExpansionTile;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -42,8 +40,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  CustomExpansionTileConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -51,11 +47,51 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Widget? leading;
+  late Widget? title;
+  late Widget? subtitle;
+  late Color? backgroundColor;
+  late Widget? trailing;
+  late bool? initiallyExpanded;
+  late double? topMargin;
+
+  Config.fromJson(Map<dynamic, dynamic> json, BuildContext context) {
+    leading = json['leading'] != null
+        ? DynamicWidgetBuilder.buildWidget(
+        DynamicWidgetConfig.fromJson(json['leading']),
+        context: context)
+        : null;
+    title = json['title'] != null
+        ? DynamicWidgetBuilder.buildWidget(
+        DynamicWidgetConfig.fromJson(json['title']),
+        context: context)
+        : null;
+    initiallyExpanded = json['initiallyExpanded'];
+    topMargin = json['topMargin'];
+    subtitle = json['subtitle'] != null
+        ? DynamicWidgetBuilder.buildWidget(
+        DynamicWidgetConfig.fromJson(json['subtitle']),
+        context: context)
+        : null;
+    trailing = json['trailing'] != null
+        ? DynamicWidgetBuilder.buildWidget(
+        DynamicWidgetConfig.fromJson(json['trailing']),
+        context: context)
+        : null;
+    backgroundColor = DynamicWidgetUtils.adapt<Color>(json['backgroundColor']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = CustomExpansionTileConfig.fromJson(
+      props = Config.fromJson(
           widget.config?.xVar ?? {}, context);
     }
-
     return CustomExpansionTile(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       leading: props?.leading,
@@ -64,7 +100,7 @@ class _BuilderState extends State<_Builder> {
       backgroundColor: props?.backgroundColor,
       onExpansionChanged: (expanded) {
         var eventInfo = widget.config?.events.firstWhere(
-            (element) => element.type == EventType.onExpansionChanged,
+                (element) => element.type == EventType.onExpansionChanged,
             orElse: () => EventInfo(type: '', action: ''));
         if (eventInfo?.type != null &&
             eventInfo?.type != '' &&
@@ -80,46 +116,11 @@ class _BuilderState extends State<_Builder> {
       topMargin: props?.topMargin,
     );
   }
-}
 
-class CustomExpansionTileConfig {
-  late Widget? leading;
-  late Widget? title;
-  late Widget? subtitle;
-  late Color? backgroundColor;
-  late Widget? trailing;
-  late bool? initiallyExpanded;
-  late double? topMargin;
-
-  CustomExpansionTileConfig.fromJson(
-      Map<dynamic, dynamic> json, BuildContext context) {
-    leading = json['leading'] != null
-        ? DynamicWidgetBuilder.buildWidget(
-            DynamicWidgetConfig.fromJson(json['leading']),
-            context: context)
-        : null;
-    title = json['title'] != null
-        ? DynamicWidgetBuilder.buildWidget(
-            DynamicWidgetConfig.fromJson(json['title']),
-            context: context)
-        : null;
-    initiallyExpanded = json['initiallyExpanded'];
-    topMargin = json['topMargin'];
-    subtitle = json['subtitle'] != null
-        ? DynamicWidgetBuilder.buildWidget(
-            DynamicWidgetConfig.fromJson(json['subtitle']),
-            context: context)
-        : null;
-    trailing = json['trailing'] != null
-        ? DynamicWidgetBuilder.buildWidget(
-            DynamicWidgetConfig.fromJson(json['trailing']),
-            context: context)
-        : null;
-    backgroundColor = DynamicWidgetUtils.adapt<Color>(json['backgroundColor']);
-  }
-
-  static Map? toJson(CustomExpansionTile expansionTile, String widgetName,
+  static Map? toJson(Widget? widget, String widgetName,
       BuildContext? buildContext) {
+    var expansionTile = widget as CustomExpansionTile?;
+    if (expansionTile == null) return null;
     return {
       'widget': widgetName,
       'children': DynamicWidgetBuilder.transformList(
@@ -134,7 +135,7 @@ class CustomExpansionTileConfig {
         'trailing': DynamicWidgetBuilder.transformMap(
             expansionTile.trailing, buildContext),
         'backgroundColor':
-            DynamicWidgetUtils.transform(expansionTile.backgroundColor),
+        DynamicWidgetUtils.transform(expansionTile.backgroundColor),
         'initiallyExpanded': expansionTile.initiallyExpanded,
         'topMargin': expansionTile.topMargin,
       },

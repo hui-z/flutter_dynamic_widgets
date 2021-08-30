@@ -11,32 +11,20 @@ class IconHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Icon';
 
   @override
+  Type get widgetType => Icon;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-      required BuildContext buildContext,
-      Function(EventInfo value)? event}) {
+        required BuildContext buildContext,
+        Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var icon = widget as Icon?;
-    if (icon == null) return null;
-    return {
-      'widget': widgetName,
-      'xVar': {
-        'icon': DynamicWidgetUtils.transform(icon.icon),
-        'size': icon.size,
-        'color': DynamicWidgetUtils.transform(icon.color),
-        'semanticLabel': icon.semanticLabel,
-        'textDirection': DynamicWidgetUtils.transform(icon.textDirection)
-      },
-      'xKey': icon.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Icon;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -51,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  IconConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -60,8 +46,30 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late IconData? icon;
+  late double? size;
+  late Color? color;
+  late String? semanticLabel;
+  late TextDirection? textDirection;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    icon = DynamicWidgetUtils.adapt<IconData>(json['icon']);
+    size = json['size'];
+    color = DynamicWidgetUtils.adapt<Color>(json['color']);
+    semanticLabel = json['semanticLabel'];
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = IconConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Icon(props?.icon,
         key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -70,21 +78,21 @@ class _BuilderState extends State<_Builder> {
         semanticLabel: props?.semanticLabel,
         textDirection: props?.textDirection);
   }
-}
 
-class IconConfig {
-  late IconData? icon;
-  late double? size;
-  late Color? color;
-  late String? semanticLabel;
-  late TextDirection? textDirection;
-
-  IconConfig.fromJson(Map<dynamic, dynamic> json) {
-    icon = DynamicWidgetUtils.adapt<IconData>(json['icon']);
-    size = json['size'];
-    color = DynamicWidgetUtils.adapt<Color>(json['color']);
-    semanticLabel = json['semanticLabel'];
-    textDirection =
-        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var icon = widget as Icon?;
+    if (icon == null) return null;
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'icon': DynamicWidgetUtils.transform(icon.icon),
+        'size': icon.size,
+        'color': DynamicWidgetUtils.transform(icon.color),
+        'semanticLabel': icon.semanticLabel,
+        'textDirection': DynamicWidgetUtils.transform(icon.textDirection)
+      },
+      'xKey': icon.key.toString()
+    };
   }
 }

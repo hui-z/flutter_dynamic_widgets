@@ -23,9 +23,7 @@ class TooltipHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as Tooltip?;
-    if (realWidget == null) return null;
-    return TooltipConfig.toJson(realWidget, widgetName, buildContext);
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -41,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  TooltipConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -50,8 +46,44 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late String? message;
+  late double? height;
+  late EdgeInsetsGeometry? padding;
+  late EdgeInsetsGeometry? margin;
+  late double? verticalOffset;
+  late bool? preferBelow;
+  late bool? excludeFromSemantics;
+
+  //late Decoration? decoration;
+  late TextStyle? textStyle;
+  late Duration? waitDuration;
+  late Duration? showDuration;
+
+  // late Widget? child;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    message = json['message'];
+    height = json['height']?.toDouble();
+    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
+    verticalOffset = json['verticalOffset']?.toDouble();
+    preferBelow = json['preferBelow'];
+    excludeFromSemantics = json['excludeFromSemantics'];
+    //decoration
+    textStyle = DynamicWidgetUtils.adapt<TextStyle>(json['textStyle']);
+    waitDuration = DynamicWidgetUtils.adapt<Duration>(json['waitDuration']);
+    showDuration = DynamicWidgetUtils.adapt<Duration>(json['showDuration']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = TooltipConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Tooltip(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -69,40 +101,11 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class TooltipConfig {
-  late String? message;
-  late double? height;
-  late EdgeInsetsGeometry? padding;
-  late EdgeInsetsGeometry? margin;
-  late double? verticalOffset;
-  late bool? preferBelow;
-  late bool? excludeFromSemantics;
-
-  //late Decoration? decoration;
-  late TextStyle? textStyle;
-  late Duration? waitDuration;
-  late Duration? showDuration;
-
-  // late Widget? child;
-
-  TooltipConfig.fromJson(Map<dynamic, dynamic> json) {
-    message = json['message'];
-    height = json['height']?.toDouble();
-    padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
-    margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
-    verticalOffset = json['verticalOffset']?.toDouble();
-    preferBelow = json['preferBelow'];
-    excludeFromSemantics = json['excludeFromSemantics'];
-    //decoration
-    textStyle = DynamicWidgetUtils.adapt<TextStyle>(json['textStyle']);
-    waitDuration = DynamicWidgetUtils.adapt<Duration>(json['waitDuration']);
-    showDuration = DynamicWidgetUtils.adapt<Duration>(json['showDuration']);
-  }
-
-  static Map? toJson(
-      Tooltip widget, String widgetName, BuildContext? buildContext) {
+  static Map? toJson(Widget? realWidget, String widgetName,
+      BuildContext? buildContext) {
+    var widget = realWidget as Tooltip?;
+    if (widget == null) return null;
     return {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(widget.child, buildContext),

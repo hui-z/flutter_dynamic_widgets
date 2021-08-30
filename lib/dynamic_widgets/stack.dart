@@ -23,18 +23,7 @@ class StackHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as Stack?;
-    if (realWidget == null) return null;
-    return {
-      'widget': widgetName,
-      'xVar': {
-        'alignment':
-            DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
-        'textDirection': DynamicWidgetUtils.transform(realWidget.textDirection),
-        'fit': DynamicWidgetUtils.transform(realWidget.fit),
-      },
-      'xKey': realWidget.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
 }
 
@@ -50,8 +39,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  StackConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -59,8 +46,26 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late Alignment? alignment;
+  late TextDirection? textDirection;
+  late StackFit? fit;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    fit = DynamicWidgetUtils.adapt<StackFit>(json['fit']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = StackConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     return Stack(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
@@ -71,17 +76,20 @@ class _BuilderState extends State<_Builder> {
           context: context, event: widget.event),
     );
   }
-}
 
-class StackConfig {
-  late Alignment? alignment;
-  late TextDirection? textDirection;
-  late StackFit? fit;
-
-  StackConfig.fromJson(Map<dynamic, dynamic> json) {
-    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
-    textDirection =
-        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
-    fit = DynamicWidgetUtils.adapt<StackFit>(json['fit']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var realWidget = widget as Stack?;
+    if (realWidget == null) return null;
+    return {
+      'widget': widgetName,
+      'xVar': {
+        'alignment':
+        DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
+        'textDirection': DynamicWidgetUtils.transform(realWidget.textDirection),
+        'fit': DynamicWidgetUtils.transform(realWidget.fit),
+      },
+      'xKey': realWidget.key.toString()
+    };
   }
 }
