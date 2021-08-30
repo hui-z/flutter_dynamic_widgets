@@ -13,7 +13,7 @@ class GestureDetectorHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -35,7 +35,7 @@ class GestureDetectorHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -55,39 +55,40 @@ class _BuilderState extends State<_Builder> {
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
 
-    var eventName1 = widget.config?.eventNames?.firstWhere(
-            (element) => element.contains(EventName.onTap), orElse: () => '');
+    var eventInfo1 = widget.config?.events.firstWhere(
+        (element) => element.type == EventType.onTap,
+        orElse: () => EventInfo(type: '', action: ''));
 
-    var onTap = eventName1 != null && eventName1.isNotEmpty
+    var onTap = eventInfo1?.type != null && eventInfo1?.type != ''
         ? () {
             if (widget.event != null) {
-              widget.event!(eventName1);
+              widget.event!(eventInfo1!);
             }
           }
         : null;
 
-    var eventName2 = widget.config?.eventNames?.firstWhere(
-            (element) => element.contains(EventName.onLongPress), orElse: () => '');
+    var eventInfo2 = widget.config?.events.firstWhere(
+        (element) => element.type == EventType.onLongPress,
+        orElse: () => EventInfo(type: '', action: ''));
 
-    var onLongPress =
-        eventName2 != null && eventName2.isNotEmpty
-            ? () {
-                if (widget.event != null) {
-                  widget.event!(eventName2);
-                }
-              }
-            : null;
+    var onLongPress = eventInfo2?.type != null && eventInfo2?.type != ''
+        ? () {
+            if (widget.event != null) {
+              widget.event!(eventInfo2!);
+            }
+          }
+        : null;
 
-    var eventName3 = widget.config?.eventNames?.firstWhere(
-            (element) => element.contains(EventName.onDoubleTap), orElse: () => '');
-    var onDoubleTap =
-    eventName3 != null && eventName3.isNotEmpty
-            ? () {
-                if (widget.event != null) {
-                  widget.event!(eventName3);
-                }
-              }
-            : null;
+    var eventInfo3 = widget.config?.events.firstWhere(
+        (element) => element.type == EventType.onDoubleTap,
+        orElse: () => EventInfo(type: '', action: ''));
+    var onDoubleTap = eventInfo3?.type != null && eventInfo3?.type != ''
+        ? () {
+            if (widget.event != null) {
+              widget.event!(eventInfo3!);
+            }
+          }
+        : null;
     return GestureDetector(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       onTap: onTap,

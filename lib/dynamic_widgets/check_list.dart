@@ -17,7 +17,7 @@ class CheckListHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -34,7 +34,7 @@ class CheckListHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -57,11 +57,15 @@ class _BuilderState extends State<_Builder> {
       props = CheckListConfig.fromJson(widget.config?.xVar ?? {}, context);
     }
     var onCheck = (List<CheckListData> checkedData) {
-      var eventName = widget.config?.eventNames?.firstWhere(
-              (element) => element.contains(EventName.onCheck), orElse: () => '');
-      if (eventName != null && eventName.isNotEmpty &&
+      var eventInfo = widget.config?.events.firstWhere(
+          (element) => element.type == EventType.onCheck,
+          orElse: () => EventInfo(type: '', action: ''));
+      if (eventInfo?.type != null &&
+          eventInfo?.type != '' &&
           widget.event != null) {
-        widget.event!(eventName + '&checkedData=${json.encode(checkedData.map((e) => e.transform(context))).toString()}');
+        eventInfo?.operateData =
+            'checkedData=${json.encode(checkedData.map((e) => e.transform(context))).toString()}';
+        widget.event!(eventInfo!);
       }
     };
 
@@ -72,11 +76,15 @@ class _BuilderState extends State<_Builder> {
       onCheck: onCheck,
       crossAxisAlignment: props?.crossAxisAlignment,
       onIconPressed: (item) {
-        var eventName = widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onTap), orElse: () => '');
-        if (eventName != null && eventName.isNotEmpty &&
+        var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onTap,
+            orElse: () => EventInfo(type: '', action: ''));
+        if (eventInfo?.type != null &&
+            eventInfo?.type != '' &&
             widget.event != null) {
-          widget.event!(eventName + json.encode(item.transform(context)).toString());
+          eventInfo?.operateData =
+              json.encode(item.transform(context)).toString();
+          widget.event!(eventInfo!);
         }
       },
       showIcon: props?.showIcon ?? false,

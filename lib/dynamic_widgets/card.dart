@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class CardHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +16,8 @@ class CardHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -30,7 +31,7 @@ class CardHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -61,8 +62,8 @@ class _BuilderState extends State<_Builder> {
       margin: props?.margin,
       clipBehavior: props?.clipBehavior,
       semanticContainer: props?.semanticContainer ?? true,
-      child: DynamicWidgetBuilder.buildWidget(
-          widget.config?.child, context: context, event: widget.event),
+      child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
+          context: context, event: widget.event),
     );
   }
 }
@@ -88,8 +89,8 @@ class CardConfig {
     semanticContainer = json['semanticContainer'];
   }
 
-  static Map? toJson(Card widget, String widgetName,
-      BuildContext? buildContext) {
+  static Map? toJson(
+      Card widget, String widgetName, BuildContext? buildContext) {
     return {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(widget.child, buildContext),
@@ -98,8 +99,7 @@ class CardConfig {
         'shadowColor': widget.shadowColor,
         'elevation': widget.elevation,
         'borderOnForeground': widget.borderOnForeground,
-        'margin': DynamicWidgetUtils.transform(
-            widget.margin as EdgeInsets),
+        'margin': DynamicWidgetUtils.transform(widget.margin as EdgeInsets),
         'clipBehavior': DynamicWidgetUtils.transform(widget.clipBehavior),
         'semanticContainer': widget.semanticContainer,
       },

@@ -111,7 +111,7 @@ class ListInputItem extends StatefulWidget {
       this.titleStyle,
       this.onEditingComplete,
       this.isHideDivider = false,
-        this.divider,
+      this.divider,
       this.enable})
       : super(key: key);
 
@@ -195,7 +195,8 @@ class _ListInputItemState extends State<ListInputItem> {
             child: Column(
               children: <Widget>[
                 TextField(
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced, autofocus: widget.autofocus,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    autofocus: widget.autofocus,
                     keyboardType: widget.keyboardType,
                     controller: _textEditingController,
                     focusNode: widget.focusNode,
@@ -217,8 +218,7 @@ class _ListInputItemState extends State<ListInputItem> {
                     style: widget.textFieldStyle),
               ],
             ))));
-    list.add(
-        widget.rightWidget ?? SizedBox());
+    list.add(widget.rightWidget ?? SizedBox());
     return list;
   }
 }

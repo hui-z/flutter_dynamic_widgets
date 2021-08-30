@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class StackHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +16,8 @@ class StackHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -27,8 +28,8 @@ class StackHandler extends DynamicBasicWidgetHandler {
     return {
       'widget': widgetName,
       'xVar': {
-        'alignment': DynamicWidgetUtils.transform(
-            realWidget.alignment as Alignment?),
+        'alignment':
+            DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
         'textDirection': DynamicWidgetUtils.transform(realWidget.textDirection),
         'fit': DynamicWidgetUtils.transform(realWidget.fit),
       },
@@ -39,7 +40,7 @@ class StackHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -66,7 +67,8 @@ class _BuilderState extends State<_Builder> {
       alignment: props?.alignment ?? AlignmentDirectional.topStart,
       textDirection: props?.textDirection,
       fit: props?.fit ?? StackFit.loose,
-      children: DynamicWidgetBuilder.buildWidgets(widget.config?.children, context: context, event: widget.event),
+      children: DynamicWidgetBuilder.buildWidgets(widget.config?.children,
+          context: context, event: widget.event),
     );
   }
 }

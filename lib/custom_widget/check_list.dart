@@ -27,8 +27,7 @@ class CheckListData {
       this.subtitleStyle,
       this.child});
 
-  static CheckListData? adapter(
-      Map? data, BuildContext? context) {
+  static CheckListData? adapter(Map? data, BuildContext? context) {
     if (data == null) return null;
     return CheckListData(
         id: data['id'] ?? '',
@@ -36,11 +35,11 @@ class CheckListData {
         titleStyle: DynamicWidgetUtils.adapt<TextStyle>(data['titleStyle']),
         subtitle: data['subtitle'],
         subtitleStyle:
-        DynamicWidgetUtils.adapt<TextStyle>(data['subtitleStyle']),
+            DynamicWidgetUtils.adapt<TextStyle>(data['subtitleStyle']),
         child: data['child'] != null
             ? DynamicWidgetBuilder.buildWidget(
-            DynamicWidgetConfig.fromJson(data['child']),
-            context: context!)
+                DynamicWidgetConfig.fromJson(data['child']),
+                context: context!)
             : null);
   }
 
@@ -424,8 +423,7 @@ class CheckListItem extends StatelessWidget {
           if (checkType == CheckType.single) {
             _onSingleCheck(item);
           } else {
-            _onMultipleCheck(
-                !checkedData.any((value) => value.id == item!.id));
+            _onMultipleCheck(!checkedData.any((value) => value.id == item!.id));
           }
         },
       );

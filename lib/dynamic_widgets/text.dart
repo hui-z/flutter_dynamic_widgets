@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class TextHandler extends DynamicBasicWidgetHandler {
@@ -11,7 +12,9 @@ class TextHandler extends DynamicBasicWidgetHandler {
 
   @override
   Widget build(DynamicWidgetConfig? config,
-      {Key? key, required BuildContext buildContext, Function(String value)? event}) {
+      {Key? key,
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -32,7 +35,8 @@ class TextHandler extends DynamicBasicWidgetHandler {
         'textScaleFactor': text.textScaleFactor,
         'maxLines': text.maxLines,
         'semanticsLabel': text.semanticsLabel,
-        'textHeightBehavior': DynamicWidgetUtils.transform(text.textHeightBehavior),
+        'textHeightBehavior':
+            DynamicWidgetUtils.transform(text.textHeightBehavior),
       },
       'xKey': text.key.toString()
     };
@@ -44,9 +48,10 @@ class TextHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
-  _Builder(this.config, this.event, {Key? key}) : super(config, event, key: key);
+  _Builder(this.config, this.event, {Key? key})
+      : super(config, event, key: key);
 
   @override
   _BuilderState createState() => _BuilderState();
@@ -57,7 +62,6 @@ class _BuilderState extends State<_Builder> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -101,12 +105,14 @@ class TextConfig {
     style = DynamicWidgetUtils.adapt<TextStyle>(json['style']);
     strutStyle = DynamicWidgetUtils.adapt<StrutStyle>(json['strutStyle']);
     textAlign = DynamicWidgetUtils.adapt<TextAlign>(json['textAlign']);
-    textDirection = DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
+    textDirection =
+        DynamicWidgetUtils.adapt<TextDirection>(json['textDirection']);
     softWrap = json['softWrap'];
     overflow = DynamicWidgetUtils.adapt<TextOverflow>(json['overflow']);
     maxLines = json['maxLines'];
     semanticsLabel = json['semanticsLabel'];
-    textHeightBehavior = DynamicWidgetUtils.adapt<TextHeightBehavior>(json['textHeightBehavior']);
+    textHeightBehavior = DynamicWidgetUtils.adapt<TextHeightBehavior>(
+        json['textHeightBehavior']);
     textScaleFactor = json['textScaleFactor'];
   }
 }

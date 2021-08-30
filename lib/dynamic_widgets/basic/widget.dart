@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/align.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/center.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event_name.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/container.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/data_table.dart';
@@ -38,7 +39,7 @@ import 'handler.dart';
 
 abstract class DynamicBaseWidget extends StatefulWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
   DynamicBaseWidget(this.config, this.event, {Key? key}) : super(key: key);
 }
 
@@ -90,7 +91,7 @@ class DynamicWidgetBuilder {
   static Widget? buildWidget(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext context,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     if (config == null) return null;
     DynamicBasicWidgetHandler? handler = _widgetHandlers[config.widget];
     if (handler == null)
@@ -102,7 +103,7 @@ class DynamicWidgetBuilder {
   static List<Widget> buildWidgets(List<DynamicWidgetConfig>? configs,
       {Key? key,
       required BuildContext context,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     List<Widget> widgets = [];
     configs?.forEach((element) {
       DynamicBasicWidgetHandler? handler = _widgetHandlers[element.widget];

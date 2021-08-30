@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class BoxConstraintsHandler extends DynamicBasicWidgetHandler {
@@ -16,7 +17,7 @@ class BoxConstraintsHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -39,7 +40,7 @@ class BoxConstraintsHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -63,7 +64,7 @@ class _BuilderState extends State<_Builder> {
     }
     return ConstrainedBox(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      constraints: props?.constraints??BoxConstraints(),
+      constraints: props?.constraints ?? BoxConstraints(),
       child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
           context: context, event: widget.event),
     );

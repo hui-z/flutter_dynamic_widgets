@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class RichTextHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +16,8 @@ class RichTextHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -30,7 +31,7 @@ class RichTextHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -93,24 +94,19 @@ class RichTextConfig {
     strutStyle = DynamicWidgetUtils.adapt<StrutStyle>(json['strutStyle']);
   }
 
-  static Map? toJson(RichText widget, String widgetName,
-      BuildContext? buildContext) {
+  static Map? toJson(
+      RichText widget, String widgetName, BuildContext? buildContext) {
     return {
       'widget': widgetName,
       'xVar': {
-        'text': DynamicWidgetUtils.transform(
-            widget.text as TextSpan),
-        'textAlign': DynamicWidgetUtils.transform(
-            widget.textAlign),
-        'textDirection': DynamicWidgetUtils.transform(
-            widget.textDirection),
+        'text': DynamicWidgetUtils.transform(widget.text as TextSpan),
+        'textAlign': DynamicWidgetUtils.transform(widget.textAlign),
+        'textDirection': DynamicWidgetUtils.transform(widget.textDirection),
         'softWrap': widget.softWrap,
-        'overflow': DynamicWidgetUtils.transform(
-            widget.overflow),
+        'overflow': DynamicWidgetUtils.transform(widget.overflow),
         'textScaleFactor': widget.textScaleFactor,
         'maxLines': widget.maxLines,
-        'strutStyle': DynamicWidgetUtils.transform(
-            widget.strutStyle),
+        'strutStyle': DynamicWidgetUtils.transform(widget.strutStyle),
       },
       'xKey': widget.key.toString()
     };

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class FlowHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +16,8 @@ class FlowHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -26,10 +27,11 @@ class FlowHandler extends DynamicBasicWidgetHandler {
     if (realWidget == null) return null;
     return {
       'widget': widgetName,
-      'children': DynamicWidgetBuilder.transformList(
-          realWidget.children, buildContext),
+      'children':
+          DynamicWidgetBuilder.transformList(realWidget.children, buildContext),
       'xVar': {
-        'delegate': DyFlowDelegate.toJson(realWidget.delegate as DyFlowDelegate),
+        'delegate':
+            DyFlowDelegate.toJson(realWidget.delegate as DyFlowDelegate),
         'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
       },
       'xKey': realWidget.key.toString()
@@ -39,7 +41,7 @@ class FlowHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -77,8 +79,7 @@ class FlowConfig {
 
   FlowConfig.fromJson(Map<dynamic, dynamic> json) {
     delegate = DyFlowDelegate.fromJson(json['delegate']);
-    clipBehavior =
-        DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
+    clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
   }
 }
 
@@ -98,8 +99,7 @@ class DyFlowDelegate extends FlowDelegate {
 
   static Map<dynamic, dynamic> toJson(DyFlowDelegate? delegate) {
     var dg = delegate;
-    if (dg == null)
-      dg = DyFlowDelegate.fromJson(null);
+    if (dg == null) dg = DyFlowDelegate.fromJson(null);
     return {
       'boxSize': dg.boxSize,
       'padding': dg.padding,

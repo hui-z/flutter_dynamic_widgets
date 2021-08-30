@@ -15,7 +15,7 @@ class CustomExpansionTileHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -32,7 +32,7 @@ class CustomExpansionTileHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -63,11 +63,14 @@ class _BuilderState extends State<_Builder> {
       subtitle: props?.subtitle,
       backgroundColor: props?.backgroundColor,
       onExpansionChanged: (expanded) {
-        var eventName = widget.config?.eventNames?.firstWhere(
-                (element) => element.contains(EventName.onExpansionChanged), orElse: () => '');
-        if (eventName != null && eventName.isNotEmpty &&
+        var eventInfo = widget.config?.events.firstWhere(
+            (element) => element.type == EventType.onExpansionChanged,
+            orElse: () => EventInfo(type: '', action: ''));
+        if (eventInfo?.type != null &&
+            eventInfo?.type != '' &&
             widget.event != null) {
-          widget.event!(eventName + '&expanded=$expanded');
+          eventInfo?.operateData = 'expanded=$expanded';
+          widget.event!(eventInfo!);
         }
       },
       children: DynamicWidgetBuilder.buildWidgets(widget.config?.children,
@@ -119,7 +122,8 @@ class CustomExpansionTileConfig {
       BuildContext? buildContext) {
     return {
       'widget': widgetName,
-      'children': DynamicWidgetBuilder.transformList(expansionTile.children, buildContext),
+      'children': DynamicWidgetBuilder.transformList(
+          expansionTile.children, buildContext),
       'xVar': {
         'leading': DynamicWidgetBuilder.transformMap(
             expansionTile.leading, buildContext),
@@ -130,7 +134,7 @@ class CustomExpansionTileConfig {
         'trailing': DynamicWidgetBuilder.transformMap(
             expansionTile.trailing, buildContext),
         'backgroundColor':
-        DynamicWidgetUtils.transform(expansionTile.backgroundColor),
+            DynamicWidgetUtils.transform(expansionTile.backgroundColor),
         'initiallyExpanded': expansionTile.initiallyExpanded,
         'topMargin': expansionTile.topMargin,
       },

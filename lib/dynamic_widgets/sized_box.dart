@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'basic/handler.dart';
-import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class SizedBoxHandler extends DynamicBasicWidgetHandler {
@@ -15,8 +15,8 @@ class SizedBoxHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -27,7 +27,7 @@ class SizedBoxHandler extends DynamicBasicWidgetHandler {
     return {
       'widget': widgetName,
       'child':
-      DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
+          DynamicWidgetBuilder.transformMap(realWidget.child, buildContext),
       'xVar': {
         'width': realWidget.width,
         'height': realWidget.height,
@@ -39,7 +39,7 @@ class SizedBoxHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);

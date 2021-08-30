@@ -6,6 +6,8 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/utils.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 
+import 'config/event_name.dart';
+
 class CachedNetworkImageHandler extends DynamicBasicWidgetHandler {
   @override
   String get widgetName => 'CachedNetworkImage';
@@ -16,8 +18,8 @@ class CachedNetworkImageHandler extends DynamicBasicWidgetHandler {
   @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
-        required BuildContext buildContext,
-        Function(String value)? event}) {
+      required BuildContext buildContext,
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -25,13 +27,14 @@ class CachedNetworkImageHandler extends DynamicBasicWidgetHandler {
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
     var realWidget = widget as CachedNetworkImage?;
     if (realWidget == null) return null;
-    return CachedNetworkImageConfig.toJson(realWidget, widgetName, buildContext);
+    return CachedNetworkImageConfig.toJson(
+        realWidget, widgetName, buildContext);
   }
 }
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
@@ -60,18 +63,21 @@ class _BuilderState extends State<_Builder> {
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       imageUrl: props?.imageUrl ?? '',
       httpHeaders: props?.httpHeaders,
-      placeholder: placeholder != null ? ((context, url) =>
-          Image.asset(placeholder)) : null,
-      progressIndicatorBuilder: progressIndicatorBuilder != null ? ((context,
-          url, downloadProgress) =>
-          LinearProgressIndicator(value: downloadProgress.progress)) : null,
-      errorWidget: errorWidget != null ? ((context, url, error) =>
-          Image.asset(errorWidget)) : null,
-      fadeOutDuration: props?.fadeOutDuration ??
-          const Duration(milliseconds: 1000),
+      placeholder: placeholder != null
+          ? ((context, url) => Image.asset(placeholder))
+          : null,
+      progressIndicatorBuilder: progressIndicatorBuilder != null
+          ? ((context, url, downloadProgress) =>
+              LinearProgressIndicator(value: downloadProgress.progress))
+          : null,
+      errorWidget: errorWidget != null
+          ? ((context, url, error) => Image.asset(errorWidget))
+          : null,
+      fadeOutDuration:
+          props?.fadeOutDuration ?? const Duration(milliseconds: 1000),
       fadeOutCurve: props?.fadeOutCurve ?? Curves.easeOut,
-      fadeInDuration: props?.fadeInDuration ??
-          const Duration(milliseconds: 500),
+      fadeInDuration:
+          props?.fadeInDuration ?? const Duration(milliseconds: 500),
       fadeInCurve: props?.fadeInCurve ?? Curves.easeIn,
       width: props?.width,
       height: props?.height,
@@ -166,32 +172,22 @@ class CachedNetworkImageConfig {
         //'placeholder': widget.placeholder,
         //'progressIndicatorBuilder': widget.progressIndicatorBuilder,
         //'errorWidget': widget.errorWidget,
-        'fadeOutDuration': DynamicWidgetUtils.transform(
-            widget.fadeOutDuration),
-        'fadeOutCurve': DynamicWidgetUtils.transform(
-            widget.fadeOutCurve),
-        'fadeInDuration': DynamicWidgetUtils.transform(
-            widget.fadeInDuration),
-        'fadeInCurve': DynamicWidgetUtils.transform(
-            widget.fadeInCurve),
+        'fadeOutDuration': DynamicWidgetUtils.transform(widget.fadeOutDuration),
+        'fadeOutCurve': DynamicWidgetUtils.transform(widget.fadeOutCurve),
+        'fadeInDuration': DynamicWidgetUtils.transform(widget.fadeInDuration),
+        'fadeInCurve': DynamicWidgetUtils.transform(widget.fadeInCurve),
         'width': widget.width,
         'height': widget.height,
-        'fit': DynamicWidgetUtils.transform(
-            widget.fit),
-        'alignment': DynamicWidgetUtils.transform(
-            widget.alignment),
-        'repeat': DynamicWidgetUtils.transform(
-            widget.repeat),
+        'fit': DynamicWidgetUtils.transform(widget.fit),
+        'alignment': DynamicWidgetUtils.transform(widget.alignment),
+        'repeat': DynamicWidgetUtils.transform(widget.repeat),
         'matchTextDirection': widget.matchTextDirection,
         'useOldImageOnUrlChange': widget.useOldImageOnUrlChange,
-        'color': DynamicWidgetUtils.transform(
-            widget.color),
-        'filterQuality': DynamicWidgetUtils.transform(
-            widget.filterQuality),
-        'colorBlendMode': DynamicWidgetUtils.transform(
-            widget.colorBlendMode),
-        'placeholderFadeInDuration': DynamicWidgetUtils.transform(
-            widget.placeholderFadeInDuration),
+        'color': DynamicWidgetUtils.transform(widget.color),
+        'filterQuality': DynamicWidgetUtils.transform(widget.filterQuality),
+        'colorBlendMode': DynamicWidgetUtils.transform(widget.colorBlendMode),
+        'placeholderFadeInDuration':
+            DynamicWidgetUtils.transform(widget.placeholderFadeInDuration),
         'memCacheWidth': widget.memCacheWidth,
         'memCacheHeight': widget.memCacheHeight,
         'cacheKey': widget.cacheKey,

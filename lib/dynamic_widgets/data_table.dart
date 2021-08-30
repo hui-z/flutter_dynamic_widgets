@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
+import 'config/event_name.dart';
 import 'config/widget_config.dart';
 
 class DataTableHandler extends DynamicBasicWidgetHandler {
@@ -14,7 +15,7 @@ class DataTableHandler extends DynamicBasicWidgetHandler {
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
       required BuildContext buildContext,
-      Function(String value)? event}) {
+      Function(EventInfo value)? event}) {
     return _Builder(config, event, key: key);
   }
 
@@ -68,7 +69,7 @@ class DataTableHandler extends DynamicBasicWidgetHandler {
 
 class _Builder extends DynamicBaseWidget {
   final DynamicWidgetConfig? config;
-  final Function(String value)? event;
+  final Function(EventInfo value)? event;
 
   _Builder(this.config, this.event, {Key? key})
       : super(config, event, key: key);
