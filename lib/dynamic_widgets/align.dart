@@ -10,6 +10,9 @@ class AlignHandler extends DynamicBasicWidgetHandler {
   String get widgetName => 'Align';
 
   @override
+  Type get widgetType => Align;
+
+  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key, required BuildContext buildContext, Function(String value)? event}) {
     return _Builder(config, event, key: key);
@@ -17,22 +20,8 @@ class AlignHandler extends DynamicBasicWidgetHandler {
 
   @override
   Map? transformJson(Widget? widget, BuildContext? buildContext) {
-    var align = widget as Align?;
-    if (align == null) return null;
-    return {
-      'widget': widgetName,
-      'child': DynamicWidgetBuilder.transformMap(align.child, buildContext),
-      'xVar': {
-        'widthFactor': align.widthFactor,
-        'heightFactor': align.heightFactor,
-        'alignment': DynamicWidgetUtils.transform(align.alignment as Alignment?),
-      },
-      'xKey': align.key.toString()
-    };
+    return Config.toJson(widget, widgetName, buildContext);
   }
-
-  @override
-  Type get widgetType => Align;
 }
 
 class _Builder extends DynamicBaseWidget {
@@ -46,8 +35,6 @@ class _Builder extends DynamicBaseWidget {
 }
 
 class _BuilderState extends State<_Builder> {
-  AlignConfig? props;
-
   @override
   void initState() {
     super.initState();
@@ -55,8 +42,25 @@ class _BuilderState extends State<_Builder> {
 
   @override
   Widget build(BuildContext context) {
+    return Config.toWidget(context, widget);
+  }
+}
+
+class Config {
+  late double? widthFactor;
+  late double? heightFactor;
+  late AlignmentGeometry? alignment;
+
+  Config.fromJson(Map<dynamic, dynamic> json) {
+    widthFactor = json['widthFactor'];
+    heightFactor = json['heightFactor'];
+    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
+  }
+
+  static Widget toWidget(BuildContext context, _Builder widget) {
+    Config? props;
     if (widget.config?.xVar != null) {
-      props = AlignConfig.fromJson(widget.config?.xVar ?? {});
+      props = Config.fromJson(widget.config?.xVar ?? {});
     }
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
@@ -69,16 +73,21 @@ class _BuilderState extends State<_Builder> {
       child: _child ?? SizedBox(),
     );
   }
-}
 
-class AlignConfig {
-  late double? widthFactor;
-  late double? heightFactor;
-  late AlignmentGeometry? alignment;
-
-  AlignConfig.fromJson(Map<dynamic, dynamic> json) {
-    widthFactor = json['widthFactor'];
-    heightFactor = json['heightFactor'];
-    alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
+  static Map? toJson(Widget? widget, String widgetName,
+      BuildContext? buildContext) {
+    var align = widget as Align?;
+    if (align == null) return null;
+    return {
+      'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(align.child, buildContext),
+      'xVar': {
+        'widthFactor': align.widthFactor,
+        'heightFactor': align.heightFactor,
+        'alignment': DynamicWidgetUtils.transform(
+            align.alignment as Alignment?),
+      },
+      'xKey': align.key.toString()
+    };
   }
 }
