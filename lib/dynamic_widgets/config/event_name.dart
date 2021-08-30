@@ -45,7 +45,6 @@ class EventInfo {
     method = json['method'];
     path = json['path'];
     url = json['url'];
-    method = json['method'];
     arguments = json['arguments'];
     queryParameters = json['queryParameters'];
     bodyData = json['bodyData'];
