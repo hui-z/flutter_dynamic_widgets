@@ -1505,9 +1505,11 @@ class DynamicWidgetUtils {
   static IconData? _iconDataAdapter(Map? icon) {
     if (icon == null) return null;
     var cp = hexToInt(icon['codePoint']);
+    var fm = icon['fontFamily'] ?? 'MaterialIcons';
+    var md = icon['matchTextDirection'] ?? false;
     return IconData(cp,
-        fontFamily: icon['fontFamily'] ?? 'MaterialIcons',
-        matchTextDirection: icon['matchTextDirection'] ?? false);
+        fontFamily: fm,
+        matchTextDirection: md);
   }
 
   static BlendMode? _blendModeAdapter(String? blendModeString) {
