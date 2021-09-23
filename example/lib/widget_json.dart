@@ -508,3 +508,35 @@ var testMap = {
     },
   ]
 };
+
+var test2Map = {
+  'widget': 'Card',
+  'xVar': {
+    'color': 'FFFFFFFF',
+    'elevation': 20.0,
+    'shape': {
+      'type': 'RoundedRectangleBorder',
+      'borderRadius': {
+        'topLeft': 20.0,
+        'topRight': 20.0,
+        'bottomLeft': 20.0,
+        'bottomRight': 20.0,
+      },
+    },
+    'clipBehavior': 'antiAlias',
+  },
+  'child': {
+    'widget': 'Column',
+    'xVar': {
+      'crossAxisAlignment': 'start',
+    },
+    'children':{
+      {
+        'widget': 'Text',
+        'xVar': {
+          'data': 'Flutter'
+        }
+      },
+    }
+  },
+};

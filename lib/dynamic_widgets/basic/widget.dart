@@ -14,6 +14,7 @@ import 'package:flutter_dynamic_widgets/dynamic_widgets/wrap.dart';
 
 import '../aspectratio.dart';
 import '../button.dart';
+import '../cached_network_image.dart';
 import '../card.dart';
 import '../check_list.dart';
 import '../check_list_item.dart';
@@ -22,6 +23,7 @@ import '../column.dart';
 import '../constrained_box.dart';
 import '../cupertino_button.dart';
 import '../divider.dart';
+import '../expanded.dart';
 import '../expansion_tile.dart';
 import '../flow.dart';
 import '../gesture_detector.dart';
@@ -80,7 +82,9 @@ class DynamicWidgetBuilder {
       CupertinoButtonHandler(),
       FlowHandler(),
       IconButtonHandler(),
-      TooltipHandler()
+      TooltipHandler(),
+      ExpandedHandler(),
+      CachedNetworkImageHandler(),
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;
