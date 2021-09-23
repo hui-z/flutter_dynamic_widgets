@@ -94,8 +94,8 @@ class Config {
     fadeOutCurve = DynamicWidgetUtils.adapt<Curve>(json['fadeOutCurve']);
     fadeInDuration = DynamicWidgetUtils.adapt<Duration>(json['fadeInDuration']);
     fadeInCurve = DynamicWidgetUtils.adapt<Curve>(json['fadeInCurve']);
-    width = json['width']?.toDouble();
-    height = json['height']?.toDouble();
+    width = DynamicWidgetUtils.adaptDouble(json['width']);
+    height = DynamicWidgetUtils.adaptDouble(json['height']);
     fit = DynamicWidgetUtils.adapt<BoxFit>(json['fit']);
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
     repeat = DynamicWidgetUtils.adapt<ImageRepeat>(json['repeat']);
@@ -180,8 +180,8 @@ class Config {
         'fadeInDuration': DynamicWidgetUtils.transform(
             realWidget.fadeInDuration),
         'fadeInCurve': DynamicWidgetUtils.transform(realWidget.fadeInCurve),
-        'width': realWidget.width,
-        'height': realWidget.height,
+        'width': DynamicWidgetUtils.transform(realWidget.width),
+        'height': DynamicWidgetUtils.transform(realWidget.height),
         'fit': DynamicWidgetUtils.transform(realWidget.fit),
         'alignment': DynamicWidgetUtils.transform(realWidget.alignment),
         'repeat': DynamicWidgetUtils.transform(realWidget.repeat),

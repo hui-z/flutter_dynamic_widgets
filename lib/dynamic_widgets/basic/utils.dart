@@ -6,6 +6,9 @@ class DynamicWidgetUtils {
 
   static dynamic transform(dynamic origin) {
     if (origin == null) return null;
+    if (origin is double) {
+      return origin == double.infinity ? -1 : origin;
+    }
     if (origin is Alignment) {
       return _transformAlignment(origin);
     }
@@ -288,6 +291,10 @@ class DynamicWidgetUtils {
     return dragStartBehavior;
   }
 
+  static double? adaptDouble(dynamic d) {
+    return d == -1 ? double.infinity : d;
+  }
+
   static String? _transformDragStartBehavior(DragStartBehavior? behavior) {
     if (behavior == null) return null;
 
@@ -311,10 +318,10 @@ class DynamicWidgetUtils {
   static Map? _transformBoxConstraints(BoxConstraints? constraints) {
     if (constraints == null) return null;
     return {
-      'minWidth': constraints.minWidth,
-      'maxWidth': constraints.maxWidth,
-      'minHeight': constraints.minHeight,
-      'maxHeight': constraints.maxHeight,
+      'minWidth': transform(constraints.maxWidth),
+      'maxWidth': transform(constraints.maxWidth),
+      'minHeight': transform(constraints.minHeight),
+      'maxHeight': transform(constraints.maxHeight),
     };
   }
 
@@ -583,10 +590,10 @@ class DynamicWidgetUtils {
     BoxConstraints? boxConstraints;
     if (constraints != null) {
       boxConstraints = BoxConstraints(
-          minWidth: constraints['minWidth']?.toDouble() ?? 0.0,
-          maxWidth: constraints['maxWidth']?.toDouble() ?? double.infinity,
-          minHeight: constraints['minHeight']?.toDouble() ?? 0.0,
-          maxHeight: constraints['maxHeight']?.toDouble() ?? double.infinity);
+          minWidth: adaptDouble(constraints['minWidth']?.toDouble()) ?? 0.0,
+          maxWidth: adaptDouble(constraints['maxWidth']?.toDouble()) ?? 0.0,
+          minHeight: adaptDouble(constraints['minHeight']?.toDouble()) ?? 0.0,
+          maxHeight: adaptDouble(constraints['maxHeight']?.toDouble()) ?? 0.0);
     }
 
     return boxConstraints;

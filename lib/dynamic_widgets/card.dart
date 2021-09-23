@@ -101,8 +101,8 @@ class Config {
       'child': DynamicWidgetBuilder.transformMap(
           realWidget.child, buildContext),
       'xVar': {
-        'color': realWidget.color,
-        'shadowColor': realWidget.shadowColor,
+        'color': DynamicWidgetUtils.transform(realWidget.color),
+        'shadowColor': DynamicWidgetUtils.transform(realWidget.shadowColor),
         'elevation': realWidget.elevation,
         'shape': DynamicWidgetUtils.transform(realWidget.shape),
         'borderOnForeground': realWidget.borderOnForeground,

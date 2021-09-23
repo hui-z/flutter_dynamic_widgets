@@ -64,8 +64,8 @@ class Config {
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
     margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
-    width = json['width']?.toDouble();
-    height = json['height']?.toDouble();
+    width = DynamicWidgetUtils.adaptDouble(json['width']);
+    height = DynamicWidgetUtils.adaptDouble(json['height']);
     constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
   }
 

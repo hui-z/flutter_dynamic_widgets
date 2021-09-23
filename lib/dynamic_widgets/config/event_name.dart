@@ -12,16 +12,20 @@ class EventAction {
   static const String push = 'push';
   static const String request = 'request';
   static const String openUrl = 'open_url';
+  static const String alert = 'alert';
 }
 
 class EventInfo {
+  /*
+  *
+  * */
   late final String type;
   late final String action;
   late final String? page;
+  late final Map? arguments;
   late final String? method;
   late final String? path;
   late final String? url;
-  late final Map? arguments;
   late final Map? queryParameters;
   late final Map? bodyData;
   late final String? operateData;

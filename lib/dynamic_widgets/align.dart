@@ -56,8 +56,8 @@ class Config {
   late AlignmentGeometry? alignment;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    widthFactor = json['widthFactor'];
-    heightFactor = json['heightFactor'];
+    widthFactor = DynamicWidgetUtils.adaptDouble(json['widthFactor']);
+    heightFactor = DynamicWidgetUtils.adaptDouble(json['heightFactor']);
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
   }
 
@@ -86,8 +86,8 @@ class Config {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(align.child, buildContext),
       'xVar': {
-        'widthFactor': align.widthFactor,
-        'heightFactor': align.heightFactor,
+        'widthFactor': DynamicWidgetUtils.transform(align.widthFactor),
+        'heightFactor': DynamicWidgetUtils.transform(align.heightFactor),
         'alignment': DynamicWidgetUtils.transform(
             align.alignment as Alignment?),
       },

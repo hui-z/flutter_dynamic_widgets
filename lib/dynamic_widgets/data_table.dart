@@ -64,10 +64,10 @@ class Config {
   late List<Map>? columns;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    this.dataRowHeight = json['dataRowHeight'];
+    this.dataRowHeight = DynamicWidgetUtils.adaptDouble(json['dataRowHeight']);
     this.dataTextStyle =
         DynamicWidgetUtils.adapt<TextStyle>(json['dataTextStyle']);
-    this.headingRowHeight = json['dataTextStyle'];
+    this.headingRowHeight = DynamicWidgetUtils.adaptDouble(json['headingRowHeight']);
     this.headingTextStyle =
         DynamicWidgetUtils.adapt<TextStyle>(json['headingTextStyle']);
     this.horizontalMargin = json['horizontalMargin'];
@@ -128,9 +128,9 @@ class Config {
       'widget': widgetName,
       'children': [],
       'xVar': {
-        'dataRowHeight': table.dataRowHeight,
+        'dataRowHeight': DynamicWidgetUtils.transform(table.dataRowHeight),
         'dataTextStyle': table.dataTextStyle,
-        'headingRowHeight': table.headingRowHeight,
+        'headingRowHeight': DynamicWidgetUtils.transform(table.headingRowHeight),
         'headingTextStyle': table.headingTextStyle,
         'horizontalMargin': table.horizontalMargin,
         'columnSpacing': table.columnSpacing,

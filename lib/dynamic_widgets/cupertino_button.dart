@@ -14,7 +14,6 @@ class CupertinoButtonHandler extends DynamicBasicWidgetHandler {
   @override
   Type get widgetType => CupertinoButton;
 
-  @override
   Widget build(DynamicWidgetConfig? config,
       {Key? key,
         required BuildContext buildContext,

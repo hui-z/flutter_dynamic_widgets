@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'basic/handler.dart';
+import 'basic/utils.dart';
 import 'basic/widget.dart';
 import 'config/event_name.dart';
 import 'config/widget_config.dart';
@@ -54,8 +55,8 @@ class Config {
   late double? heightFactor;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    widthFactor = json['widthFactor'];
-    heightFactor = json['heightFactor'];
+    widthFactor = DynamicWidgetUtils.adaptDouble(json['widthFactor']);
+    heightFactor = DynamicWidgetUtils.adaptDouble(json['heightFactor']);
   }
 
   static Widget toWidget(BuildContext context, _Builder widget) {
@@ -82,8 +83,8 @@ class Config {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(center.child, buildContext),
       'xVar': {
-        'widthFactor': center.widthFactor,
-        'heightFactor': center.heightFactor,
+        'widthFactor': DynamicWidgetUtils.transform(center.widthFactor),
+        'heightFactor': DynamicWidgetUtils.transform(center.heightFactor),
       },
       'xKey': center.key.toString()
     };
