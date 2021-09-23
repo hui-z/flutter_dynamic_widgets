@@ -246,6 +246,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                 CodeEditorPage(testMap)));
                   },
                 ),
+                ElevatedButton(
+                  child: Text("Test2"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                // CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                //     fiveImage, context))
+                           CodeEditorPage(test2Map)
+                        ));
+                  },
+                ),
               ]),
             ),
           ),
@@ -286,7 +299,7 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
                 child: TextField(
                   controller: TextEditingController(text: json.encode(jsonMap)),
                   decoration: InputDecoration(hintText: 'Enter json string'),
-                  maxLines: 1000000,
+                  maxLines: null,
                 ),
               ),
             ),

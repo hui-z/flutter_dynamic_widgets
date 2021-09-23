@@ -55,7 +55,7 @@ class Config {
   late Color? shadowColor;
   late double? elevation;
 
-  //late ShapeBorder? shape;
+  late ShapeBorder? shape;
   late bool? borderOnForeground;
   late EdgeInsetsGeometry? margin;
   late Clip? clipBehavior;
@@ -65,6 +65,7 @@ class Config {
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
     shadowColor = DynamicWidgetUtils.adapt<Color>(json['shadowColor']);
     elevation = json['elevation']?.toDouble();
+    shape = DynamicWidgetUtils.adapt<ShapeBorder>(json['shape']);
     borderOnForeground = json['borderOnForeground'];
     margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
     clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
@@ -81,6 +82,7 @@ class Config {
       color: props?.color,
       shadowColor: props?.shadowColor,
       elevation: props?.elevation,
+      shape:props?.shape,
       borderOnForeground: props?.borderOnForeground ?? true,
       margin: props?.margin,
       clipBehavior: props?.clipBehavior,
@@ -102,8 +104,9 @@ class Config {
         'color': realWidget.color,
         'shadowColor': realWidget.shadowColor,
         'elevation': realWidget.elevation,
+        'shape': DynamicWidgetUtils.transform(realWidget.shape),
         'borderOnForeground': realWidget.borderOnForeground,
-        'margin': DynamicWidgetUtils.transform(realWidget.margin as EdgeInsets),
+        'margin': DynamicWidgetUtils.transform(realWidget.margin as EdgeInsets?),
         'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
         'semanticContainer': realWidget.semanticContainer,
       },

@@ -135,6 +135,9 @@ class DynamicWidgetUtils {
     if (origin is TextDecoration) {
       return _transformTextDecoration(origin);
     }
+    if(origin is ShapeBorder){
+      return _transformShapeBorder(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -220,7 +223,7 @@ class DynamicWidgetUtils {
         return _dragStartBehaviorAdapter(origin as String?) as T?;
       case ScrollViewKeyboardDismissBehavior:
         return _scrollViewKeyboardDismissBehaviorAdapter(origin as String?)
-            as T?;
+        as T?;
       case MouseCursor:
         return _mouseCursorAdapter(origin as String?) as T?;
       case Curve:
@@ -229,12 +232,14 @@ class DynamicWidgetUtils {
         return _textSpanAdapter(origin as Map?) as T?;
       case TextDecoration:
         return _textDecorationAdapter(origin as String?) as T?;
+      case ShapeBorder:
+        return _shapeBorderAdapter(origin as Map?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
 
   static ScrollViewKeyboardDismissBehavior?
-      _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
+  _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
     if (str == null) return null;
 
     ScrollViewKeyboardDismissBehavior? dragStartBehaviorStr;
@@ -632,9 +637,9 @@ class DynamicWidgetUtils {
         topLeft: adapt(borderRadius['topLeft']?.toDouble()) ?? Radius.zero,
         topRight: adapt(borderRadius['topRight']?.toDouble()) ?? Radius.zero,
         bottomLeft:
-            adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
+        adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
         bottomRight:
-            adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
+        adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
   }
 
   static Map? transformBorderRadius(BorderRadius? borderRadius) {
@@ -1214,8 +1219,8 @@ class DynamicWidgetUtils {
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-            adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
-                TextLeadingDistribution.proportional);
+        adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
+            TextLeadingDistribution.proportional);
   }
 
   static Map? _transformTextHeightBehavior(TextHeightBehavior? behavior) {
@@ -1513,7 +1518,9 @@ class DynamicWidgetUtils {
   }
 
   static BlendMode? _blendModeAdapter(String? blendModeString) {
-    if (blendModeString == null || blendModeString.trim().length == 0) {
+    if (blendModeString == null || blendModeString
+        .trim()
+        .length == 0) {
       return null;
     }
 
@@ -2122,5 +2129,29 @@ class DynamicWidgetUtils {
     if (decoration == TextDecoration.overline) return 'overline';
 
     if (decoration == TextDecoration.lineThrough) return 'lineThrough';
+  }
+
+  static ShapeBorder? _shapeBorderAdapter(Map? map) {
+    if (map == null) return null;
+    var type = map['type'];
+    // 对象类型，需要慢慢加类型
+    if (type == 'RoundedRectangleBorder') {
+      return RoundedRectangleBorder(
+          side: adapt<BorderSide>(map['side']) ?? BorderSide.none,
+          borderRadius: adapt<BorderRadius>(map['borderRadius']) ??
+              BorderRadius.zero);
+    }
+    return null;
+  }
+
+  static Map? _transformShapeBorder(ShapeBorder? shapeBorder) {
+    if (shapeBorder == null) return null;
+    if (shapeBorder is RoundedRectangleBorder) {
+      return {
+        'side': transform(shapeBorder.side),
+        'borderRadius': transform(shapeBorder.borderRadius),
+      };
+    }
+    return null;
   }
 }
