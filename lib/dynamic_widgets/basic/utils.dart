@@ -138,9 +138,6 @@ class DynamicWidgetUtils {
     if (origin is TextDecoration) {
       return _transformTextDecoration(origin);
     }
-    if(origin is ShapeBorder){
-      return _transformShapeBorder(origin);
-    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -235,8 +232,6 @@ class DynamicWidgetUtils {
         return _textSpanAdapter(origin as Map?) as T?;
       case TextDecoration:
         return _textDecorationAdapter(origin as String?) as T?;
-      case ShapeBorder:
-        return _shapeBorderAdapter(origin as Map?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
@@ -318,7 +313,7 @@ class DynamicWidgetUtils {
   static Map? _transformBoxConstraints(BoxConstraints? constraints) {
     if (constraints == null) return null;
     return {
-      'minWidth': transform(constraints.maxWidth),
+      'minWidth': transform(constraints.minWidth),
       'maxWidth': transform(constraints.maxWidth),
       'minHeight': transform(constraints.minHeight),
       'maxHeight': transform(constraints.maxHeight),
@@ -604,7 +599,7 @@ class DynamicWidgetUtils {
 
     return RoundedRectangleBorder(
         side: adapt(border['side']) ?? BorderSide.none,
-        borderRadius: adapt(border['borderRadius']) ?? BorderRadius.zero);
+        borderRadius: adapt<BorderRadius>(border['borderRadius']) ?? BorderRadius.zero);
   }
 
   static Map? transformRoundedRectangleBorder(RoundedRectangleBorder? border) {
@@ -2136,29 +2131,5 @@ class DynamicWidgetUtils {
     if (decoration == TextDecoration.overline) return 'overline';
 
     if (decoration == TextDecoration.lineThrough) return 'lineThrough';
-  }
-
-  static ShapeBorder? _shapeBorderAdapter(Map? map) {
-    if (map == null) return null;
-    var type = map['type'];
-    // 对象类型，需要慢慢加类型
-    if (type == 'RoundedRectangleBorder') {
-      return RoundedRectangleBorder(
-          side: adapt<BorderSide>(map['side']) ?? BorderSide.none,
-          borderRadius: adapt<BorderRadius>(map['borderRadius']) ??
-              BorderRadius.zero);
-    }
-    return null;
-  }
-
-  static Map? _transformShapeBorder(ShapeBorder? shapeBorder) {
-    if (shapeBorder == null) return null;
-    if (shapeBorder is RoundedRectangleBorder) {
-      return {
-        'side': transform(shapeBorder.side),
-        'borderRadius': transform(shapeBorder.borderRadius),
-      };
-    }
-    return null;
   }
 }
