@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:example/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
@@ -253,9 +254,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                // CodeEditorPage(DynamicWidgetBuilder.transformMap(
-                                //     fiveImage, context))
-                           CodeEditorPage(test2Map)
+                                CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                                    test, context))
                         ));
                   },
                 ),
@@ -340,11 +340,15 @@ class PreviewPage extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text("Preview"),
       ),
-      body: DynamicWidgetBuilder.buildWidget(
-          DynamicWidgetConfig.fromJson(json!),
-          context: context, event: (event) {
+      body: ListView(
+        children: [
+          DynamicWidgetBuilder.buildWidget(
+              DynamicWidgetConfig.fromJson(json!),
+              context: context, event: (event) {
             print(event);
-      }),
+          })??SizedBox()
+        ],
+      ),
       // body: Column(
       //   children: [
       //     Expanded(

@@ -55,7 +55,7 @@ class Config {
   late Color? shadowColor;
   late double? elevation;
 
-  late ShapeBorder? shape;
+  late RoundedRectangleBorder? shape;
   late bool? borderOnForeground;
   late EdgeInsetsGeometry? margin;
   late Clip? clipBehavior;
@@ -65,7 +65,7 @@ class Config {
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
     shadowColor = DynamicWidgetUtils.adapt<Color>(json['shadowColor']);
     elevation = json['elevation']?.toDouble();
-    shape = DynamicWidgetUtils.adapt<ShapeBorder>(json['shape']);
+    shape = DynamicWidgetUtils.adapt<RoundedRectangleBorder>(json['shape']);
     borderOnForeground = json['borderOnForeground'];
     margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
     clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
