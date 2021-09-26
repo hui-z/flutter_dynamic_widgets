@@ -56,8 +56,8 @@ class Config {
   late AlignmentGeometry? alignment;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    widthFactor = DynamicWidgetUtils.adaptDouble(json['widthFactor']);
-    heightFactor = DynamicWidgetUtils.adaptDouble(json['heightFactor']);
+    widthFactor = DynamicWidgetUtils.adaptDouble(json['widthFactor']?.toDouble());
+    heightFactor = DynamicWidgetUtils.adaptDouble(json['heightFactor']?.toDouble());
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
   }
 

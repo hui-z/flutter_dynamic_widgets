@@ -73,11 +73,11 @@ class Config {
     primary = json['primary'];
     shrinkWrap = json['shrinkWrap'];
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
-    itemExtent = json['itemExtent'];
+    itemExtent = json['itemExtent']?.toDouble();
     addAutomaticKeepAlives = json['addAutomaticKeepAlives'];
     addRepaintBoundaries = json['addRepaintBoundaries'];
     addSemanticIndexes = json['addSemanticIndexes'];
-    cacheExtent = json['cacheExtent'];
+    cacheExtent = json['cacheExtent']?.toDouble();
     dragStartBehavior =
         DynamicWidgetUtils.adapt<DragStartBehavior>(json['dragStartBehavior']);
     keyboardDismissBehavior =

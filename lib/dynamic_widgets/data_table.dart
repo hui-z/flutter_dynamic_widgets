@@ -64,15 +64,15 @@ class Config {
   late List<Map>? columns;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    this.dataRowHeight = DynamicWidgetUtils.adaptDouble(json['dataRowHeight']);
+    this.dataRowHeight = DynamicWidgetUtils.adaptDouble(json['dataRowHeight']?.toDouble());
     this.dataTextStyle =
         DynamicWidgetUtils.adapt<TextStyle>(json['dataTextStyle']);
-    this.headingRowHeight = DynamicWidgetUtils.adaptDouble(json['headingRowHeight']);
+    this.headingRowHeight = DynamicWidgetUtils.adaptDouble(json['headingRowHeight']?.toDouble());
     this.headingTextStyle =
         DynamicWidgetUtils.adapt<TextStyle>(json['headingTextStyle']);
-    this.horizontalMargin = json['horizontalMargin'];
-    this.dividerThickness = json['dividerThickness'];
-    this.columnSpacing = json['columnSpacing'];
+    this.horizontalMargin = json['horizontalMargin']?.toDouble();
+    this.dividerThickness = json['dividerThickness']?.toDouble();
+    this.columnSpacing = json['columnSpacing']?.toDouble();
     this.showBottomBorder = json['showBottomBorder'];
     this.rows = json['rows']?.cast<Map>();
     this.columns = json['columns']?.cast<Map>();

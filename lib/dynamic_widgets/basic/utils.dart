@@ -7,7 +7,7 @@ class DynamicWidgetUtils {
   static dynamic transform(dynamic origin) {
     if (origin == null) return null;
     if (origin is double) {
-      return origin == double.infinity ? -1 : origin;
+      return origin == double.infinity ? -1.0 : origin;
     }
     if (origin is Alignment) {
       return _transformAlignment(origin);
@@ -286,8 +286,8 @@ class DynamicWidgetUtils {
     return dragStartBehavior;
   }
 
-  static double? adaptDouble(dynamic d) {
-    return d == -1 ? double.infinity : d;
+  static double? adaptDouble(double? d) {
+    return d == -1.0 ? double.infinity : d;
   }
 
   static String? _transformDragStartBehavior(DragStartBehavior? behavior) {
@@ -337,7 +337,7 @@ class DynamicWidgetUtils {
 
     return {
       'color': transform(side.color),
-      'width': side.width,
+      'width': side.width.toDouble(),
       'style': transform(side.style)
     };
   }
@@ -378,10 +378,10 @@ class DynamicWidgetUtils {
       return null;
     }
     return {
-      'left': inset.left,
-      'right': inset.right,
-      'top': inset.top,
-      'bottom': inset.bottom,
+      'left': inset.left.toDouble(),
+      'right': inset.right.toDouble(),
+      'top': inset.top.toDouble(),
+      'bottom': inset.bottom.toDouble(),
     };
   }
 
@@ -628,7 +628,7 @@ class DynamicWidgetUtils {
 
     return BorderSide(
         color: adapt(side['color']) ?? const Color(0xFF000000),
-        width: side['width'] ?? 1.0,
+        width: side['width']?.toDouble() ?? 1.0,
         style: adapt(side['style']) ?? BorderStyle.solid);
   }
 
@@ -648,10 +648,10 @@ class DynamicWidgetUtils {
     if (borderRadius == null) return null;
 
     return {
-      'topLeft': borderRadius.topLeft.x,
-      'topRight': borderRadius.topRight.x,
-      'bottomLeft': borderRadius.bottomLeft.x,
-      'bottomRight': borderRadius.bottomRight.x,
+      'topLeft': borderRadius.topLeft.x.toDouble(),
+      'topRight': borderRadius.topRight.x.toDouble(),
+      'bottomLeft': borderRadius.bottomLeft.x.toDouble(),
+      'bottomRight': borderRadius.bottomRight.x.toDouble(),
     };
   }
 
@@ -796,10 +796,10 @@ class DynamicWidgetUtils {
       return null;
     }
     return {
-      'left': rect.left,
-      'top': rect.top,
-      'right': rect.right,
-      'bottom': rect.bottom
+      'left': rect.left.toDouble(),
+      'top': rect.top.toDouble(),
+      'right': rect.right.toDouble(),
+      'bottom': rect.bottom.toDouble()
     };
   }
 
@@ -1359,14 +1359,14 @@ class DynamicWidgetUtils {
         inherit: style['inherit'] ?? true,
         color: adapt(style['color']),
         backgroundColor: adapt(style['backgroundColor']),
-        fontSize: style['fontSize'],
+        fontSize: style['fontSize']?.toDouble(),
         fontWeight: adapt(style['fontWeight']),
         fontStyle: adapt(style['fontStyle']),
         decoration: adapt(style['decoration']),
-        letterSpacing: style['letterSpacing'],
-        wordSpacing: style['wordSpacing'],
+        letterSpacing: style['letterSpacing']?.toDouble(),
+        wordSpacing: style['wordSpacing']?.toDouble(),
         textBaseline: adapt(style['textBaseline']),
-        height: style['height'],
+        height: style['height']?.toDouble(),
         leadingDistribution: adapt(style['leadingDistribution']),
         debugLabel: style['debugLabel'],
         fontFamily: style['fontFamily'],
@@ -1469,7 +1469,7 @@ class DynamicWidgetUtils {
   static Map? _transformOffset(Offset? offset) {
     if (offset == null) return null;
 
-    return {'dx': offset.dx, 'dy': offset.dy};
+    return {'dx': offset.dx.toDouble(), 'dy': offset.dy.toDouble()};
   }
 
   static Size? _sizeAdapter(Map? size) {
@@ -1482,7 +1482,7 @@ class DynamicWidgetUtils {
   static Map? _transformSize(Size? size) {
     if (size == null) return null;
 
-    return {'width': size.width, 'height': size.height};
+    return {'width': size.width.toDouble(), 'height': size.height.toDouble()};
   }
 
   static int hexToInt(String? hex) {

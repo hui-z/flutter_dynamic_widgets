@@ -58,10 +58,10 @@ class Config {
   late Color? color;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    height = json['height'];
-    thickness = json['thickness'];
-    indent = json['indent'];
-    endIndent = json['endIndent'];
+    height = json['height']?.toDouble();
+    thickness = json['thickness']?.toDouble();
+    indent = json['indent']?.toDouble();
+    endIndent = json['endIndent']?.toDouble();
     color = DynamicWidgetUtils.adapt<Color>(json['Color']);
   }
 

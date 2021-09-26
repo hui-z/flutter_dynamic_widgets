@@ -74,7 +74,7 @@ class Config {
   late Map? icon;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
-    iconSize = json['iconSize'];
+    iconSize = json['iconSize']?.toDouble();
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
     splashRadius = json['splashRadius']?.toDouble();

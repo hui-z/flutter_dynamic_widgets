@@ -59,7 +59,7 @@ class Config {
 
   Config.fromJson(Map<dynamic, dynamic> json) {
     icon = DynamicWidgetUtils.adapt<IconData>(json['icon']);
-    size = json['size'];
+    size = json['size']?.toDouble();
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
     semanticLabel = json['semanticLabel'];
     textDirection =

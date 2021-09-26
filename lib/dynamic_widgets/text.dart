@@ -76,7 +76,7 @@ class Config {
     semanticsLabel = json['semanticsLabel'];
     textHeightBehavior = DynamicWidgetUtils.adapt<TextHeightBehavior>(
         json['textHeightBehavior']);
-    textScaleFactor = json['textScaleFactor'];
+    textScaleFactor = json['textScaleFactor']?.toDouble();
   }
 
   static Widget toWidget(BuildContext context, _Builder widget) {

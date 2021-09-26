@@ -72,7 +72,7 @@ class Config {
         context: context)
         : null;
     initiallyExpanded = json['initiallyExpanded'];
-    topMargin = json['topMargin'];
+    topMargin = json['topMargin']?.toDouble();
     subtitle = json['subtitle'] != null
         ? DynamicWidgetBuilder.buildWidget(
         DynamicWidgetConfig.fromJson(json['subtitle']),

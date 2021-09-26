@@ -82,10 +82,10 @@ class Config {
     placeholder = json['placeholder'];
     rightWidget = json['rightWidget'];
     obscureText = json['obscureText'];
-    iconTitlePadding = json['iconTitlePadding'];
-    dividerLeftPadding = json['dividerLeftPadding'];
-    dividerRightPadding = json['dividerRightPadding'];
-    texFieldLeftPadding = json['texFieldLeftPadding'];
+    iconTitlePadding = json['iconTitlePadding']?.toDouble();
+    dividerLeftPadding = json['dividerLeftPadding']?.toDouble();
+    dividerRightPadding = json['dividerRightPadding']?.toDouble();
+    texFieldLeftPadding = json['texFieldLeftPadding']?.toDouble();
     textFieldAlign =
         DynamicWidgetUtils.adapt<TextAlign>(json['textFieldAlign']);
     textFieldStyle =

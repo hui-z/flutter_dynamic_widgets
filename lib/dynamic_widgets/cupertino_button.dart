@@ -66,8 +66,8 @@ class Config {
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
     disabledColor = DynamicWidgetUtils.adapt<Color>(json['disabledColor']);
-    minSize = json['minSize'].toDouble();
-    pressedOpacity = json['pressedOpacity'].toDouble();
+    minSize = json['minSize']?.toDouble();
+    pressedOpacity = json['pressedOpacity']?.toDouble();
     borderRadius = DynamicWidgetUtils.adapt<BorderRadius>(json['borderRadius']);
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
   }

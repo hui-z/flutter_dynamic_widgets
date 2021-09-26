@@ -62,6 +62,7 @@ class DialogBuilder {
   DialogBuilder.fromJson(Map<dynamic, dynamic> json) {
     title = json['title'];
     content = json['content'];
+    contentWidget = null;
     if (json['contentWidget'] != null) {
       contentWidget = DynamicWidgetConfig.fromJson(json['contentWidget']);
     }

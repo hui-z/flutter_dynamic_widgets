@@ -78,11 +78,11 @@ class Config {
     hoverColor = DynamicWidgetUtils.adapt<Color>(json['hoverColor']);
     highlightColor = DynamicWidgetUtils.adapt<Color>(json['highlightColor']);
     splashColor = DynamicWidgetUtils.adapt<Color>(json['splashColor']);
-    elevation = json['elevation'];
-    focusElevation = json['focusElevation'];
-    hoverElevation = json['hoverElevation'];
-    highlightElevation = json['highlightElevation'];
-    disabledElevation = json['disabledElevation'];
+    elevation = DynamicWidgetUtils.adaptDouble(json['elevation']?.toDouble());
+    focusElevation = DynamicWidgetUtils.adaptDouble(json['focusElevation']?.toDouble());
+    hoverElevation = DynamicWidgetUtils.adaptDouble(json['hoverElevation']?.toDouble());
+    highlightElevation = DynamicWidgetUtils.adaptDouble(json['highlightElevation']?.toDouble());
+    disabledElevation = DynamicWidgetUtils.adaptDouble(json['disabledElevation']?.toDouble());
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
     constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
     shape = DynamicWidgetUtils.adapt<RoundedRectangleBorder>(json['shape']);

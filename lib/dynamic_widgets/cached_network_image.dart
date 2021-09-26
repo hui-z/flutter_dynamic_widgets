@@ -94,8 +94,8 @@ class Config {
     fadeOutCurve = DynamicWidgetUtils.adapt<Curve>(json['fadeOutCurve']);
     fadeInDuration = DynamicWidgetUtils.adapt<Duration>(json['fadeInDuration']);
     fadeInCurve = DynamicWidgetUtils.adapt<Curve>(json['fadeInCurve']);
-    width = DynamicWidgetUtils.adaptDouble(json['width']);
-    height = DynamicWidgetUtils.adaptDouble(json['height']);
+    width = DynamicWidgetUtils.adaptDouble(json['width']?.toDouble());
+    height = DynamicWidgetUtils.adaptDouble(json['height']?.toDouble());
     fit = DynamicWidgetUtils.adapt<BoxFit>(json['fit']);
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
     repeat = DynamicWidgetUtils.adapt<ImageRepeat>(json['repeat']);

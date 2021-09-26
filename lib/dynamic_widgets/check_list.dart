@@ -86,7 +86,7 @@ class Config {
         json['crossAxisAlignment']);
     showIcon = json['showIcon'];
     icon = json['icon'];
-    indent = json['indent'];
+    indent = json['indent']?.toDouble();
     divider = json['divider'] != null
         ? DynamicWidgetBuilder.buildWidget(
         DynamicWidgetConfig.fromJson(json['divider']!),

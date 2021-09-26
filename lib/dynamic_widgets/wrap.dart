@@ -64,8 +64,8 @@ class Config {
   Config.fromJson(Map<dynamic, dynamic> json) {
     direction = DynamicWidgetUtils.adapt<Axis>(json['direction']);
     alignment = DynamicWidgetUtils.adapt<WrapAlignment>(json['alignment']);
-    spacing = json['spacing'];
-    runSpacing = json['runSpacing'];
+    spacing = json['spacing']?.toDouble();
+    runSpacing = json['runSpacing']?.toDouble();
     crossAxisAlignment = DynamicWidgetUtils.adapt<WrapCrossAlignment>(
         json['crossAxisAlignment']);
     textDirection =
