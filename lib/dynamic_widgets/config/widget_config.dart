@@ -1,4 +1,4 @@
-import 'event_name.dart';
+import 'event.dart';
 
 class DynamicWidgetConfig {
   late String widget;

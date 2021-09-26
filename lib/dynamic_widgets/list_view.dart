@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'basic/handler.dart';
 import 'basic/utils.dart';
 import 'basic/widget.dart';
-import 'config/event_name.dart';
+import 'config/event.dart';
 import 'config/widget_config.dart';
 
 class ListViewHandler extends DynamicBasicWidgetHandler {

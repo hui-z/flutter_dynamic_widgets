@@ -82,7 +82,7 @@ class ListInputItem extends StatefulWidget {
   final TextAlign textFieldAlign;
   final TextStyle? textFieldStyle;
   final TextStyle? hintStyle;
-  final TextStyle? titleStyle;
+  final TextStyle? titleStyle ;
 
   final bool isHideDivider;
   final bool? enable;

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import 'basic/handler.dart';
 import 'basic/widget.dart';
-import 'config/event_name.dart';
+import 'config/event.dart';
 import 'config/widget_config.dart';
 
 class ExpandedHandler extends DynamicBasicWidgetHandler {

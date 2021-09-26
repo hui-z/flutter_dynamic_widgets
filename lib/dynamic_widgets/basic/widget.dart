@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/align.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/center.dart';
-import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event_name.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/container.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/data_table.dart';

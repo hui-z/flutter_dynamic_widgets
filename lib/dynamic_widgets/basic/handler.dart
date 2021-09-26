@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event_name.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 
 abstract class DynamicBasicWidgetHandler {

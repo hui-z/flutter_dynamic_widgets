@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event_name.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/config/event.dart';
 
 import 'basic/handler.dart';
 import 'basic/utils.dart';
