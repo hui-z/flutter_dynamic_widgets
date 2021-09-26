@@ -19,7 +19,7 @@ class EventAction {
   static const String push = 'push'; /// 跳转native页面
   static const String request = 'request'; /// 请求操作
   static const String openUrl = 'open_url'; /// 打开webView
-  static const String alert = 'dialog'; /// 弹出框
+  static const String dialog = 'dialog'; /// 弹出框
 }
 
 
