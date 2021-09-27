@@ -58,6 +58,7 @@ class Config {
   late double? width;
   late double? height;
   late BoxConstraints? constraints;
+  late BoxDecoration? decoration;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
     alignment = DynamicWidgetUtils.adapt<Alignment>(json['alignment']);
@@ -67,6 +68,7 @@ class Config {
     width = DynamicWidgetUtils.adaptDouble(json['width']?.toDouble());
     height = DynamicWidgetUtils.adaptDouble(json['height']?.toDouble());
     constraints = DynamicWidgetUtils.adapt<BoxConstraints>(json['constraints']);
+    decoration = DynamicWidgetUtils.adapt<BoxDecoration>(json['decoration']);
   }
 
   static Widget toWidget(BuildContext context, _Builder widget) {
@@ -77,6 +79,7 @@ class Config {
     return Container(
       key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
       alignment: props?.alignment,
+      decoration: props?.decoration,
       padding: props?.padding,
       color: props?.color,
       margin: props?.margin,
@@ -104,6 +107,7 @@ class Config {
         DynamicWidgetUtils.transform(realWidget.alignment as Alignment?),
         'padding': DynamicWidgetUtils.transform(padding),
         'color': DynamicWidgetUtils.transform(realWidget.color),
+        'decoration': DynamicWidgetUtils.transform(realWidget.decoration),
         'margin': DynamicWidgetUtils.transform(margin),
         'constraints': DynamicWidgetUtils.transform(constraints),
       },

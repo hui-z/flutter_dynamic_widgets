@@ -36,6 +36,7 @@ import '../row.dart';
 import '../sized_box.dart';
 import '../stack.dart';
 import '../text.dart';
+import '../text_field.dart';
 import '../tooltip.dart';
 import 'handler.dart';
 
@@ -85,6 +86,7 @@ class DynamicWidgetBuilder {
       TooltipHandler(),
       ExpandedHandler(),
       CachedNetworkImageHandler(),
+      TextFieldHandler()
     ];
     for (DynamicBasicWidgetHandler item in allDynamicWidgetHandlers) {
       _widgetHandlers[item.widgetName] = item;

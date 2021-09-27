@@ -138,6 +138,9 @@ class DynamicWidgetUtils {
     if (origin is TextDecoration) {
       return _transformTextDecoration(origin);
     }
+    if (origin is BoxDecoration) {
+      return _transformBoxDecoration(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -232,8 +235,27 @@ class DynamicWidgetUtils {
         return _textSpanAdapter(origin as Map?) as T?;
       case TextDecoration:
         return _textDecorationAdapter(origin as String?) as T?;
+      case BoxDecoration:
+        return _boxDecorationAdapter(origin as Map?) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
+  }
+
+  static Map? _transformBoxDecoration(BoxDecoration? boxDecoration) {
+    if (boxDecoration == null) return null;
+    return {
+      'color': transform(boxDecoration.color),
+      'borderRadius': transform(boxDecoration.borderRadius as BorderRadius?),
+    };
+  }
+
+  static BoxDecoration? _boxDecorationAdapter(Map? decorationMap) {
+    if (decorationMap == null) return null;
+
+    return BoxDecoration(
+      color: adapt<Color>(decorationMap['color']),
+      borderRadius: adapt<BorderRadius>(decorationMap['borderRadius'])
+    );
   }
 
   static ScrollViewKeyboardDismissBehavior?

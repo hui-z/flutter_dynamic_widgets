@@ -76,3 +76,32 @@ var expand = CustomExpansionTile(
       Text('5'),
       Text('6'),
     ]);
+
+var textField = Container(
+  padding: EdgeInsets.all(16.0),
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(8),
+    color: Color(0xFFF4F4F4),
+  ),
+  height: 100,
+  child: TextField(
+    maxLines: null,
+    autocorrect: false,
+    textAlign: TextAlign.left,
+    keyboardType: TextInputType.multiline,
+    textInputAction: TextInputAction.newline,
+    decoration: InputDecoration(
+      border: InputBorder.none,
+      hintText: '请输入',
+      hintStyle:
+      TextStyle(fontSize: 16, color: Color(0xFFC7C7C7)),
+      contentPadding: EdgeInsets.only(
+        top: 16,
+        right: 16,
+      ),
+    ),
+    style: TextStyle(
+        fontSize: 16, color: Color(0xFF1E1E1E)),
+  ),
+
+);
