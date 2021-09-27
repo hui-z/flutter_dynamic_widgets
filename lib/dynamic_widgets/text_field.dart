@@ -93,6 +93,7 @@ class Config {
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         autofocus: props?.autofocus ?? false,
         keyboardType: props?.keyboardType,
+        controller: TextEditingController(text: props?.text),
         focusNode: _node,
         maxLength: props?.maxLength,
         decoration: InputDecoration(
