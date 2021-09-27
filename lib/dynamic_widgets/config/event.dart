@@ -43,6 +43,9 @@ class EventAction {
 
   /// 弹出框
   static const String dialog = 'dialog';
+
+  /// 图片预览
+  static const String photoPreview = 'photo_preview';
 }
 
 class DialogBuilder {
@@ -163,6 +166,8 @@ class EventInfo {
 
   late DialogConfig? dialog;
 
+  late List<String> imageList;
+
   EventInfo(
       {required this.type,
       this.messageId = '',
@@ -170,6 +175,7 @@ class EventInfo {
       this.page,
       this.url,
       this.arguments,
+      this.imageList = const [],
       this.dialog,
       this.operateData});
 
@@ -185,6 +191,7 @@ class EventInfo {
     if (json['dialog'] != null) {
       dialog = DialogConfig.fromJson(json['dialog']);
     }
+    imageList = json['imageList']?.cast<String>() ?? [];
     status = json['status'];
   }
 }
