@@ -138,6 +138,8 @@ class Config {
     if (inkWell == null) return null;
     return {
       'widget': widgetName,
+      'child': DynamicWidgetBuilder.transformMap(
+          inkWell.child, buildContext),
       'xVar': {
         'focusColor': DynamicWidgetUtils.transform(inkWell.focusColor),
         'hoverColor': DynamicWidgetUtils.transform(inkWell.hoverColor),
