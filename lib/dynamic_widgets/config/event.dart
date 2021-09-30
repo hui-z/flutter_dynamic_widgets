@@ -167,6 +167,7 @@ class EventInfo {
   late DialogConfig? dialog;
 
   late List<String> imageList;
+  late int? defaultImage;
 
   EventInfo(
       {required this.type,
@@ -176,6 +177,7 @@ class EventInfo {
       this.url,
       this.arguments,
       this.imageList = const [],
+      this.defaultImage,
       this.dialog,
       this.operateData});
 
@@ -192,6 +194,7 @@ class EventInfo {
       dialog = DialogConfig.fromJson(json['dialog']);
     }
     imageList = json['imageList']?.cast<String>() ?? [];
+    defaultImage = json['defaultImage'];
     status = json['status'];
   }
 }
