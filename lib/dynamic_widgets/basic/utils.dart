@@ -162,6 +162,8 @@ class DynamicWidgetUtils {
         return borderSideAdapter(origin as Map?) as T?;
       case BorderStyle:
         return borderStyleAdapter(origin as String?) as T?;
+      case BoxBorder:
+        return boxBorderAdapter(origin as Map?) as T?;
       case FontWeight:
         return fontWeightAdapter(origin as String?) as T?;
       case FontStyle:
@@ -246,6 +248,7 @@ class DynamicWidgetUtils {
     return {
       'color': transform(boxDecoration.color),
       'borderRadius': transform(boxDecoration.borderRadius as BorderRadius?),
+      // 'border': transform(boxDecoration.border as BoxBorder?),
     };
   }
 
@@ -254,7 +257,8 @@ class DynamicWidgetUtils {
 
     return BoxDecoration(
       color: adapt<Color>(decorationMap['color']),
-      borderRadius: adapt<BorderRadius>(decorationMap['borderRadius'])
+      borderRadius: adapt<BorderRadius>(decorationMap['borderRadius']),
+      border: adapt<BoxBorder>(decorationMap['border']),
     );
   }
 
@@ -675,6 +679,15 @@ class DynamicWidgetUtils {
       'bottomLeft': borderRadius.bottomLeft.x.toDouble(),
       'bottomRight': borderRadius.bottomRight.x.toDouble(),
     };
+  }
+
+  static BoxBorder? boxBorderAdapter(Map? boxBorder) {
+    if (boxBorder == null) return null;
+
+    return Border.all(
+        color: adapt(boxBorder['color']) ?? const Color(0xFF000000),
+        width: boxBorder['width']?.toDouble() ?? 1.0,
+        style: adapt(boxBorder['style']) ?? BorderStyle.solid);
   }
 
   static Radius? radiusAdapter(double? radius) {
