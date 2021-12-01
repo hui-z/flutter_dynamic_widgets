@@ -60,6 +60,7 @@ class Config {
   late EdgeInsetsGeometry? margin;
   late Clip? clipBehavior;
   late bool? semanticContainer;
+  late bool? visable;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
@@ -70,6 +71,7 @@ class Config {
     margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
     clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
     semanticContainer = json['semanticContainer'];
+    visable = json['visable'];
   }
 
   static Widget toWidget(BuildContext context, _Builder widget) {
@@ -77,19 +79,23 @@ class Config {
     if (widget.config?.xVar != null) {
       props = Config.fromJson(widget.config?.xVar ?? {});
     }
-    return Card(
-      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      color: props?.color,
-      shadowColor: props?.shadowColor,
-      elevation: props?.elevation,
-      shape:props?.shape,
-      borderOnForeground: props?.borderOnForeground ?? true,
-      margin: props?.margin,
-      clipBehavior: props?.clipBehavior,
-      semanticContainer: props?.semanticContainer ?? true,
-      child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
-          context: context, event: widget.event),
-    );
+    if(props?.visable==false){
+      return SizedBox();
+    }else{
+      return Card(
+        key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+        color: props?.color,
+        shadowColor: props?.shadowColor,
+        elevation: props?.elevation,
+        shape:props?.shape,
+        borderOnForeground: props?.borderOnForeground ?? true,
+        margin: props?.margin,
+        clipBehavior: props?.clipBehavior,
+        semanticContainer: props?.semanticContainer ?? true,
+        child: DynamicWidgetBuilder.buildWidget(widget.config?.child,
+            context: context, event: widget.event),
+      );
+    }
   }
 
   static Map? toJson(Widget? widget, String widgetName,
@@ -109,6 +115,7 @@ class Config {
         'margin': DynamicWidgetUtils.transform(realWidget.margin as EdgeInsets?),
         'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
         'semanticContainer': realWidget.semanticContainer,
+        'visable':true,
       },
       'xKey': realWidget.key.toString()
     };
