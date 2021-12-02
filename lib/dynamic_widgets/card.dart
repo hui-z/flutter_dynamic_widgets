@@ -60,7 +60,7 @@ class Config {
   late EdgeInsetsGeometry? margin;
   late Clip? clipBehavior;
   late bool? semanticContainer;
-  late bool? visable;
+  late String? visable;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
     color = DynamicWidgetUtils.adapt<Color>(json['color']);
@@ -79,7 +79,7 @@ class Config {
     if (widget.config?.xVar != null) {
       props = Config.fromJson(widget.config?.xVar ?? {});
     }
-    if(props?.visable==false){
+    if(props?.visable=='false'){
       return SizedBox();
     }else{
       return Card(
@@ -115,7 +115,7 @@ class Config {
         'margin': DynamicWidgetUtils.transform(realWidget.margin as EdgeInsets?),
         'clipBehavior': DynamicWidgetUtils.transform(realWidget.clipBehavior),
         'semanticContainer': realWidget.semanticContainer,
-        'visable':true,
+        'visable':'true',
       },
       'xKey': realWidget.key.toString()
     };
