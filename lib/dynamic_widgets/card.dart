@@ -71,7 +71,7 @@ class Config {
     margin = DynamicWidgetUtils.adapt<EdgeInsets>(json['margin']);
     clipBehavior = DynamicWidgetUtils.adapt<Clip>(json['clipBehavior']);
     semanticContainer = json['semanticContainer'];
-    visable = json['visable'];
+    visable = json['visable']?.toString();
   }
 
   static Widget toWidget(BuildContext context, _Builder widget) {
