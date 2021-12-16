@@ -114,6 +114,9 @@ class DialogConfig {
   /// 屏幕背景颜色
   late String? barrierColor;
 
+  /// 使用第三方弹出框
+  late bool? useAwesomeDialog;
+
   late bool? useSafeArea;
   late bool? useRootNavigator;
 
@@ -123,6 +126,7 @@ class DialogConfig {
       {required this.type,
       required this.barrierDismissible,
       this.barrierColor,
+      this.useAwesomeDialog,
       this.useRootNavigator,
       this.useSafeArea,
       this.builder});
@@ -130,6 +134,7 @@ class DialogConfig {
   DialogConfig.fromJson(Map<dynamic, dynamic> json) {
     type = json['type'];
     barrierDismissible = json['barrierDismissible'];
+    useAwesomeDialog = json['useAwesomeDialog'];
     barrierColor = json['barrierColor'];
     useRootNavigator = json['useRootNavigator'];
     useSafeArea = json['useSafeArea'];
