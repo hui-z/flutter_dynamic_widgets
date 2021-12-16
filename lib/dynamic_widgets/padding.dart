@@ -52,9 +52,11 @@ class _BuilderState extends State<_Builder> {
 
 class Config {
   late EdgeInsetsGeometry? padding;
+  late String? visable;
 
   Config.fromJson(Map<dynamic, dynamic> json) {
     padding = DynamicWidgetUtils.adapt<EdgeInsets>(json['padding']);
+    visable = json['visable']?.toString();
   }
 
   static Widget toWidget(BuildContext context, _Builder widget) {
@@ -65,11 +67,15 @@ class Config {
     Widget? _child = DynamicWidgetBuilder.buildWidget(widget.config?.child,
         context: context, event: widget.event);
 
-    return Padding(
-      key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
-      padding: props?.padding ?? const EdgeInsets.all(0.0),
-      child: _child ?? SizedBox(),
-    );
+    if (props?.visable == 'false') {
+      return SizedBox();
+    } else {
+      return Padding(
+        key: widget.config?.xKey != null ? Key(widget.config!.xKey!) : null,
+        padding: props?.padding ?? const EdgeInsets.all(0.0),
+        child: _child ?? SizedBox(),
+      );
+    }
   }
 
   static Map? toJson(Widget? widget, String widgetName,
@@ -80,7 +86,8 @@ class Config {
       'widget': widgetName,
       'child': DynamicWidgetBuilder.transformMap(padding.child, buildContext),
       'xVar': {
-        'padding': DynamicWidgetUtils.transform(padding.padding as EdgeInsets?)
+        'padding': DynamicWidgetUtils.transform(padding.padding as EdgeInsets?),
+        'visable':'true',
       },
       'xKey': padding.key.toString()
     };
