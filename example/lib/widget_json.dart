@@ -2,19 +2,23 @@ var containerMap = {
   'widget': 'Container',
   'child': {
     'widget': 'Text',
-    'xVar':{
+    'xVar': {
       'data': 'dynamic widget',
       'maxLines': 3,
       'overflow': 'ellipsis',
-      'style': {
-        'color': 'FF00FFFF',
-        'fontSize': 20.0
-      }
+      'style': {'color': 'FF00FFFF', 'fontSize': 20.0}
     }
   },
   'xVar': {
-    "color": "FFFF00FF",
     "alignment": "center",
+    'decoration': {
+      'gradient': {
+        'type': 'linear',
+        'colors': ["ffff5b02", "FF42A5F5"],
+        'begin': 'topCenter',
+        'end': 'bottomCenter'
+      }
+    }
   }
 };
 
@@ -31,9 +35,7 @@ var rowMap = {
   'children': [
     {
       'widget': 'Text',
-      'xVar': {
-        'data': 'Flutter'
-      }
+      'xVar': {'data': 'Flutter'}
     },
     {
       'widget': 'RawMaterialButton',
@@ -42,16 +44,12 @@ var rowMap = {
       },
       'child': {
         'widget': 'Text',
-        'xVar': {
-          'data': 'Widget'
-        }
+        'xVar': {'data': 'Widget'}
       }
     },
     {
       'widget': 'Text',
-      'xVar': {
-        'data': 'Demo'
-      }
+      'xVar': {'data': 'Demo'}
     }
   ]
 };
@@ -69,9 +67,7 @@ var columnMap = {
   'children': [
     {
       'widget': 'Text',
-      'xVar': {
-        'data': 'Flutter'
-      }
+      'xVar': {'data': 'Flutter'}
     },
     {
       'widget': 'RawMaterialButton',
@@ -80,16 +76,12 @@ var columnMap = {
       },
       'child': {
         'widget': 'Text',
-        'xVar': {
-          'data': 'Widget'
-        }
+        'xVar': {'data': 'Widget'}
       }
     },
     {
       'widget': 'Text',
-      'xVar': {
-        'data': 'Demo'
-      }
+      'xVar': {'data': 'Demo'}
     }
   ]
 };
@@ -111,7 +103,8 @@ var textMap = {
         'fontSize': 20.0,
         'fontWeight': 'w900',
         'decoration': 'underline'
-      }}
+      }
+    }
   }
 };
 
@@ -125,7 +118,7 @@ var iconMap = {
       'widget': 'Icon',
       'xVar': {
         'icon': {
-          'codePoint':'0xe038',
+          'codePoint': '0xe038',
         },
         'color': 'FF000000',
         'size': 36.0
@@ -135,7 +128,7 @@ var iconMap = {
       'widget': 'Icon',
       'xVar': {
         'icon': {
-          'codePoint':'0xe25b',
+          'codePoint': '0xe25b',
         },
         'color': 'FFFFC0CB',
         'size': 24.0,
@@ -146,7 +139,7 @@ var iconMap = {
       'widget': 'Icon',
       'xVar': {
         'icon': {
-          'codePoint':'0xe0b6',
+          'codePoint': '0xe0b6',
         },
         'color': 'FF008000',
         'size': 30.0
@@ -156,7 +149,7 @@ var iconMap = {
       'widget': 'Icon',
       'xVar': {
         'icon': {
-          'codePoint':'0xe0d6',
+          'codePoint': '0xe0d6',
         },
         'color': 'FF0000FF',
         'size': 36.0
@@ -170,13 +163,11 @@ var assetImageMap = {
   'xVar': {
     'color': 'FFFFFFFF',
     'alignment': 'center',
-    },
+  },
   "child": {
     'widget': 'Image',
-    'xVar': {
-      'src': 'assets/testImage.png'
-      }
-    }
+    'xVar': {'src': 'assets/testImage.png'}
+  }
 };
 
 var networkImageMap = {
@@ -188,8 +179,9 @@ var networkImageMap = {
   "child": {
     'widget': 'Image',
     'xVar': {
-      'type':'network',
-      'src': 'https://tse1-mm.cn.bing.net/th/id/R-C.1e8c3682052056c8d9d2c30e4bd04bb6?rik=%2bg047CDQ%2fUf7fw&riu=http%3a%2f%2fbpic.588ku.com%2felement_pic%2f00%2f95%2f28%2f9056f2ddb6b568b.jpg&ehk=rYxc0Ex1D3fS57uTqX%2fxSZMU43jkl%2bSXIfxqDjcqPQ8%3d&risl=&pid=ImgRaw&r=0'
+      'type': 'network',
+      'src':
+          'https://tse1-mm.cn.bing.net/th/id/R-C.1e8c3682052056c8d9d2c30e4bd04bb6?rik=%2bg047CDQ%2fUf7fw&riu=http%3a%2f%2fbpic.588ku.com%2felement_pic%2f00%2f95%2f28%2f9056f2ddb6b568b.jpg&ehk=rYxc0Ex1D3fS57uTqX%2fxSZMU43jkl%2bSXIfxqDjcqPQ8%3d&risl=&pid=ImgRaw&r=0'
     }
   }
 };
@@ -204,126 +196,86 @@ var listViewMap = {
       'bottom': 10,
     }
   },
-  'children':[
+  'children': [
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     }
   ]
 };
@@ -334,12 +286,10 @@ var indexedStackMap = {
     'alignment': 'topLeft',
     'index': 1,
   },
-  'children':[
+  'children': [
     {
       'widget': 'Image',
-      'xVar': {
-        'src': 'assets/testImage.png'
-      }
+      'xVar': {'src': 'assets/testImage.png'}
     },
     {
       'widget': 'Container',
@@ -347,11 +297,9 @@ var indexedStackMap = {
       //   'top': 50.0,
       //   'left': 50.0,
       // },
-      'child':{
+      'child': {
         'widget': 'Image',
-        'xVar': {
-          'src': 'assets/testImage.png'
-        }
+        'xVar': {'src': 'assets/testImage.png'}
       }
     }
   ]
@@ -370,9 +318,7 @@ var sizedBoxMap = {
       },
       'child': {
         'widget': 'Container',
-        'xVar': {
-          'color': 'FF0000FF'
-        }
+        'xVar': {'color': 'FF0000FF'}
       }
     },
     {
@@ -383,9 +329,7 @@ var sizedBoxMap = {
       },
       'child': {
         'widget': 'Container',
-        'xVar': {
-          'color': 'FFCC00FF'
-        }
+        'xVar': {'color': 'FFCC00FF'}
       }
     }
   ]
@@ -413,10 +357,7 @@ var inputItemPassWordMap = {
 
 var loginMap = {
   'widget': 'Column',
-  'children': [
-    inputItemPhoneMap,
-    inputItemPassWordMap
-  ]
+  'children': [inputItemPhoneMap, inputItemPassWordMap]
 };
 
 var inkWellMap = {
@@ -429,24 +370,24 @@ var inkWellMap = {
       'height': 50.0,
     },
   },
-  'eventName':'onLongPress'
+  'eventName': 'onLongPress'
 };
 
 var richTextMap = {
   'widget': 'RichText',
   'xVar': {
     'text': {
-      'children':[
+      'children': [
         {
-          'text':'强强',
-          'style':{'color':'FF8B0016'},
+          'text': '强强',
+          'style': {'color': 'FF8B0016'},
         },
         {
-          'text':',',
+          'text': ',',
         },
         {
-          'text':'一个有态度的程序员',
-          'style':{'color':'FF000000'},
+          'text': '一个有态度的程序员',
+          'style': {'color': 'FF000000'},
         }
       ]
     },
@@ -460,11 +401,7 @@ var testMap = {
       'widget': 'Text',
       'xVar': {
         'data': '再惠合同续约提醒',
-        'style': {
-          'color': 'FF000000',
-          'fontWeight': 'bold',
-          'fontSize': 16.0
-        }
+        'style': {'color': 'FF000000', 'fontWeight': 'bold', 'fontSize': 16.0}
       },
     },
     {
@@ -530,12 +467,10 @@ var test2Map = {
     'xVar': {
       'crossAxisAlignment': 'start',
     },
-    'children':{
+    'children': {
       {
         'widget': 'Text',
-        'xVar': {
-          'data': 'Flutter'
-        }
+        'xVar': {'data': 'Flutter'}
       },
     }
   },
