@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class AdaptUtils {
   static T? adapt<T>(dynamic origin) {
+    if (origin == null) return null;
     switch (T) {
       case Alignment:
         return _alignmentAdapter(origin as String?) as T?;
