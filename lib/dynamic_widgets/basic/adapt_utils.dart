@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class AdaptUtils{
+class AdaptUtils {
   static T? adapt<T>(dynamic origin) {
+    if (origin == null) return null;
     switch (T) {
       case Alignment:
         return _alignmentAdapter(origin as String?) as T?;
@@ -86,7 +87,7 @@ class AdaptUtils{
         return _dragStartBehaviorAdapter(origin as String?) as T?;
       case ScrollViewKeyboardDismissBehavior:
         return _scrollViewKeyboardDismissBehaviorAdapter(origin as String?)
-        as T?;
+            as T?;
       case MouseCursor:
         return _mouseCursorAdapter(origin as String?) as T?;
       case Curve:
@@ -97,6 +98,8 @@ class AdaptUtils{
         return _textDecorationAdapter(origin as String?) as T?;
       case BoxDecoration:
         return _boxDecorationAdapter(origin as Map?) as T?;
+      case Gradient:
+        return _boxGradientAdapter(origin as Map) as T?;
     }
     throw UnimplementedError('请实现 $T 的adapt方法');
   }
@@ -112,11 +115,12 @@ class AdaptUtils{
       color: adapt<Color>(decorationMap['color']),
       borderRadius: adapt<BorderRadius>(decorationMap['borderRadius']),
       border: adapt<BoxBorder>(decorationMap['border']),
+      gradient: adapt<Gradient>(decorationMap['gradient']),
     );
   }
 
   static ScrollViewKeyboardDismissBehavior?
-  _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
+      _scrollViewKeyboardDismissBehaviorAdapter(String? str) {
     if (str == null) return null;
 
     ScrollViewKeyboardDismissBehavior? dragStartBehaviorStr;
@@ -240,7 +244,8 @@ class AdaptUtils{
 
     return RoundedRectangleBorder(
         side: adapt(border['side']) ?? BorderSide.none,
-        borderRadius: adapt<BorderRadius>(border['borderRadius']) ?? BorderRadius.zero);
+        borderRadius:
+            adapt<BorderRadius>(border['borderRadius']) ?? BorderRadius.zero);
   }
 
   static Duration? _durationAdapter(Map? duration) {
@@ -271,9 +276,9 @@ class AdaptUtils{
         topLeft: adapt(borderRadius['topLeft']?.toDouble()) ?? Radius.zero,
         topRight: adapt(borderRadius['topRight']?.toDouble()) ?? Radius.zero,
         bottomLeft:
-        adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
+            adapt(borderRadius['bottomLeft']?.toDouble()) ?? Radius.zero,
         bottomRight:
-        adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
+            adapt(borderRadius['bottomRight']?.toDouble()) ?? Radius.zero);
   }
 
   static BoxBorder? _boxBorderAdapter(Map? boxBorder) {
@@ -283,6 +288,31 @@ class AdaptUtils{
         color: adapt(boxBorder['color']) ?? const Color(0xFF000000),
         width: boxBorder['width']?.toDouble() ?? 1.0,
         style: adapt(boxBorder['style']) ?? BorderStyle.solid);
+  }
+
+  static Gradient? _boxGradientAdapter(Map? gradient) {
+    if (gradient == null) return null;
+
+    List<Color> colors = [];
+    for (String c in gradient['colors']) {
+      colors.add(adapt<Color>(c) ?? Colors.white);
+    }
+    if (gradient['type'] == 'linear') {
+      return LinearGradient(
+        colors: colors,
+        begin: adapt<Alignment>(gradient['begin']) ?? Alignment.centerLeft,
+        end: adapt<Alignment>(gradient['end']) ?? Alignment.centerRight,
+      );
+    } else if (gradient['type'] == 'radial') {
+      return RadialGradient(
+          radius: gradient['radius']?.toDouble() ?? 0.5, colors: colors);
+    } else if (gradient['type'] == 'sweep') {
+      return SweepGradient(
+          startAngle: gradient['startAngle']?.toDouble() ?? 0.0,
+          endAngle: gradient['endAngle']?.toDouble() ?? 3.0,
+          colors: colors);
+    }
+    return LinearGradient(colors: colors);
   }
 
   static Radius? _radiusAdapter(double? radius) {
@@ -645,8 +675,8 @@ class AdaptUtils{
         applyHeightToFirstAscent: behavior['applyHeightToFirstAscent'] ?? true,
         applyHeightToLastDescent: behavior['applyHeightToLastDescent'] ?? true,
         leadingDistribution:
-        adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
-            TextLeadingDistribution.proportional);
+            adapt<TextLeadingDistribution>(behavior['leadingDistribution']) ??
+                TextLeadingDistribution.proportional);
   }
 
   static VerticalDirection? _verticalDirectionAdapter(String? str) {
@@ -811,15 +841,11 @@ class AdaptUtils{
     var cp = _hexAdapter(icon['codePoint']);
     var fm = icon['fontFamily'] ?? 'MaterialIcons';
     var md = icon['matchTextDirection'] ?? false;
-    return IconData(cp,
-        fontFamily: fm,
-        matchTextDirection: md);
+    return IconData(cp, fontFamily: fm, matchTextDirection: md);
   }
 
   static BlendMode? _blendModeAdapter(String? blendModeString) {
-    if (blendModeString == null || blendModeString
-        .trim()
-        .length == 0) {
+    if (blendModeString == null || blendModeString.trim().length == 0) {
       return null;
     }
 

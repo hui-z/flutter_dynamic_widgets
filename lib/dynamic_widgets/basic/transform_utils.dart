@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class TransformUtils{
+class TransformUtils {
   static dynamic transform(dynamic origin) {
     if (origin == null) return null;
     if (origin is double) {
@@ -139,6 +139,15 @@ class TransformUtils{
     if (origin is BoxDecoration) {
       return _transformBoxDecoration(origin);
     }
+    if (origin is LinearGradient) {
+      return _transformLinearGradient(origin);
+    }
+    if (origin is SweepGradient) {
+      return _transformSweepGradient(origin);
+    }
+    if (origin is RadialGradient) {
+      return _transformRadialGradient(origin);
+    }
     throw UnimplementedError('请实现 ${origin.runtimeType} transform');
   }
 
@@ -147,7 +156,49 @@ class TransformUtils{
     return {
       'color': transform(boxDecoration.color),
       'borderRadius': transform(boxDecoration.borderRadius as BorderRadius?),
+      'gradient': transform(boxDecoration.gradient),
       // 'border': transform(boxDecoration.border as BoxBorder?),
+    };
+  }
+
+  static Map? _transformLinearGradient(LinearGradient? linearGradient) {
+    if (linearGradient == null) return null;
+    List<String> colors = [];
+    for (var c in linearGradient.colors) {
+      colors.add(_transformColor(c) ?? '');
+    }
+    return {
+      'type': 'linear',
+      'colors': colors,
+      'end': _transformAlignment(linearGradient.end as Alignment?),
+      'begin': _transformAlignment(linearGradient.begin as Alignment?)
+    };
+  }
+
+  static Map? _transformSweepGradient(SweepGradient? sweepGradient) {
+    if (sweepGradient == null) return null;
+    List<String> colors = [];
+    for (var c in sweepGradient.colors) {
+      colors.add(_transformColor(c) ?? '');
+    }
+    return {
+      'type': 'sweep',
+      'colors': colors,
+      'startAngle': transform(sweepGradient.startAngle),
+      'endAngle': transform(sweepGradient.endAngle)
+    };
+  }
+
+  static Map? _transformRadialGradient(RadialGradient? radialGradient) {
+    if (radialGradient == null) return null;
+    List<String> colors = [];
+    for (var c in radialGradient.colors) {
+      colors.add(_transformColor(c) ?? '');
+    }
+    return {
+      'type': 'radial',
+      'colors': colors,
+      'radius': transform(radialGradient.radius)
     };
   }
 
