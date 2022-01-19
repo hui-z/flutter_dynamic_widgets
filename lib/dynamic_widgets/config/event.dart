@@ -212,9 +212,9 @@ class EventActionHandle {
     BuildContext context, {
     Function(String url)? onOpenUrl,
     Function(String messageId, String status, String operateData)? onRequest,
+    Function(int defaultImage, List<String> imageList)? onPhotoPreview,
     Function(String? title, Widget? contentWidget)? onAwesomeDialog,
     Function(DialogConfig dialogConfig, Widget? contentWidget)? onCommonDialog,
-    Function(int defaultImage, List<String> imageList)? onPhotoPreview,
   }) {
     switch (event.action) {
       case EventAction.push:
@@ -238,8 +238,8 @@ class EventActionHandle {
         break;
       case EventAction.dialog:
         // 弹出框
-        _eventActionDialog(
-            context, event.dialog!, onAwesomeDialog, onCommonDialog);
+        _eventActionDialog(context, event.dialog!, onOpenUrl, onRequest,
+            onPhotoPreview, onAwesomeDialog, onCommonDialog);
         break;
       case EventAction.photoPreview:
         // 跳转到图片查看
@@ -262,6 +262,9 @@ class EventActionHandle {
   static _eventActionDialog(
     BuildContext context,
     DialogConfig? dialogConfig,
+    Function(String url)? onOpenUrl,
+    Function(String messageId, String status, String operateData)? onRequest,
+    Function(int defaultImage, List<String> imageList)? onPhotoPreview,
     Function(String? title, Widget? contentWidget)? onAwesomeDialog,
     Function(DialogConfig dialogConfig, Widget? contentWidget)? onCommonDialog,
   ) {
@@ -269,7 +272,15 @@ class EventActionHandle {
     var builder = dialogConfig.builder;
     var contentWidget = DynamicWidgetBuilder.buildWidget(builder?.contentWidget,
         context: context, event: (eventInfo) {
-      handleEventAction(eventInfo, context);
+      handleEventAction(
+        eventInfo,
+        context,
+        onOpenUrl: onOpenUrl,
+        onRequest: onRequest,
+        onPhotoPreview: onPhotoPreview,
+        onAwesomeDialog: onAwesomeDialog,
+        onCommonDialog: onCommonDialog,
+      );
     });
     if (dialogConfig.type == DialogType.alert) {
       if (dialogConfig.useAwesomeDialog == true) {
