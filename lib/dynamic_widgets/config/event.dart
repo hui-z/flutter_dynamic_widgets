@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
 
 class EventType {
@@ -201,5 +203,98 @@ class EventInfo {
     imageList = json['imageList']?.cast<String>() ?? [];
     defaultImage = json['defaultImage'];
     status = json['status'];
+  }
+}
+
+class EventActionHandle {
+  static handleEventAction(
+    EventInfo event,
+    BuildContext context, {
+    Function(String url)? onOpenUrl,
+    Function(String messageId, String status, String operateData)? onRequest,
+    Function(int defaultImage, List<String> imageList)? onPhotoPreview,
+    Function(String? title, Widget? contentWidget)? onAwesomeDialog,
+    Function(DialogConfig dialogConfig, Widget? contentWidget)? onCommonDialog,
+  }) {
+    switch (event.action) {
+      case EventAction.push:
+        // 跳转到原生页面
+        _eventActionPush(context, event.page!, event.arguments);
+        break;
+      case EventAction.openUrl:
+        // 跳转到内置WebView
+        if (onOpenUrl != null) {
+          if (event.url != null) {
+            onOpenUrl(event.url!);
+          }
+        }
+        break;
+      case EventAction.request:
+        // 单次请求（目前为 统一）
+        if (onRequest != null) {
+          onRequest(
+              event.messageId, event.status ?? '', event.operateData ?? '');
+        }
+        break;
+      case EventAction.dialog:
+        // 弹出框
+        _eventActionDialog(context, event.dialog!, onOpenUrl, onRequest,
+            onPhotoPreview, onAwesomeDialog, onCommonDialog);
+        break;
+      case EventAction.photoPreview:
+        // 跳转到图片查看
+        if (onPhotoPreview != null) {
+          onPhotoPreview(event.defaultImage ?? 0, event.imageList);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  /// 跳转到原生页面
+  static _eventActionPush(BuildContext context, String? page, Map? arguments) {
+    if (page == null) return;
+    Navigator.pushNamed(context, page, arguments: arguments);
+  }
+
+  /// 弹出框
+  static _eventActionDialog(
+    BuildContext context,
+    DialogConfig? dialogConfig,
+    Function(String url)? onOpenUrl,
+    Function(String messageId, String status, String operateData)? onRequest,
+    Function(int defaultImage, List<String> imageList)? onPhotoPreview,
+    Function(String? title, Widget? contentWidget)? onAwesomeDialog,
+    Function(DialogConfig dialogConfig, Widget? contentWidget)? onCommonDialog,
+  ) {
+    if (dialogConfig == null) return;
+    var builder = dialogConfig.builder;
+    var contentWidget = DynamicWidgetBuilder.buildWidget(builder?.contentWidget,
+        context: context, event: (eventInfo) {
+      handleEventAction(
+        eventInfo,
+        context,
+        onOpenUrl: onOpenUrl,
+        onRequest: onRequest,
+        onPhotoPreview: onPhotoPreview,
+        onAwesomeDialog: onAwesomeDialog,
+        onCommonDialog: onCommonDialog,
+      );
+    });
+    if (dialogConfig.type == DialogType.alert) {
+      if (dialogConfig.useAwesomeDialog == true) {
+        // 原本应该是底部弹出框，现在被使用了特殊弹出框，具体待定
+        if (onAwesomeDialog != null) {
+          // AwesomeDialog
+          onAwesomeDialog(builder?.title, contentWidget);
+        }
+      } else {
+        if (onCommonDialog != null) {
+          // 系统Dialog
+          onCommonDialog(dialogConfig, contentWidget);
+        }
+      }
+    }
   }
 }
