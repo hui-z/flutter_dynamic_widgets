@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+
 import 'package:example/widget.dart';
+import 'package:example/widget_json.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/basic/widget.dart';
 import 'package:flutter_dynamic_widgets/dynamic_widgets/config/widget_config.dart';
-import 'package:example/widget_json.dart';
-import 'dart:convert';
 
 void main() {
   DynamicWidgetBuilder.registerSysWidgets();
@@ -81,8 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(rowMap)));
+                            builder: (context) => CodeEditorPage(rowMap)));
                   },
                 ),
                 ElevatedButton(
@@ -91,8 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(columnMap)));
+                            builder: (context) => CodeEditorPage(columnMap)));
                   },
                 ),
                 ElevatedButton(
@@ -101,8 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(textMap)));
+                            builder: (context) => CodeEditorPage(textMap)));
                   },
                 ),
                 ElevatedButton(
@@ -111,8 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(iconMap)));
+                            builder: (context) => CodeEditorPage(iconMap)));
                   },
                 ),
                 ElevatedButton(
@@ -141,8 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(listViewMap)));
+                            builder: (context) => CodeEditorPage(listViewMap)));
                   },
                 ),
                 ElevatedButton(
@@ -161,8 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(sizedBoxMap)));
+                            builder: (context) => CodeEditorPage(sizedBoxMap)));
                   },
                 ),
                 ElevatedButton(
@@ -171,8 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
-                                tableData, context))));
+                            builder: (context) => CodeEditorPage(
+                                DynamicWidgetBuilder.transformMap(
+                                    tableData, context))));
                   },
                 ),
                 ElevatedButton(
@@ -181,8 +176,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CodeEditorPage(DynamicWidgetBuilder.transformMap(
-                                wrap, context))));
+                            builder: (context) => CodeEditorPage(
+                                DynamicWidgetBuilder.transformMap(
+                                    wrap, context))));
                   },
                 ),
                 ElevatedButton(
@@ -191,8 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(loginMap)));
+                            builder: (context) => CodeEditorPage(loginMap)));
                   },
                 ),
                 ElevatedButton(
@@ -201,8 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(inkWellMap)));
+                            builder: (context) => CodeEditorPage(inkWellMap)));
                   },
                 ),
                 ElevatedButton(
@@ -211,8 +205,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                            builder: (context) => CodeEditorPage(
+                                DynamicWidgetBuilder.transformMap(
                                     checkList2, context))));
                   },
                 ),
@@ -222,8 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(DynamicWidgetBuilder.transformMap(
+                            builder: (context) => CodeEditorPage(
+                                DynamicWidgetBuilder.transformMap(
                                     textField, context))));
                   },
                 ),
@@ -233,8 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(richTextMap)));
+                            builder: (context) => CodeEditorPage(richTextMap)));
                   },
                 ),
                 ElevatedButton(
@@ -243,8 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(testMap)));
+                            builder: (context) => CodeEditorPage(testMap)));
                   },
                 ),
                 ElevatedButton(
@@ -253,10 +245,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CodeEditorPage(DynamicWidgetBuilder.transformMap(
-                                    expand, context))
-                        ));
+                            builder: (context) => CodeEditorPage(
+                                DynamicWidgetBuilder.transformMap(
+                                    expand, context))));
                   },
                 ),
               ]),
@@ -309,9 +300,7 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
             ElevatedButton(
               child: Text("Preview"),
               onPressed: () {
-                setState(() {
-
-                });
+                setState(() {});
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -333,7 +322,6 @@ class PreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -342,11 +330,11 @@ class PreviewPage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          DynamicWidgetBuilder.buildWidget(
-              DynamicWidgetConfig.fromJson(json!),
-              context: context, event: (event) {
-            print(event);
-          })??SizedBox()
+          DynamicWidgetBuilder.buildWidget(DynamicWidgetConfig.fromJson(json!),
+                  context: context, event: (event) {
+                print("点击事件 ${event.type}");
+              }) ??
+              SizedBox()
         ],
       ),
       // body: Column(
@@ -382,10 +370,10 @@ class PreviewPage extends StatelessWidget {
     );
   }
 
-  // Future<Widget?> _buildWidget(BuildContext context) async {
-  //   return DynamicWidgetBuilder.build(
-  //       jsonString, context, new DefaultClickListener());
-  // }
+// Future<Widget?> _buildWidget(BuildContext context) async {
+//   return DynamicWidgetBuilder.build(
+//       jsonString, context, new DefaultClickListener());
+// }
 }
 
 // class DefaultClickListener implements ClickListener {

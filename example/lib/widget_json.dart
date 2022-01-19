@@ -370,7 +370,13 @@ var inkWellMap = {
       'height': 50.0,
     },
   },
-  'eventName': 'onLongPress'
+  'events': [
+    {
+      'messageId': '0',
+      'type': 'onTap',
+      'action': 'request',
+    }
+  ]
 };
 
 var richTextMap = {
